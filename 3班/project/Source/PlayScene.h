@@ -8,4 +8,8 @@ public:
 	~PlayScene();
 	void Update() override;
 	void Draw() override;
+
+	//プレイヤー画像表示テスト用
+	int pngImage;
+	int jpgImage;
 };
