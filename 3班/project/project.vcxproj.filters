@@ -50,6 +50,9 @@
     <ClCompile Include="Library\Time.cpp">
       <Filter>Library</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Block.cpp" />
+    <ClCompile Include="Source\Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -111,6 +114,9 @@
     <ClInclude Include="Library\Time.h">
       <Filter>Library</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\Block.h" />
+    <ClInclude Include="Source\Stage.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">
