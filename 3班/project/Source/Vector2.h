@@ -36,3 +36,7 @@ const VECTOR2& operator /=(VECTOR2& v1, float s);
 VECTOR2 VNorm(const VECTOR2& v);
 
 bool CircleHit(const VECTOR2& obj1, const VECTOR2& obj2, float r);
+
+class Vector2
+{
+};
