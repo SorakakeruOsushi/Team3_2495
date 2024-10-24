@@ -1,6 +1,7 @@
 #include "PlayScene.h"
 #include <DxLib.h>
 
+
 PlayScene::PlayScene()
 {
 }
