@@ -1,7 +1,12 @@
 #pragma once
-#include "../Library/GameObject.h"
-class Stage :
-    public GameObject
+#include "../Library/gameObject.h"
+#include "Vector2.h"
+
+class Stage : public GameObject 
 {
+public:
+	Stage();
+	~Stage();
+	void Draw() override;
 };
 
