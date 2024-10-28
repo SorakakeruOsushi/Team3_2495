@@ -9,8 +9,12 @@ public:
 	void Update() override;
 	void Draw() override;
 
+
 	int hImage;
 	VECTOR2 position;
 
 	float speed;
+
+	//表示テスト用
+	int TestImage;
 };
