@@ -14,7 +14,4 @@ public:
 	VECTOR2 position;
 
 	float speed;
-
-	//表示テスト用
-	int TestImage;
 };

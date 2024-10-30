@@ -4,12 +4,8 @@
 
 Player::Player()
 {
-	hImage = LoadGraph("data/image/player.png");
+	hImage = LoadGraph("data/image/trpg_dot_maker2x.png");
 	assert(hImage > 0);//読み込めてる？
-
-	//表示テスト用
-	TestImage = LoadGraph("data/image/trpg_dot_maker2x.png");
-	assert(TestImage > 0);//読み込めてる？
 
 	position.x = 100;
 	position.y = 500;
@@ -20,9 +16,6 @@ Player::Player()
 Player::~Player()
 {
 	DeleteGraph(hImage);
-
-	//表示テスト用
-	DeleteGraph(TestImage);
 }
 
 void Player::Update()
@@ -48,9 +41,6 @@ void Player::Update()
 
 void Player::Draw()
 {
-	DrawGraph(0, 0, hImage, TRUE);
-
-	//表示テスト用
-	DrawGraph(0, 0, TestImage, TRUE);
+	DrawGraph(position.x, position.y, hImage, TRUE);
 	//DrawRectGraph(position.x, position.y,	0, 0,	 40, 40, hImage, TRUE);
 }
