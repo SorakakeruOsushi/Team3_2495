@@ -4,7 +4,7 @@
 
 Player::Player()
 {
-	hImage = LoadGraph("data/image/trpg_dot_maker2x.png");
+	hImage = LoadGraph("data/image/player.png");
 	assert(hImage > 0);//“Ç‚Ýž‚ß‚Ä‚éH
 
 	position.x = 100;
