@@ -1,11 +1,15 @@
+#include <DxLib.h>
+#include "../Library/sceneManager.h"
 #include "PlayScene.h"
 #include "Player.h"
 #include "Block.h"
-#include <DxLib.h>
+#include "Stage.h"
 
 
 PlayScene::PlayScene()
 {
+	Stage* s = Instantiate<Stage>();
+
 	Instantiate<Player>();
 	Instantiate<Block>();
 }
