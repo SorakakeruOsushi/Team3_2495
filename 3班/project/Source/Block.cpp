@@ -132,7 +132,7 @@ SHAPE shapes[SHAPE_MAX] = {
 
 Block::Block()
 {
-	hImage = LoadGraph("data/image/Tmino.png");
+	hImage = LoadGraph("data/image/Tmino_30.png");
 	assert(hImage > 0);
 
 	position.x = 0;
