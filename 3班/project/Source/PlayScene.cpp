@@ -10,7 +10,7 @@ PlayScene::PlayScene()
 {
 	Stage* s = Instantiate<Stage>();
 
-	Instantiate<Player>();
+	//Instantiate<Player>();
 	Instantiate<Block>();
 }
 

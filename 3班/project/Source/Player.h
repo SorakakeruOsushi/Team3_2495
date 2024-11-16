@@ -13,5 +13,10 @@ public:
 	int hImage;
 	VECTOR2 position;
 
-	float speed;
+	float speed;		//速度
+	float velocity;		//速度(力?)
+
+	bool prevJumpKey;	//前のジャンプキー
+	bool onGround;		//接地判定
+	bool dead;			//死んだ！
 };

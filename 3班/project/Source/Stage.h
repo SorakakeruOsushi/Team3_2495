@@ -14,6 +14,8 @@ public:
 	int IsWallDown(VECTOR2 pos);
 	int IsWallUp(VECTOR2 pos);
 
-	int emptyImage; // 画像 マス目
+	int cellBGImage; // 画像 マス目
 	int blockImage; // 画像 灰ブロック
+
+	int scroll;		//画面のスクロール
 };
