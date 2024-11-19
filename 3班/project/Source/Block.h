@@ -15,6 +15,9 @@ public:
 	int hImage;
 	VECTOR2 position;
 
-	float speed;
+	float blockSize;
+
+	float time;
+	float counter;
 };
 
