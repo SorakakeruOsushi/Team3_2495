@@ -140,7 +140,7 @@ Block::Block()
 
 	blockSize = 30;
 
-	time = 1.5f;
+	time = 1.3f;
 	counter = 0.0f;
 
 	//mino.shape = shapes[rand() % SHAPE_MAX]; // ƒ‰ƒ“ƒ_ƒ€‚Èƒ~ƒm‚ª‘I‚Î‚ê‚é
