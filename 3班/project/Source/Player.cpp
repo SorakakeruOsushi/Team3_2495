@@ -10,13 +10,13 @@ const float V0 = -sqrtf(2.0f * Gravity * JumpHight); //•ú•¨ü(ƒWƒƒƒ“ƒv)‚ÌŽ®
 Player::Player()
 {
 	// Player‚Íc‚Qx‰¡‚Pƒ}ƒX‚Ì‘å‚«‚³
-	hImage = LoadGraph("data/image/player_60.png");
+	hImage = LoadGraph("data/image/player_2-1.png");
 		assert(hImage > 0);
 
 	position.x = 0;
 	position.y = 0;
 
-	speed = 0.5f;
+	speed = 1.5f;
 
 	dead = false;
 }
