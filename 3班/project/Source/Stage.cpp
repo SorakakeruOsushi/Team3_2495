@@ -5,6 +5,7 @@
 const int WIDTH = 24;		//ステージ 幅
 const int HEIGHT = 24;		//ステージ 高
 const int CHIP_SIZE = 30;   //チップサイズ
+//仮
 int map[HEIGHT][WIDTH] =
 {
 	//  			   10				   20
@@ -28,9 +29,9 @@ int map[HEIGHT][WIDTH] =
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},//7
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},//8
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},//9
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},//0
+	{0,0,0,0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,},//0
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},//1
-	{0,0,0,0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,},//2
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},//2
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},//3
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,} //4
 };
@@ -38,20 +39,20 @@ int map[HEIGHT][WIDTH] =
 Stage::Stage()
 {
 	cellBGImage = LoadGraph("data/image/CellGameBG.png");
-		assert(cellBGImage > 0);
+	assert(cellBGImage > 0);
 	blockImage = LoadGraph("data/image/Block.png");
-		assert(blockImage > 0);
+	assert(blockImage > 0);
 
-		//9を探して、Playerを置く
-	for (int j = 0; j < HEIGHT; j++) //「j」縦
+	//9を探して、Playerを置く
+	for (int j = 0; j < HEIGHT; j++)    //「j」縦
 	{
-		for (int i = 0; i < WIDTH; i++)//「i」横
+		for (int i = 0; i < WIDTH; i++) //「i」横
 		{
 			if (map[j][i] == 9)//プレイヤー生成
 			{
-			Player* p = Instantiate<Player>();
-			p->position.x = CHIP_SIZE * i + CHIP_SIZE*0;
-			p->position.y = CHIP_SIZE * j + CHIP_SIZE*0;
+				Player* p = Instantiate<Player>();
+				p->position.x = CHIP_SIZE * i + CHIP_SIZE * 0;
+				p->position.y = CHIP_SIZE * j + CHIP_SIZE * 0;
 			}
 		}
 	}
@@ -67,17 +68,17 @@ Stage::~Stage()
 void Stage::Draw()
 {
 	//マップセル(マス目)固定表示
-	DrawGraph( CHIP_SIZE*0 , CHIP_SIZE*0, cellBGImage, TRUE);
+	DrawGraph(CHIP_SIZE * 0, CHIP_SIZE * 0, cellBGImage, TRUE);
 
 	//マップタイル表示
 	for (int j = 0; j < HEIGHT; j++)// 縦「j」
 	{
-		int y = j * CHIP_SIZE + (CHIP_SIZE*0);
+		int y = j * CHIP_SIZE + (CHIP_SIZE * 0);
 		for (int i = 0; i < WIDTH; i++)// 幅「i」
 		{
-			int x = i * CHIP_SIZE + (CHIP_SIZE*0);
+			int x = i * CHIP_SIZE + (CHIP_SIZE * 0);
 
-			if (map[j][i] == 1)		   // 基礎タイル「Block.png」
+			if (map[j][i] == 1)		// 基礎タイル「Block.png」
 			{
 				DrawGraph(x, y - scroll, blockImage, TRUE);
 			}
@@ -85,22 +86,17 @@ void Stage::Draw()
 	}
 }
 
-/*
-★『BlockMaze』からのコピペした"ブロックの当たり判定処理"になります。
-★ 実行すると例外が発生するのでコメントアウトしました。
-★ 当たり判定処理を上手く書けた方いましたら、こちらは削除しても構いません。
-
 //ブロックの当たり判定
 int Stage::IsWallRight(VECTOR2 pos)//posにはplayer座標が入る
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
-	int i = (pos.x - CHIP_SIZE*0) / 30;
-	int j = (pos.y - CHIP_SIZE*0) / 30;
+	int i = (pos.x - CHIP_SIZE * 0) / 30;
+	int j = (pos.y - CHIP_SIZE * 0) / 30;
 	if (map[j][i] == 1)
 	{
 		//めり込んだ分押し返す
 		//★(int)少数だけどintとして扱う
-		int push = ((int)pos.x - CHIP_SIZE*0) % 30 + 1;//0なら1 1なら2
+		int push = ((int)pos.x - CHIP_SIZE * 0) % 30 + 1;//0なら1 1なら2
 		return push;
 	}
 	return 0;
@@ -108,13 +104,13 @@ int Stage::IsWallRight(VECTOR2 pos)//posにはplayer座標が入る
 int Stage::IsWallLeft(VECTOR2 pos)
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
-	int i = (pos.x - CHIP_SIZE*0) / 30;
-	int j = (pos.y - CHIP_SIZE*0) / 30;
+	int i = (pos.x - CHIP_SIZE * 0) / 30;
+	int j = (pos.y - CHIP_SIZE * 0) / 30;
 	if (map[j][i] == 1)
 	{
 		//めり込んだ分押し返す
 		//★(int)少数だけどintとして扱う
-		int push = 30 - ((int)pos.x - CHIP_SIZE*0) % 30;//29なら1 28なら2
+		int push = 30 - ((int)pos.x - CHIP_SIZE * 0) % 30;//29なら1 28なら2
 		return push;
 	}
 	return 0;
@@ -122,13 +118,13 @@ int Stage::IsWallLeft(VECTOR2 pos)
 int Stage::IsWallDown(VECTOR2 pos)
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
-	int i = (pos.x - CHIP_SIZE*0) / 30;
-	int j = (pos.y - CHIP_SIZE*0) / 30;
+	int i = (pos.x - CHIP_SIZE * 0) / 30;
+	int j = (pos.y - CHIP_SIZE * 0) / 30;
 	if (map[j][i] == 1)
 	{
 		//めり込んだ分押し返す
 		//★(int)少数だけどintとして扱う
-		int push = ((int)pos.y - CHIP_SIZE*0) % 30 + 1;
+		int push = ((int)pos.y - CHIP_SIZE * 0) % 30 + 1;
 		return push;
 	}
 	return 0;
@@ -136,15 +132,14 @@ int Stage::IsWallDown(VECTOR2 pos)
 int Stage::IsWallUp(VECTOR2 pos)
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
-	int i = (pos.x - CHIP_SIZE*0) / 30;
-	int j = (pos.y - CHIP_SIZE*0) / 30;
+	int i = (pos.x - CHIP_SIZE * 0) / 30;
+	int j = (pos.y - CHIP_SIZE * 0) / 30;
 	if (map[j][i] == 1)
 	{
 		//めり込んだ分押し返す
 		//★(int)少数だけどintとして扱う
-		int push = 30 - ((int)pos.y - CHIP_SIZE*0) % 30;//29なら1 28なら2
+		int push = 30 - ((int)pos.y - CHIP_SIZE * 0) % 30;//29なら1 28なら2
 		return push;
 	}
 	return 0;
 }
-*/

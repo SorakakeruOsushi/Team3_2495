@@ -3,15 +3,15 @@
 #include <cassert>
 
 const float Gravity = 0.3f;							 //重力
-const float JumpHight = 40 * 2;						 //ジャンプの高さ
+const float JumpHight = 30 * 2;						 //ジャンプの高さ
 //			v0 = -  √   2   *   g     *    S
 const float V0 = -sqrtf(2.0f * Gravity * JumpHight); //放物線(ジャンプ)の式
 
 Player::Player()
 {
 	// Playerは縦２x横１マスの大きさ
-	hImage = LoadGraph("data/image/player_2-1.png");
-		assert(hImage > 0);
+	hImage = LoadGraph("data/image/Player_2-1.png");
+	assert(hImage > 0);
 
 	position.x = 0;
 	position.y = 0;
@@ -19,6 +19,11 @@ Player::Player()
 	speed = 1.5f;
 
 	dead = false;
+	velocity = 0.0f;
+
+
+	score = 0;
+	highScore = 0;
 }
 
 Player::~Player()
@@ -28,53 +33,38 @@ Player::~Player()
 
 void Player::Update()
 {
-	if(dead)
+	if (dead)
 	{
 		return;
 	}
 
 	Stage* s = FindGameObject<Stage>();
 
-	//テスト用上下操作
-	if (CheckHitKey(KEY_INPUT_W))
-	{
-		position.y -= speed;//上
-	}
-	if (CheckHitKey(KEY_INPUT_S))
-	{
-		position.y += speed;//下
-	}
-	
 	//左右移動
 	if (CheckHitKey(KEY_INPUT_A))
 	{
 		//左
 		position.x -= speed;
-		/*
+
 		//左に壁があるか調べる
 		int push = s->IsWallLeft(position + VECTOR2(0, 0));
 		position.x += push;
 		push = s->IsWallLeft(position + VECTOR2(0, 29));
 		position.x += push;
-		*/
+
 	}
 	if (CheckHitKey(KEY_INPUT_D))
 	{
 		//右
 		position.x += speed;
-		/*
+
 		//右に壁があるか調べる
 		int push = s->IsWallRight(position + VECTOR2(59, 0));
 		position.x -= push;
 		push = s->IsWallRight(position + VECTOR2(59, 59));
 		position.x -= push;
-		*/
-	}
 
-	/*
-	//★『BlockMaze』からのコピペになります。
-	//★ 実行すると例外が発生するのでコメントアウトしました。
-	//★ 当たり判定処理を上手く書けた方いましたら、こちらは削除しても構いません。
+	}
 
 	//ジャンプ
 	if (CheckHitKey(KEY_INPUT_SPACE))
@@ -98,6 +88,7 @@ void Player::Update()
 	position.y += velocity; //座標には速度を足す
 	velocity += Gravity;	//下向きの力　速度には重力を足す
 	onGround = false;
+
 
 	//下に壁があるか調べる
 	if (velocity >= 0)// velocity:速度
@@ -133,8 +124,19 @@ void Player::Update()
 			position.y += push;
 		}
 	}
+
+	/*
+	* //score更新(仮)
+	* 後でChipサイズに合わせる
+	// スコアの更新確認
+	int high = position.y;
+	if (score < high)
+	{
+		score = high;
+	}
 	*/
 
+	/*
 	//プレイヤーに合わせてスクロール(上方向)
 	if (position.y - s->scroll < 30 * 15) //プレイヤーのY座標が〇マス以上(仮)
 	{
@@ -145,7 +147,7 @@ void Player::Update()
 	{
 		s->scroll = position.y - 30 * 20; //スクロール速度をプレイヤーに合わせる
 	}
-	
+	*/
 }
 
 void Player::Draw()
