@@ -3,6 +3,9 @@
 #include "player.h"
 #include <cassert>
 
+//やる事
+//ランダム生成（NEXT込み）→回転→横移動（押したときだけ）→当たり判定
+
 //テトリス作ろうと思ったけど行き詰った跡(一応残して置いておきますが、気にせずどうぞ)
 // 参考動画「テトリスを小一時間で作ってみたⅡ【C言語ゲームプログラミング実況】Programming Tetris」
 // h ttps://youtu.be/BJs29RicyPw?si=-gs57ir-W4lnC66g
@@ -143,7 +146,7 @@ Block::Block()
 	time = 1.3f;
 	counter = 0.0f;
 
-	//mino.shape = shapes[rand() % SHAPE_MAX]; // ランダムなミノが選ばれる
+	rand() % 4; // ランダムなミノが選ばれる
 }
 
 Block::~Block()

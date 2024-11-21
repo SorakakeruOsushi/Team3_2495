@@ -17,6 +17,9 @@ public:
 
 	float blockSize;
 
+	float downBlock;
+	float nextBlock;
+
 	float time;
 	float counter;
 };
