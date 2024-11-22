@@ -21,5 +21,5 @@ public:
 	bool prevJumpKey;	//前のジャンプキー
 	bool onGround;		//接地判定
 
-	bool dead;			//死んだ！
+	bool finish;			//死んだ！
 };

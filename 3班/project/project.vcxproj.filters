@@ -54,6 +54,7 @@
     <ClCompile Include="Source\Block.cpp" />
     <ClCompile Include="Source\Stage.cpp" />
     <ClCompile Include="Source\Vector2.cpp" />
+    <ClCompile Include="Source\FinishText.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -119,6 +120,7 @@
     <ClInclude Include="Source\Block.h" />
     <ClInclude Include="Source\Stage.h" />
     <ClInclude Include="Source\Vector2.h" />
+    <ClInclude Include="Source\FinishText.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">

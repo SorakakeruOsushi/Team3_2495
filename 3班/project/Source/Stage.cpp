@@ -38,10 +38,10 @@ int map[HEIGHT][WIDTH] =
 
 Stage::Stage()
 {
-	cellBGImage = LoadGraph("data/image/CellGameBG.png");
-	assert(cellBGImage > 0);
+	emptyImage = LoadGraph("data/image/EmptyA1.png");
+		assert(emptyImage > 0);
 	blockImage = LoadGraph("data/image/Block.png");
-	assert(blockImage > 0);
+		assert(blockImage > 0);
 
 	//9を探して、Playerを置く
 	for (int j = 0; j < HEIGHT; j++)    //「j」縦
@@ -68,7 +68,7 @@ Stage::~Stage()
 void Stage::Draw()
 {
 	//マップセル(マス目)固定表示
-	DrawGraph(CHIP_SIZE * 0, CHIP_SIZE * 0, cellBGImage, TRUE);
+	//DrawGraph(CHIP_SIZE * 0, CHIP_SIZE * 0, cellBGImage, TRUE);
 
 	//マップタイル表示
 	for (int j = 0; j < HEIGHT; j++)// 縦「j」
@@ -77,6 +77,11 @@ void Stage::Draw()
 		for (int i = 0; i < WIDTH; i++)// 幅「i」
 		{
 			int x = i * CHIP_SIZE + (CHIP_SIZE * 0);
+
+			if (map[j][i] == 0)		// 基礎タイル「Empty.png」
+			{
+				DrawGraph(x, y - scroll, emptyImage, TRUE);
+			}
 
 			if (map[j][i] == 1)		// 基礎タイル「Block.png」
 			{

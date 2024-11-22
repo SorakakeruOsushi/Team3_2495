@@ -33,7 +33,7 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (dead)
+	if (finish)
 	{
 		return;
 	}
