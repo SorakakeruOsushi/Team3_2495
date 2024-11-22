@@ -2,7 +2,7 @@
 #include "Stage.h"
 #include <cassert>
 
-const float Gravity = 0.3f;							 //重力
+const float Gravity = 0.2f;							 //重力
 const float JumpHight = 30 * 2;						 //ジャンプの高さ
 //			v0 = -  √   2   *   g     *    S
 const float V0 = -sqrtf(2.0f * Gravity * JumpHight); //放物線(ジャンプ)の式
@@ -38,6 +38,7 @@ void Player::Update()
 		return;
 	}
 
+
 	Stage* s = FindGameObject<Stage>();
 
 	//左右移動
@@ -49,7 +50,11 @@ void Player::Update()
 		//左に壁があるか調べる
 		int push = s->IsWallLeft(position + VECTOR2(0, 0));
 		position.x += push;
-		push = s->IsWallLeft(position + VECTOR2(0, 29));
+		push = s->IsWallLeft(position + VECTOR2(0, 34));
+		position.x += push;
+		push = s->IsWallLeft(position + VECTOR2(0, 35));
+		position.x += push;
+		push = s->IsWallLeft(position + VECTOR2(0, 69));
 		position.x += push;
 
 	}
@@ -59,9 +64,13 @@ void Player::Update()
 		position.x += speed;
 
 		//右に壁があるか調べる
-		int push = s->IsWallRight(position + VECTOR2(59, 0));
+		int push = s->IsWallRight(position + VECTOR2(44, 0));
 		position.x -= push;
-		push = s->IsWallRight(position + VECTOR2(59, 59));
+		push = s->IsWallRight(position + VECTOR2(44, 34));
+		position.x -= push;
+		push = s->IsWallRight(position + VECTOR2(44, 35));
+		position.x -= push;
+		push = s->IsWallRight(position + VECTOR2(44, 69));
 		position.x -= push;
 
 	}
@@ -93,14 +102,21 @@ void Player::Update()
 	//下に壁があるか調べる
 	if (velocity >= 0)// velocity:速度
 	{
-		int push = s->IsWallDown(position + VECTOR2(0, 60)); //一個下を見るので60
+		int push = s->IsWallDown(position + VECTOR2(0, 70)); //一個下を見るので70
 		if (push > 0)	//地面に触れたので
 		{
 			velocity = 0;			//地面に触ったら速度を0に
 			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
 			onGround = true;		//接地してる
 		}
-		push = s->IsWallDown(position + VECTOR2(29, 60));	 //一個下を見る一個下を見るので60
+		push = s->IsWallDown(position + VECTOR2(22, 70));	 //一個下を見る一個下を見るので70
+		if (push > 0)	//地面に触れたので
+		{
+			velocity = 0;			//地面に触ったら速度を0に
+			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
+			onGround = true;		//接地してる
+		}
+		push = s->IsWallDown(position + VECTOR2(44, 70));	 //一個下を見る一個下を見るので70
 		if (push > 0)	//地面に触れたので
 		{
 			velocity = 0;			//地面に触ったら速度を0に
@@ -117,7 +133,13 @@ void Player::Update()
 			velocity = 0.0f;
 			position.y += push;
 		}
-		push = s->IsWallUp(position + VECTOR2(29, 0));
+		push = s->IsWallUp(position + VECTOR2(22, 0));
+		if (push > 0)
+		{
+			velocity = 0.0f;
+			position.y += push;
+		}
+		push = s->IsWallUp(position + VECTOR2(44, 0));
 		if (push > 0)
 		{
 			velocity = 0.0f;
@@ -141,11 +163,6 @@ void Player::Update()
 	if (position.y - s->scroll < 30 * 15) //プレイヤーのY座標が〇マス以上(仮)
 	{
 		s->scroll = position.y - 30 * 15; //スクロール速度をプレイヤーに合わせる
-	}
-	//プレイヤーに合わせてスクロール(下方向)
-	if (position.y - s->scroll > 30 * 20) //プレイヤーのY座標が〇マス以下(仮)
-	{
-		s->scroll = position.y - 30 * 20; //スクロール速度をプレイヤーに合わせる
 	}
 	*/
 }
