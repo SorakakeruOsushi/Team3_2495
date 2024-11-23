@@ -21,5 +21,8 @@ public:
 	bool prevJumpKey;	//前のジャンプキー
 	bool onGround;		//接地判定
 
-	bool finish;			//死んだ！
+	bool finish;		//死んだ！
+	bool goal;			//ゴール
+
+	int playerHeight;   //高さ
 };

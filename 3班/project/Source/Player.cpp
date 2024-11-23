@@ -18,12 +18,12 @@ Player::Player()
 
 	speed = 1.5f;
 
-	dead = false;
+	finish = false;
+	goal = false;
+
 	velocity = 0.0f;
 
-
-	score = 0;
-	highScore = 0;
+	playerHeight = 0;
 }
 
 Player::~Player()
@@ -33,7 +33,7 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (finish)
+	if (finish||goal)
 	{
 		return;
 	}

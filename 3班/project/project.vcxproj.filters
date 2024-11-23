@@ -121,6 +121,9 @@
     <ClInclude Include="Source\Stage.h" />
     <ClInclude Include="Source\Vector2.h" />
     <ClInclude Include="Source\FinishText.h" />
+    <ClInclude Include="Source\stage1.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">

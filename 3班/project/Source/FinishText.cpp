@@ -52,7 +52,7 @@ void FinishText::Draw()
 		DrawFormatString(200, 300, GetColor(255, 255, 255), "SCORE:%06d", score); 
 		DrawFormatString(200, 300, GetColor(255, 255, 255), "SCORE:%06d", score);
 		
-		//到達高さ、クリアタイム（ABC評価）
+		//到達高さ、クリアタイム（ABC評価）（クリア時のみ）
 		//Finish(Dead)とClear(ゴールありなら)で別？
 	}
 
