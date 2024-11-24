@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Stage.h"
 #include <cassert>
+#include "FinishText.h"
+#include "GoalText.h"
 
 const float Gravity = 0.2f;							 //重力
 const float JumpHight = 30 * 2;						 //ジャンプの高さ
@@ -18,8 +20,8 @@ Player::Player()
 
 	speed = 1.5f;
 
-	finish = false;
-	goal = false;
+	finished = false;
+	goaled = false;
 
 	velocity = 0.0f;
 
@@ -33,8 +35,14 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (finish||goal)
+	if (goaled)
 	{
+		Instantiate<GoalText>();
+		return;
+	}
+	if (finished)
+	{
+		Instantiate<FinishText>();
 		return;
 	}
 
@@ -165,6 +173,13 @@ void Player::Update()
 		s->scroll = position.y - 30 * 15; //スクロール速度をプレイヤーに合わせる
 	}
 	*/
+
+	//ゴールした
+	if (s->IsGoal(position + VECTOR2(22.5, 35))) //ゴールは左上でなく中心で（右に20,下に20ずれる）
+	{
+		goaled = true;
+	}
+	//「GOAL/FINISH」より「CLEAR/GAME OVER」のが良かったかも？変更するかも
 }
 
 void Player::Draw()

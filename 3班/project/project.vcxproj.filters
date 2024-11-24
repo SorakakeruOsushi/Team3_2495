@@ -55,6 +55,7 @@
     <ClCompile Include="Source\Stage.cpp" />
     <ClCompile Include="Source\Vector2.cpp" />
     <ClCompile Include="Source\FinishText.cpp" />
+    <ClCompile Include="Source\GoalText.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -124,6 +125,7 @@
     <ClInclude Include="Source\stage1.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GoalText.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">

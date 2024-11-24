@@ -2,8 +2,10 @@
 #include "Player.h"
 #include <cassert>
 
-
 const int CHIP_SIZE = 30;   //チップサイズ
+
+const int TOP_SPACE = CHIP_SIZE * 0;  //上余白
+const int SIDE_SPACE = CHIP_SIZE * 4; //横余白
 //ステージ
 #include "stage1.h"
 
@@ -14,6 +16,8 @@ Stage::Stage()
 		assert(emptyImage > 0);
 	blockImage = LoadGraph("data/image/Block.png");
 		assert(blockImage > 0);
+	goalImage = LoadGraph("data/image/Xgoal.png");
+		assert(goalImage > 0);
 
 	//9を探して、Playerを置く
 	for (int j = 0; j < HEIGHT; j++)    //「j」縦
@@ -23,8 +27,8 @@ Stage::Stage()
 			if (map[j][i] == 9)//プレイヤー生成
 			{
 				Player* p = Instantiate<Player>();
-				p->position.x = CHIP_SIZE * i + CHIP_SIZE * 0;
-				p->position.y = CHIP_SIZE * j + CHIP_SIZE * 0;
+				p->position.x = CHIP_SIZE * i + SIDE_SPACE;
+				p->position.y = CHIP_SIZE * j + TOP_SPACE;
 			}
 		}
 	}
@@ -45,19 +49,23 @@ void Stage::Draw()
 	//マップタイル表示
 	for (int j = 0; j < HEIGHT; j++)// 縦「j」
 	{
-		int y = j * CHIP_SIZE + (CHIP_SIZE * 0);
+		int y = j * CHIP_SIZE + TOP_SPACE;
 		for (int i = 0; i < WIDTH; i++)// 幅「i」
 		{
-			int x = i * CHIP_SIZE + (CHIP_SIZE * 0);
+			int x = i * CHIP_SIZE + SIDE_SPACE;
 
-			if (map[j][i] == 0)		// 基礎タイル「Empty.png」
+			if (map[j][i] == 0)		// マス目「Empty.png」
 			{
 				DrawGraph(x, y - scroll, emptyImage, TRUE);
 			}
 
-			if (map[j][i] == 1)		// 基礎タイル「Block.png」
+			if (map[j][i] == 1)		// グレーブロック「Block.png」
 			{
 				DrawGraph(x, y - scroll, blockImage, TRUE);
+			}
+			if (map[j][i] == 8)		// ゴール「Xgoal.png」
+			{
+				DrawGraph(x, y - scroll, goalImage, TRUE);
 			}
 		}
 	}
@@ -67,13 +75,13 @@ void Stage::Draw()
 int Stage::IsWallRight(VECTOR2 pos)//posにはplayer座標が入る
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
-	int i = (pos.x - CHIP_SIZE * 0) / 30;
-	int j = (pos.y - CHIP_SIZE * 0) / 30;
+	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
+	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
 	if (map[j][i] == 1)
 	{
 		//めり込んだ分押し返す
 		//★(int)少数だけどintとして扱う
-		int push = ((int)pos.x - CHIP_SIZE * 0) % 30 + 1;//0なら1 1なら2
+		int push = ((int)pos.x - SIDE_SPACE) % CHIP_SIZE + 1;//0なら1 1なら2
 		return push;
 	}
 	return 0;
@@ -81,13 +89,13 @@ int Stage::IsWallRight(VECTOR2 pos)//posにはplayer座標が入る
 int Stage::IsWallLeft(VECTOR2 pos)
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
-	int i = (pos.x - CHIP_SIZE * 0) / 30;
-	int j = (pos.y - CHIP_SIZE * 0) / 30;
+	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
+	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
 	if (map[j][i] == 1)
 	{
 		//めり込んだ分押し返す
 		//★(int)少数だけどintとして扱う
-		int push = 30 - ((int)pos.x - CHIP_SIZE * 0) % 30;//29なら1 28なら2
+		int push = CHIP_SIZE - ((int)pos.x - SIDE_SPACE) % CHIP_SIZE;//29なら1 28なら2
 		return push;
 	}
 	return 0;
@@ -95,13 +103,13 @@ int Stage::IsWallLeft(VECTOR2 pos)
 int Stage::IsWallDown(VECTOR2 pos)
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
-	int i = (pos.x - CHIP_SIZE * 0) / 30;
-	int j = (pos.y - CHIP_SIZE * 0) / 30;
+	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
+	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
 	if (map[j][i] == 1)
 	{
 		//めり込んだ分押し返す
 		//★(int)少数だけどintとして扱う
-		int push = ((int)pos.y - CHIP_SIZE * 0) % 30 + 1;
+		int push = ((int)pos.y - TOP_SPACE) % CHIP_SIZE + 1;
 		return push;
 	}
 	return 0;
@@ -109,14 +117,26 @@ int Stage::IsWallDown(VECTOR2 pos)
 int Stage::IsWallUp(VECTOR2 pos)
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
-	int i = (pos.x - CHIP_SIZE * 0) / 30;
-	int j = (pos.y - CHIP_SIZE * 0) / 30;
+	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
+	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
 	if (map[j][i] == 1)
 	{
 		//めり込んだ分押し返す
 		//★(int)少数だけどintとして扱う
-		int push = 30 - ((int)pos.y - CHIP_SIZE * 0) % 30;//29なら1 28なら2
+		int push = CHIP_SIZE - ((int)pos.y - TOP_SPACE) % CHIP_SIZE;//29なら1 28なら2
 		return push;
 	}
 	return 0;
+}
+
+bool Stage::IsGoal(VECTOR2 pos)
+{
+	//「マップチップ→座標」の逆、「座標→マップチップ」
+	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
+	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
+	if (map[j][i] == 8)
+	{
+		return true;
+	}
+	return false;
 }
