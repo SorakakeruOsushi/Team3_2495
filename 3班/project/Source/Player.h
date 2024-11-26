@@ -12,17 +12,15 @@ public:
 	int hImage;
 	VECTOR2 position;
 
+	float playerHeight;
+	float prePlayerY;
+
 	float speed;		//速度
 	float velocity;		//速度(力?)
-
-	int score = 0;
-	int highScore = 0;
 
 	bool prevJumpKey;	//前のジャンプキー
 	bool onGround;		//接地判定
 
-	bool finished;		//死んだ！s
+	bool finished;		//死んだ！
 	bool goaled;		//ゴール
-
-	int playerHeight;   //高さ
 };

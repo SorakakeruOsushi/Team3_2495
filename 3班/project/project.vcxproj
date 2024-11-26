@@ -151,6 +151,7 @@
     <ClInclude Include="Library\SceneBase.h" />
     <ClInclude Include="Library\SceneManager.h" />
     <ClInclude Include="Library\Time.h" />
+    <ClInclude Include="Library\Utility.h" />
     <ClInclude Include="Source\Block.h" />
     <ClInclude Include="Source\BootScene.h" />
     <ClInclude Include="Source\FinishText.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Source\SceneFactory.h" />
     <ClInclude Include="Source\Stage.h" />
     <ClInclude Include="Source\stage1.h" />
+    <ClInclude Include="Source\stageXtest.h" />
     <ClInclude Include="Source\TitleScene.h" />
     <ClInclude Include="Source\Vector2.h" />
   </ItemGroup>
@@ -178,6 +180,7 @@
     <ClCompile Include="Library\ObjectManager.cpp" />
     <ClCompile Include="Library\SceneManager.cpp" />
     <ClCompile Include="Library\Time.cpp" />
+    <ClCompile Include="Library\Utility.cpp" />
     <ClCompile Include="Source\Block.cpp" />
     <ClCompile Include="Source\BootScene.cpp" />
     <ClCompile Include="Source\FinishText.cpp" />

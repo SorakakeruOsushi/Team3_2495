@@ -1,13 +1,14 @@
 #include "Stage.h"
-#include "Player.h"
 #include <cassert>
+
+//ステージ
+#include "stageXtest.h"
+//#include "stage1.h"
 
 const int CHIP_SIZE = 30;   //チップサイズ
 
-const int TOP_SPACE = CHIP_SIZE * 0;  //上余白
-const int SIDE_SPACE = CHIP_SIZE * 4; //横余白
-//ステージ
-#include "stage1.h"
+const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24)); 
+const int SIDE_SPACE = CHIP_SIZE * 5; //横余白
 
 
 Stage::Stage()
@@ -26,7 +27,7 @@ Stage::Stage()
 		{
 			if (map[j][i] == 9)//プレイヤー生成
 			{
-				Player* p = Instantiate<Player>();
+				p = Instantiate<Player>();
 				p->position.x = CHIP_SIZE * i + SIDE_SPACE;
 				p->position.y = CHIP_SIZE * j + TOP_SPACE;
 			}

@@ -1,6 +1,7 @@
 #pragma once
 //FinishText.h
 #include "../Library/gameObject.h"
+#include "../Library/Utility.h" 
 
 class FinishText :public GameObject
 {
@@ -11,4 +12,7 @@ public:
 	void Draw() override;
 
 	float timer;
+
+	float resultTime;
+	float resultHeight;
 };

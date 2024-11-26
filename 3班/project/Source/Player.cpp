@@ -1,8 +1,7 @@
 #include "Player.h"
 #include "Stage.h"
 #include <cassert>
-#include "FinishText.h"
-#include "GoalText.h"
+
 
 const float Gravity = 0.2f;							 //重力
 const float JumpHight = 30 * 2;						 //ジャンプの高さ
@@ -13,10 +12,13 @@ Player::Player()
 {
 	// Playerは縦２x横１マスの大きさ
 	hImage = LoadGraph("data/image/Player_2-1.png");
-	assert(hImage > 0);
+		assert(hImage > 0);
 
 	position.x = 0;
 	position.y = 0;
+
+	playerHeight = -10.0f; //床分の高さ(10)分引く
+	prePlayerY = 0;
 
 	speed = 1.5f;
 
@@ -24,8 +26,6 @@ Player::Player()
 	goaled = false;
 
 	velocity = 0.0f;
-
-	playerHeight = 0;
 }
 
 Player::~Player()
@@ -35,19 +35,10 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (goaled)
-	{
-		Instantiate<GoalText>();
-		return;
-	}
-	if (finished)
-	{
-		Instantiate<FinishText>();
-		return;
-	}
-
-
 	Stage* s = FindGameObject<Stage>();
+
+	// プレイヤーY軸を入れる
+	prePlayerY = position.y;
 
 	//左右移動
 	if (CheckHitKey(KEY_INPUT_A))
@@ -154,32 +145,27 @@ void Player::Update()
 			position.y += push;
 		}
 	}
-
-	/*
-	* //score更新(仮)
-	* 後でChipサイズに合わせる
-	// スコアの更新確認
-	int high = position.y;
-	if (score < high)
-	{
-		score = high;
-	}
-	*/
-
-	/*
+	
 	//プレイヤーに合わせてスクロール(上方向)
 	if (position.y - s->scroll < 30 * 15) //プレイヤーのY座標が〇マス以上(仮)
 	{
 		s->scroll = position.y - 30 * 15; //スクロール速度をプレイヤーに合わせる
 	}
-	*/
+	
+	//画面外に出たら死亡
+	if (position.y >= 720 + s->scroll)
+	{
+		finished = true;
+	}
 
 	//ゴールした
 	if (s->IsGoal(position + VECTOR2(22.5, 35))) //ゴールは左上でなく中心で（右に20,下に20ずれる）
 	{
 		goaled = true;
 	}
-	//「GOAL/FINISH」より「CLEAR/GAME OVER」のが良かったかも？変更するかも
+
+	// プレイヤー現在高さ = ２点の差 
+	playerHeight += prePlayerY - position.y;
 }
 
 void Player::Draw()

@@ -4,6 +4,7 @@
 FinishText::FinishText()
 {
 	timer = 0.0f;
+	
 }
 
 FinishText::~FinishText()
@@ -32,11 +33,9 @@ void FinishText::Draw()
 	int size = GetFontSize();
 
 	//"FINISH!"
-	SetFontSize(50);
-	DrawString(200, 200, "FINISH! ", GetColor(255, 255, 127)); //(x,y,文字列,色)
+	SetFontSize(100);
+	DrawString(200, 200, "TETRA DEAD", GetColor(255, 100, 100)); //(x,y,文字列,色)
 
-	// "SCORE：ｎm"
-	// "TIME ：ｎs"
 	if (timer >= 1.0f) //１秒超えたらずっと表示
 	{
 		//(x,y,色,文字列,変わる文字列)   「%d」を置き換える
@@ -46,8 +45,9 @@ void FinishText::Draw()
 
 		//到達した高さ、時間を表示
 		SetFontSize(25);
-		//DrawFormatString(200, 300, GetColor(255, 255, 255), "SCORE:%04d", 高さ); 
-		//DrawFormatString(200, 400, GetColor(255, 255, 255), "SCORE:%04d", 時間 );
+		//高さ(playerHeight)
+		DrawFormatString(200, 300, GetColor(255, 255, 255), "SCORE:%3.0f", fabs(resultHeight));
+		DrawFormatString(200, 400, GetColor(255, 255, 255), "TIME:%4.2f", resultTime);
 	}
 
 	// "スペースキーで終了"

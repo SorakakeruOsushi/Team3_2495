@@ -1,6 +1,7 @@
 #pragma once
 #include "../Library/gameObject.h"
 #include "Vector2.h"
+#include "Player.h"
 
 class Stage : public GameObject
 {
@@ -15,6 +16,8 @@ public:
 	int IsWallUp(VECTOR2 pos);
 
 	bool IsGoal(VECTOR2 pos);
+
+	Player* p;
 
 	int emptyImage;  // 画像 マス目
 	int blockImage;  // 画像 灰ブロック
