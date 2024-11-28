@@ -1,14 +1,13 @@
 #include "Stage.h"
 #include <cassert>
+#include "Player.h"
 
 //ステージ
 #include "stageXtest.h"
 //#include "stage1.h"
 
-const int CHIP_SIZE = 30;   //チップサイズ
-
 const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24)); 
-const int SIDE_SPACE = CHIP_SIZE * 5; //横余白
+const int SIDE_SPACE = CHIP_SIZE * 0; //横余白
 
 
 Stage::Stage()
@@ -55,9 +54,13 @@ void Stage::Draw()
 		{
 			int x = i * CHIP_SIZE + SIDE_SPACE;
 
+			
 			if (map[j][i] == 0)		// マス目「Empty.png」
 			{
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 40);
+				//四角を表示(左上,右下、色(R,G,B)、塗りつぶし)
 				DrawGraph(x, y - scroll, emptyImage, TRUE);
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
 			}
 
 			if (map[j][i] == 1)		// グレーブロック「Block.png」

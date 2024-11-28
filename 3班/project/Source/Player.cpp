@@ -1,7 +1,8 @@
 #include "Player.h"
-#include "Stage.h"
 #include <cassert>
-
+#include "Screen.h"
+#include "Stage.h"
+#include "GoalText.h"
 
 const float Gravity = 0.2f;							 //重力
 const float JumpHight = 30 * 2;						 //ジャンプの高さ
@@ -35,6 +36,10 @@ Player::~Player()
 
 void Player::Update()
 {
+	if (finished || goaled) {
+		return;
+	}
+
 	Stage* s = FindGameObject<Stage>();
 
 	// プレイヤーY軸を入れる
@@ -147,20 +152,21 @@ void Player::Update()
 	}
 	
 	//プレイヤーに合わせてスクロール(上方向)
-	if (position.y - s->scroll < 30 * 15) //プレイヤーのY座標が〇マス以上(仮)
+	if (position.y - s->scroll < CHIP_SIZE * 15) //プレイヤーのY座標が〇マス以上(仮)
 	{
-		s->scroll = position.y - 30 * 15; //スクロール速度をプレイヤーに合わせる
+		s->scroll = position.y - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
 	}
 	
 	//画面外に出たら死亡
-	if (position.y >= 720 + s->scroll)
+	if (position.y >= Screen::HEIGHT + s->scroll)
 	{
 		finished = true;
 	}
 
 	//ゴールした
-	if (s->IsGoal(position + VECTOR2(22.5, 35))) //ゴールは左上でなく中心で（右に20,下に20ずれる）
+	if (!goaled && s->IsGoal(position + VECTOR2(22.5, 35))) //ゴールは左上でなく中心で（右に20,下に20ずれる）
 	{
+		Instantiate<GoalText>();
 		goaled = true;
 	}
 
