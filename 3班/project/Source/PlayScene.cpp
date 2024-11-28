@@ -28,9 +28,10 @@ PlayScene::~PlayScene()
 
 void PlayScene::Update()
 {
-	//タイマー
+	
 	if (!p->finished && !p->goaled)
 	{
+		//タイマー
 		playTime += Time::DeltaTime();
 		//playTimeのカンスト(9999)
 		if (playTime >= 9999)
@@ -57,9 +58,10 @@ void PlayScene::Update()
 		SceneManager::ChangeScene("TITLE");
 	}
 
+	//GOALかFINISHを呼び出し
 	if (p->goaled)
 	{
-		g = Instantiate<GoalText>();
+		g = FindGameObject<GoalText>();
 		g->resultTime = playTime;
 		g->resultHeight = highScore;
 		return;
@@ -87,13 +89,9 @@ void PlayScene::Draw()
 	//デフォルトでは右詰なので、左詰にしたいときは桁数指定のまえにマイナスをつけなければならない。
 	/*
 	指定例	出力結果
-		printf("[%-15s]", "I am a boy.");
-	[I am a boy.]
-		printf("[%-8.3f]", 123.45678);
-	[123.456]
-
-		printf("[%-5d]", 1);
-	[1]
+	printf("[%15s]", "I am a boy.");	[I am a boy.]
+	printf("[%8.3f]", 123.45678);		[123.456]
+	printf("[%5d]", 1);				[     1]
 	*/
 
 	SetFontSize(25);

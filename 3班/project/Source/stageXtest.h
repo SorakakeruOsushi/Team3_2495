@@ -1,7 +1,7 @@
 #pragma once
 
 const int WIDTH = 24;		//ステージ 幅
-const int HEIGHT = 30;		//ステージ 高(もっと高くなる?)
+const int HEIGHT = 30;		//ステージ 高(もっと高くなる?)50とか
 
 int map[HEIGHT][WIDTH] =
 {

@@ -1,14 +1,17 @@
 #pragma once
 #include "../Library/gameObject.h"
 #include "Vector2.h"
-#include "Player.h"
-
+//#include "Player.h"
+class Player;
+const int CHIP_SIZE = 30;   //チップサイズ
 class Stage : public GameObject
 {
 public:
 	Stage();
 	~Stage();
 	void Draw() override;
+
+	
 
 	int IsWallRight(VECTOR2 pos);
 	int IsWallLeft(VECTOR2 pos);
