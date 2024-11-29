@@ -7,7 +7,7 @@
 //#include "stage1.h"
 
 const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24)); 
-const int SIDE_SPACE = CHIP_SIZE * 0; //‰¡—]”’
+const int SIDE_SPACE = CHIP_SIZE * 7; //‰¡—]”’
 
 
 Stage::Stage()
