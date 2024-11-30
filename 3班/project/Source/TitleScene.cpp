@@ -18,6 +18,8 @@ void TitleScene::Update()
 
 	if (KeyUtility::CheckTrigger(KEY_INPUT_SPACE))
 	{
+		// サウンドが終了するまで待つ 
+		//PlaySoundFile(  , DX_PLAYTYPE_NORMAL);
 		SceneManager::ChangeScene("PLAY");
 	}
 	if (KeyUtility::CheckTrigger(KEY_INPUT_ESCAPE))
@@ -31,6 +33,6 @@ void TitleScene::Draw()
 {
 	DrawGraph(0, 0, titleImage, TRUE);
 	DrawString(0, 0, "TITLE SCENE", GetColor(255,255,255));
-	DrawString(100, 400, "Push [SPACE]Key To Play", GetColor(255, 255, 255));
+	DrawString(100, 400, "PUSH [SPACE] KEY", GetColor(255, 255, 255));
 	
 }

@@ -15,4 +15,6 @@ public:
 
 	float resultTime;
 	float resultHeight;
+
+	int goalVoice;
 };
