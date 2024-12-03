@@ -12,9 +12,12 @@ public:
 	void Draw() override;
 
 	float timer;
+	float alpha;
 
 	float resultTime;
 	float resultHeight;
+
+	int goalBGImage; // ƒS[ƒ‹”wŒi‰æ‘œ
 
 	int goalVoice;
 };

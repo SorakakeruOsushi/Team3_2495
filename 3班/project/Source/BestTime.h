@@ -5,16 +5,13 @@
 class BestTime : public GameObject
 {
 private:
-	static const int DEFAULT_HIGH_SCORE = 1000;  // ‹N“®‚ÌÅ‚“¾“_ 
-
-private:
-	int bestTime;
+	float bestTime;
 
 public:
 	BestTime();
 	~BestTime();
 
-	int GetbestTime() { return bestTime; }
-	void SetbestTime(int score) { bestTime = score; }
+	float GetBestTime() { return bestTime; }
+	void SetBestTime(float playTime) { bestTime = playTime; }
 };
 

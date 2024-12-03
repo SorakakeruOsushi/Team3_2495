@@ -1,11 +1,15 @@
 #include "TitleScene.h"
 #include <DxLib.h>
 #include <cassert>
+#include "BestTime.h" 
 
 TitleScene::TitleScene()
 {
 	titleImage = LoadGraph("data/image/Title.JPG");
 		assert(titleImage > 0);
+
+	// ç≈çÇìæì_ä«óùópGameObjectÇÃçÏê¨
+	Instantiate<BestTime>();
 }
 
 TitleScene::~TitleScene()
@@ -32,7 +36,8 @@ void TitleScene::Update()
 void TitleScene::Draw()
 {
 	DrawGraph(0, 0, titleImage, TRUE);
-	DrawString(0, 0, "TITLE SCENE", GetColor(255,255,255));
-	DrawString(100, 400, "PUSH [SPACE] KEY", GetColor(255, 255, 255));
+
+	SetFontSize(50);
+	DrawString(500, 600, "PUSH SPACE", GetColor(255, 255, 255));
 	
 }

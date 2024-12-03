@@ -9,7 +9,7 @@ FinishText::FinishText()
 	PlaySoundMem(gameOverVoice, DX_PLAYTYPE_BACK); // 悲鳴ボイス
 
 	timer = 0.0f;
-	
+	alpha = 0.0f;
 }
 
 FinishText::~FinishText()
@@ -22,7 +22,7 @@ void FinishText::Update()
 	//Time::DeltaTime();：秒で測れるためモニター性能に左右されない
 	timer += Time::DeltaTime();
 
-	if (timer >= 2.0f)
+	if (timer >= 1.5f)
 	{
 		if (CheckHitKey(KEY_INPUT_SPACE))
 		{
@@ -30,38 +30,49 @@ void FinishText::Update()
 		}
 	}
 
+	if (timer >= 0.3f)
+	{
+		alpha += 3.0f;
+		if (alpha >= 150)
+		{
+			alpha = 150;
+		}
+	}
 }
 
 void FinishText::Draw()
 {
-
-	//現在のフォントサイズ
-	int size = GetFontSize();
-
-	//"FINISH!"
+	//「ゲームオーバー！」的な表示を行う"
 	SetFontSize(100);
-	DrawString(200, 200, "TETRA DEAD", GetColor(255, 100, 100)); //(x,y,文字列,色)
+	DrawString(310, 200, "ざんね～ん", GetColor(255, 255, 127)); //(x,y,文字列,色)
 
-	if (timer >= 1.0f) //１秒超えたらずっと表示
+	
+	if (timer >= 0.3f) //１秒超えたらずっと表示
 	{
 		//(x,y,色,文字列,変わる文字列)   「%d」を置き換える
 		//「%6d」 ：６桁用意する　（if文でカンストさせればオーバーしない）
 		//「%06d」：６桁用意する　空白を０で埋める
 		//「%06d%%」：「ｎ％」表示出来る
 
-		//到達した高さ、時間を表示
-		SetFontSize(25);
-		//高さ(playerHeight)
-		DrawFormatString(200, 300, GetColor(255, 255, 255), "SCORE:%3.0f", fabs(resultHeight));
-		DrawFormatString(200, 400, GetColor(255, 255, 255), "TIME:%4.2f", resultTime);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha); //透過する
+	DrawBox(0, 0, 1280, 720, GetColor(0,0,0), TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
+
+	DrawString(310, 200, "ざんね～ん", GetColor(255, 255, 127));
 	}
 
-	// "スペースキーで終了"
-	if (timer >= 1.5f) //１.５秒超えたらずっと表示
+	SetFontSize(50);
+	if (timer >= 0.5f)
 	{
-		DrawString(200, 500, "スペースキーを押して終了 ", GetColor(255, 255, 255));
+		DrawFormatString(450, 350, GetColor(255, 255, 255), "SCORE:%3.0f", fabs(resultHeight));//スコアに変わる、高さは死のみ
 	}
-
-	//元のフォントサイズに戻す
-	SetFontSize(size);
+	if (timer >= 1.0f)
+	{
+		DrawFormatString(450, 450, GetColor(255, 255, 255), "TIME:%4.2f", resultTime);
+	}
+	// "スペースキーで終了"
+	if (timer >= 1.5f)
+	{
+		DrawString(300, 600, "スペースキーを押して終了 ", GetColor(255, 255, 255));
+	}
 }
