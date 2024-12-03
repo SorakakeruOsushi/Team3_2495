@@ -152,6 +152,7 @@
     <ClInclude Include="Library\SceneManager.h" />
     <ClInclude Include="Library\Time.h" />
     <ClInclude Include="Library\Utility.h" />
+    <ClInclude Include="Source\BestTime.h" />
     <ClInclude Include="Source\Block.h" />
     <ClInclude Include="Source\BootScene.h" />
     <ClInclude Include="Source\FinishText.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="Library\SceneManager.cpp" />
     <ClCompile Include="Library\Time.cpp" />
     <ClCompile Include="Library\Utility.cpp" />
+    <ClCompile Include="Source\BestTime.cpp" />
     <ClCompile Include="Source\Block.cpp" />
     <ClCompile Include="Source\BootScene.cpp" />
     <ClCompile Include="Source\FinishText.cpp" />

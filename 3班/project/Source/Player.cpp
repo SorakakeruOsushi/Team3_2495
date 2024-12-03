@@ -12,16 +12,30 @@ const float V0 = -sqrtf(2.0f * Gravity * JumpHight); //放物線(ジャンプ)の式
 Player::Player()
 {
 	// Playerは縦２x横１マスの大きさ
-	hImage = LoadGraph("data/image/Player_2-1.png");
+	hImage = LoadGraph("data/image/TETRAall.png");
 		assert(hImage > 0);
 
+	// Jumpサウンドデータを読み込む 
+	jumpSE = LoadSoundMem("data/sound/効果音ラボ/ジャンプ.mp3");  // プレイヤーJumpサウンド
+		assert(jumpSE > 0);
+
+	
 	position.x = 0;
 	position.y = 0;
 
 	playerHeight = -10.0f; //床分の高さ(10)分引く
 	prePlayerY = 0;
 
-	speed = 1.5f;
+	speed = 2.0f;
+
+	patternX = 0;
+	patternY = 2;
+	timer = 0;
+	IsWalkLeft = false;
+	IsWalkRight = false;
+
+	prevJumpKey = false;
+	onGround = false;
 
 	finished = false;
 	goaled = false;
@@ -32,13 +46,18 @@ Player::Player()
 Player::~Player()
 {
 	DeleteGraph(hImage);
+	DeleteSoundMem(jumpSE);
 }
 
 void Player::Update()
 {
-	if (finished || goaled) {
+	if (finished || goaled)
+	{
 		return;
 	}
+
+	IsWalkLeft = false;
+	IsWalkRight = false;
 
 	Stage* s = FindGameObject<Stage>();
 
@@ -46,9 +65,9 @@ void Player::Update()
 	prePlayerY = position.y;
 
 	//左右移動
-	if (CheckHitKey(KEY_INPUT_A))
+	if (CheckHitKey(KEY_INPUT_A)) //左
 	{
-		//左
+		IsWalkLeft = true;
 		position.x -= speed;
 
 		//左に壁があるか調べる
@@ -62,10 +81,11 @@ void Player::Update()
 		position.x += push;
 
 	}
-	if (CheckHitKey(KEY_INPUT_D))
+	else if (CheckHitKey(KEY_INPUT_D)) //右
 	{
-		//右
+		IsWalkRight = true;
 		position.x += speed;
+
 
 		//右に壁があるか調べる
 		int push = s->IsWallRight(position + VECTOR2(44, 0));
@@ -76,8 +96,52 @@ void Player::Update()
 		position.x -= push;
 		push = s->IsWallRight(position + VECTOR2(44, 69));
 		position.x -= push;
+	}
+
+	//歩行アニメーション　未完成
+	if (IsWalkLeft)
+	{
+		patternY = 0;
+
+		timer += Time::DeltaTime();
+		if (timer >= 0.5f)
+		{
+			patternX + 1;
+			timer = 0.0f;
+			if (patternX >= 4)
+			{
+				patternX = 1;
+			}
+		}
 
 	}
+	else if (IsWalkRight)
+	{
+		patternY = 1;
+
+		timer += Time::DeltaTime();
+		if (timer >= 0.5f)
+		{
+			patternX + 1;
+			timer = 0.0f;
+			if (patternX >= 4)
+			{
+				patternX = 1;
+			}
+		}
+	}
+	else
+	{
+		//立ち止まる
+		patternX = 0;
+		//正面を向く
+		timer += Time::DeltaTime();
+		if (timer >= 1.5f)
+		{
+			patternY = 2;
+		}
+	}
+
 
 	//ジャンプ
 	if (CheckHitKey(KEY_INPUT_SPACE))
@@ -88,6 +152,7 @@ void Player::Update()
 			{
 				//2マス分飛ぶ velocity:速度
 				velocity = V0; //"初速"
+				PlaySoundMem(jumpSE, DX_PLAYTYPE_BACK);
 			}
 		}
 		prevJumpKey = true;
@@ -156,7 +221,7 @@ void Player::Update()
 	{
 		s->scroll = position.y - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
 	}
-	
+
 	//画面外に出たら死亡
 	if (position.y >= Screen::HEIGHT + s->scroll)
 	{
@@ -177,5 +242,5 @@ void Player::Update()
 void Player::Draw()
 {
 	Stage* s = FindGameObject<Stage>();
-	DrawGraph(position.x, position.y - s->scroll, hImage, TRUE);
+	DrawRectGraph(position.x, position.y - s->scroll, patternX*45, patternY*70, 45, 70, hImage, TRUE);
 }

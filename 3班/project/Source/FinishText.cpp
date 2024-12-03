@@ -1,14 +1,20 @@
 #include "FinishText.h"
 #include "../Library/time.h"
+#include <cassert>
 
 FinishText::FinishText()
 {
+	gameOverVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「ひゃーっ！」.mp3");
+		assert(gameOverVoice > 0);
+	PlaySoundMem(gameOverVoice, DX_PLAYTYPE_BACK); // 悲鳴ボイス
+
 	timer = 0.0f;
 	
 }
 
 FinishText::~FinishText()
 {
+	DeleteSoundMem(gameOverVoice);
 }
 
 void FinishText::Update()

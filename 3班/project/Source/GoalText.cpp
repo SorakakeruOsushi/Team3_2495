@@ -1,8 +1,13 @@
 #include "GoalText.h"
 #include "../Library/time.h"
+#include <cassert>
 
 GoalText::GoalText()
 {
+	goalVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「ぱんぱかぱーん！」.mp3");
+		assert(goalVoice > 0);
+	PlaySoundMem(goalVoice, DX_PLAYTYPE_BACK); // ゴールボイス
+
 	timer = 0.0f;
 }
 
@@ -15,14 +20,13 @@ void GoalText::Update()
 	//Time::DeltaTime();：秒で測れるためモニター性能に左右されない
 	timer += Time::DeltaTime();
 
-	//if (timer >= 2.5f)
+	if (timer >= 2.5f)
 	{
 		if (KeyUtility::CheckTrigger(KEY_INPUT_SPACE))
 		{
 			SceneManager::ChangeScene("TITLE");
 		}
 	}
-
 }
 
 void GoalText::Draw()
