@@ -59,13 +59,15 @@ void Player::Update()
 	IsWalkLeft = false;
 	IsWalkRight = false;
 
+	//pad = GetJoypadInputState(DX_INPUT_PAD1);
+
 	Stage* s = FindGameObject<Stage>();
 
 	// プレイヤーY軸を入れる
 	prePlayerY = position.y;
 
 	//左右移動
-	if ((CheckHitKey(KEY_INPUT_A)) || (CheckHitKey(KEY_INPUT_LEFT))) //左
+	if ( (CheckHitKey(KEY_INPUT_A)) || (CheckHitKey(KEY_INPUT_LEFT)) || (pad&PAD_INPUT_LEFT) ) //左(A・←・PAD←)
 	{
 		IsWalkLeft = true;
 		position.x -= speed;
@@ -81,7 +83,7 @@ void Player::Update()
 		position.x += push;
 
 	}
-	else if ((CheckHitKey(KEY_INPUT_D)) || (CheckHitKey(KEY_INPUT_RIGHT))) //右
+	else if ((CheckHitKey(KEY_INPUT_D)) || (CheckHitKey(KEY_INPUT_RIGHT)) || (pad&PAD_INPUT_RIGHT) ) //右(D・→・PAD→)
 	{
 		IsWalkRight = true;
 		position.x += speed;

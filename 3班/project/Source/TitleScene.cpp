@@ -20,7 +20,7 @@ TitleScene::~TitleScene()
 void TitleScene::Update()
 {
 
-	if (KeyUtility::CheckTrigger(KEY_INPUT_SPACE))
+	if (CheckHitKeyAll(DX_CHECKINPUT_KEY))
 	{
 		// サウンドが終了するまで待つ 
 		//PlaySoundFile(  , DX_PLAYTYPE_NORMAL);
@@ -38,6 +38,6 @@ void TitleScene::Draw()
 	DrawGraph(0, 0, titleImage, TRUE);
 
 	SetFontSize(50);
-	DrawString(500, 600, "PUSH SPACE", GetColor(255, 255, 255));
+	DrawString(500, 600, "PUSH ANY KEY", GetColor(255, 255, 255));
 	
 }

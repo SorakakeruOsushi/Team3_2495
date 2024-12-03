@@ -21,6 +21,7 @@ public:
 	int jumpSE;    // サウンドハンドル(Hit) 
 
 
+
 	float velocity;		//力と方向
 	bool prevJumpKey;	//前のジャンプキー
 	bool onGround;		//接地判定
@@ -33,4 +34,6 @@ public:
 	int patternX;
 	int patternY;
 	float timer;
+
+	//int pad;
 };
