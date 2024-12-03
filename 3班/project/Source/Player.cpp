@@ -65,7 +65,7 @@ void Player::Update()
 	prePlayerY = position.y;
 
 	//左右移動
-	if (CheckHitKey(KEY_INPUT_A)) //左
+	if ((CheckHitKey(KEY_INPUT_A)) || (CheckHitKey(KEY_INPUT_LEFT))) //左
 	{
 		IsWalkLeft = true;
 		position.x -= speed;
@@ -81,7 +81,7 @@ void Player::Update()
 		position.x += push;
 
 	}
-	else if (CheckHitKey(KEY_INPUT_D)) //右
+	else if ((CheckHitKey(KEY_INPUT_D)) || (CheckHitKey(KEY_INPUT_RIGHT))) //右
 	{
 		IsWalkRight = true;
 		position.x += speed;
@@ -98,31 +98,30 @@ void Player::Update()
 		position.x -= push;
 	}
 
-	//歩行アニメーション　未完成
+	//歩行アニメーション
 	if (IsWalkLeft)
 	{
 		patternY = 0;
 
 		timer += Time::DeltaTime();
-		if (timer >= 0.5f)
+		if (timer >= 0.1f)
 		{
-			patternX + 1;
+			patternX += 1;
 			timer = 0.0f;
 			if (patternX >= 4)
 			{
 				patternX = 1;
 			}
 		}
-
 	}
 	else if (IsWalkRight)
 	{
 		patternY = 1;
 
 		timer += Time::DeltaTime();
-		if (timer >= 0.5f)
+		if (timer >= 0.1f)
 		{
-			patternX + 1;
+			patternX += 1;
 			timer = 0.0f;
 			if (patternX >= 4)
 			{

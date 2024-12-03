@@ -42,6 +42,8 @@ public:
 
 	bool IsDontDestroy() const { return dontDestroy; }
 
+	void DontDestroyOnLoad(bool dont = true) { dontDestroy = dont; }
+
 	/// <summary>
 	/// 描画の優先順位を指定します
 	/// 数値が高いほど、先に描画されるので、

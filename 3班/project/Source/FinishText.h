@@ -17,4 +17,6 @@ public:
 	float resultHeight;
 
 	int gameOverVoice;
+
+	float alpha;
 };

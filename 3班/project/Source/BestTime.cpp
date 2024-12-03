@@ -3,9 +3,9 @@
 // コンストラクタ 
 BestTime::BestTime()
 {
-	bestTime = 0;
+	bestTime = 9999.0f;
 
-	//DontDestroyOnLoad(); // シーン変更で削除されないようにする 
+	DontDestroyOnLoad(); // シーン変更で削除されないようにする 
 }
 
 // デストラクタ 
