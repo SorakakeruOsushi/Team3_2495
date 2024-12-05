@@ -2,6 +2,7 @@
 #include "../Library/gameObject.h"
 #include "Vector2.h"
 #include "time.h"
+#include "Stage.h"
 
 class Player : public GameObject {
 public:
@@ -11,15 +12,16 @@ public:
 	void Draw() override;
 
 	int hImage;
+	int jumpSE;    // サウンドハンドル(Hit) 
+
+	Stage* s;
+
 	VECTOR2 position;
 
 	float playerHeight;
 	float prePlayerY;
 
 	float speed;		//速度
-
-	int jumpSE;    // サウンドハンドル(Hit) 
-
 
 
 	float velocity;		//力と方向
@@ -35,5 +37,5 @@ public:
 	int patternY;
 	float timer;
 
-	//int pad;
+	XINPUT_STATE input; //PAD操作用変数
 };

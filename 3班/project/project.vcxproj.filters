@@ -60,7 +60,6 @@
       <Filter>Library</Filter>
     </ClCompile>
     <ClCompile Include="Source\BestTime.cpp" />
-    <ClCompile Include="Source\Pad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -138,7 +137,6 @@
       <Filter>Library</Filter>
     </ClInclude>
     <ClInclude Include="Source\BestTime.h" />
-    <ClInclude Include="Source\Pad.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">

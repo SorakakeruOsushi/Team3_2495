@@ -19,8 +19,11 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update()
 {
+	//パッド用関数(毎フレーム呼び出す)
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
-	if (CheckHitKeyAll(DX_CHECKINPUT_KEY))
+	// キー入力なら何でもOK(１回だけ入力)
+	if ( (KeyUtility::CheckTriggerAll(DX_CHECKINPUT_KEY)) || (input.Buttons[XINPUT_BUTTON_B]))
 	{
 		// サウンドが終了するまで待つ 
 		//PlaySoundFile(  , DX_PLAYTYPE_NORMAL);

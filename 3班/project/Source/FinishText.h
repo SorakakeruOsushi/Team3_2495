@@ -11,6 +11,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	XINPUT_STATE input; //PAD‘€ì—p•Ï”
+
 	float timer;
 
 	float resultTime;

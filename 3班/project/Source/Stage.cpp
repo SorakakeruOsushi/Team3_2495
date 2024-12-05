@@ -7,7 +7,7 @@
 //#include "stage1.h"
 
 const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24)); 
-const int SIDE_SPACE = CHIP_SIZE * 7; //横余白
+const int SIDE_SPACE = CHIP_SIZE * 8; //横余白
 
 
 Stage::Stage()
@@ -18,6 +18,8 @@ Stage::Stage()
 		assert(blockImage > 0);
 	goalImage = LoadGraph("data/image/Xgoal.png");
 		assert(goalImage > 0);
+	wallImage = LoadGraph("data/image/SideWall.png");
+		assert(wallImage > 0);
 
 	//9を探して、Playerを置く
 	for (int j = 0; j < HEIGHT; j++)    //「j」縦
@@ -39,12 +41,15 @@ Stage::~Stage()
 {
 	DeleteGraph(emptyImage);
 	DeleteGraph(blockImage);
+	DeleteGraph(goalImage);
+	DeleteGraph(wallImage);
 }
 
 void Stage::Draw()
 {
-	//マップセル(マス目)固定表示
-	//DrawGraph(CHIP_SIZE * 0, CHIP_SIZE * 0, cellBGImage, TRUE);
+	//壁表示
+	DrawGraph(30*7, 0,  wallImage, TRUE);
+	DrawGraph(30*7 + 30*25, 0,wallImage, TRUE);
 
 	//マップタイル表示
 	for (int j = 0; j < HEIGHT; j++)// 縦「j」
