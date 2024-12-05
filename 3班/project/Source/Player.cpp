@@ -1,11 +1,12 @@
 #include "Player.h"
 #include <cassert>
 #include "Screen.h"
-#include "Stage.h"
 #include "GoalText.h"
 
+#include "PlayScene.h"
+
 const float Gravity = 0.2f;							 //重力
-const float JumpHight = 30 * 2;						 //ジャンプの高さ
+const float JumpHight = 30 * 2.5f;						 //ジャンプの高さ
 //			v0 = -  √   2   *   g     *    S
 const float V0 = -sqrtf(2.0f * Gravity * JumpHight); //放物線(ジャンプ)の式
 
@@ -19,7 +20,8 @@ Player::Player()
 	jumpSE = LoadSoundMem("data/sound/効果音ラボ/ジャンプ.mp3");  // プレイヤーJumpサウンド
 		assert(jumpSE > 0);
 
-	
+	s = FindGameObject<Stage>();
+
 	position.x = 0;
 	position.y = 0;
 
@@ -28,12 +30,13 @@ Player::Player()
 
 	speed = 2.0f;
 
+	//プレイヤーの歩行アニメーション関連
 	patternX = 0;
 	patternY = 2;
 	timer = 0;
 	IsWalkLeft = false;
 	IsWalkRight = false;
-
+	//
 	prevJumpKey = false;
 	onGround = false;
 
@@ -53,19 +56,24 @@ void Player::Update()
 {
 	if (finished || goaled)
 	{
-		return;
+		//if (pm->playMode == 1)
+		{
+			return;
+		}
 	}
 
 	IsWalkLeft = false;
 	IsWalkRight = false;
 
-	Stage* s = FindGameObject<Stage>();
-
 	// プレイヤーY軸を入れる
 	prePlayerY = position.y;
 
+	
+	//パッド用関数(毎フレーム呼び出す)
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
+
 	//左右移動
-	if ((CheckHitKey(KEY_INPUT_A)) || (CheckHitKey(KEY_INPUT_LEFT))) //左
+	if ( (CheckHitKey(KEY_INPUT_A)) || (CheckHitKey(KEY_INPUT_LEFT)) || (input.Buttons[XINPUT_BUTTON_DPAD_LEFT]) ) //左(A・←・PAD←)
 	{
 		IsWalkLeft = true;
 		position.x -= speed;
@@ -81,7 +89,7 @@ void Player::Update()
 		position.x += push;
 
 	}
-	else if ((CheckHitKey(KEY_INPUT_D)) || (CheckHitKey(KEY_INPUT_RIGHT))) //右
+	else if ((CheckHitKey(KEY_INPUT_D)) || (CheckHitKey(KEY_INPUT_RIGHT)) || (input.Buttons[XINPUT_BUTTON_DPAD_RIGHT]) ) //右(D・→・PAD→)
 	{
 		IsWalkRight = true;
 		position.x += speed;
@@ -143,7 +151,7 @@ void Player::Update()
 
 
 	//ジャンプ
-	if (CheckHitKey(KEY_INPUT_SPACE))
+	if (CheckHitKey(KEY_INPUT_SPACE) || (input.Buttons[XINPUT_BUTTON_A]) || (input.Buttons[XINPUT_BUTTON_B]) )
 	{
 		if (prevJumpKey == false)
 		{

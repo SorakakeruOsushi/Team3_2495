@@ -19,12 +19,13 @@ public:
 	int changeModeVoice;
 	int gameBGM;
 
-	//int h10Voice;
+	XINPUT_STATE input; //PAD操作用変数
 
 	float playTime;		//プレイ時間
 
-	int playMode;
-	//std::string playMode; //プレイモード
+	int playMode; //プレイモード
+	
+	//bool IsPause; // 中断
 
 	float height;	 //高さ
 	float bestHeight; //最高の高さ
@@ -35,5 +36,5 @@ public:
 	GoalText* g;
 	BestTime* bestTime;  // 最高得点管理GameObject
 
-	void CheckBestTime();       // 最高得点の更新確認 
+	void CheckBestTime(); // 最高得点の更新確認
 };

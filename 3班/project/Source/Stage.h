@@ -11,7 +11,10 @@ public:
 	~Stage();
 	void Draw() override;
 
-	
+	int emptyImage;  // 画像 マス目
+	int blockImage;  // 画像 灰ブロック
+	int goalImage;	 // 画像 ゴール(仮)
+	int wallImage;   // 画像 横の壁
 
 	int IsWallRight(VECTOR2 pos);
 	int IsWallLeft(VECTOR2 pos);
@@ -21,10 +24,6 @@ public:
 	bool IsGoal(VECTOR2 pos);
 
 	Player* p;
-
-	int emptyImage;  // 画像 マス目
-	int blockImage;  // 画像 灰ブロック
-	int goalImage;	 // 画像 ゴール(仮)
 
 	int scroll;		//画面のスクロール
 };

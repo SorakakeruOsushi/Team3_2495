@@ -19,8 +19,11 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update()
 {
+	//パッド用関数(毎フレーム呼び出す)
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
-	if (KeyUtility::CheckTrigger(KEY_INPUT_SPACE))
+	// キー入力なら何でもOK(１回だけ入力)
+	if ( (KeyUtility::CheckTriggerAll(DX_CHECKINPUT_KEY)) || (input.Buttons[XINPUT_BUTTON_B]))
 	{
 		// サウンドが終了するまで待つ 
 		//PlaySoundFile(  , DX_PLAYTYPE_NORMAL);
@@ -38,6 +41,6 @@ void TitleScene::Draw()
 	DrawGraph(0, 0, titleImage, TRUE);
 
 	SetFontSize(50);
-	DrawString(500, 600, "PUSH SPACE", GetColor(255, 255, 255));
+	DrawString(500, 600, "PUSH ANY KEY", GetColor(255, 255, 255));
 	
 }

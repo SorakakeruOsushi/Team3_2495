@@ -16,4 +16,6 @@ public:
 	void Draw() override;
 
 	int titleImage;
+
+	XINPUT_STATE input; //PAD‘€ì—p•Ï”
 };

@@ -19,12 +19,15 @@ FinishText::~FinishText()
 
 void FinishText::Update()
 {
+	//パッド用関数(毎フレーム呼び出す)
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
+
 	//Time::DeltaTime();：秒で測れるためモニター性能に左右されない
 	timer += Time::DeltaTime();
 
 	if (timer >= 1.5f)
 	{
-		if (CheckHitKey(KEY_INPUT_SPACE))
+		if ( (CheckHitKey(KEY_INPUT_SPACE)) || (input.Buttons[XINPUT_BUTTON_A]) || (input.Buttons[XINPUT_BUTTON_B]) )
 		{
 			SceneManager::ChangeScene("TITLE");
 		}

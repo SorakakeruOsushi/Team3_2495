@@ -10,7 +10,10 @@ namespace KeyUtility
 {
     void Init();
     bool CheckTrigger(int keyCode);     //  キー入力のトリガー取得
+    bool CheckTriggerAll(int keyCode);     //  キー入力のトリガー取得
     bool CheckRepeat(int keyCode);      //  キー入力のリピート取得
+
+    //bool CheckTriggerPad( );     //  パッド入力のトリガー取得
 }
 
 /// <summary>
