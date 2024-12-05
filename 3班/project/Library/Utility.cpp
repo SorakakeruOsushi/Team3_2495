@@ -8,7 +8,10 @@ namespace
     static const float REPEAT_TIME = 0.1f;      //  キーリピート間隔(sec)
 
     static bool triggerKeyBufferArray[0xff];    //  トリガーキーバッファ
+    static bool triggerKeyBufferAllArray[0xff]; //  トリガーキーallバッファ(新しく加えたやつ)
     static float repeatKeyBufferArray[0xff];    //  リピートキーバッファ
+
+    static bool triggerPadBufferArray[0xff];    //  トリガーパッドバッファ
 }
 
 
@@ -23,6 +26,11 @@ void KeyUtility::Init()
     {
         triggerKeyBufferArray[i] = false;
         repeatKeyBufferArray[i] = 0.0f;
+    }
+
+    for (int i = 0; i < 0xff; i++)
+    {
+        triggerPadBufferArray[i] = false;
     }
 }
 
@@ -51,6 +59,32 @@ bool KeyUtility::CheckTrigger(int keyCode)
     return triggerFlag;
 }
 
+//  キー入力のallトリガー取得
+bool KeyUtility::CheckTriggerAll(int keyCode)
+{
+    //
+    bool triggerAllFlag = false;
+
+    //  該当キーが押されている
+    if (CheckHitKeyAll(keyCode) != 0)
+    {
+        //  前フレームで押されていなかった＝トリガー
+        if (!triggerKeyBufferAllArray[keyCode])
+        {
+            triggerAllFlag = true;
+        }
+        //キーバッファに登録
+        triggerKeyBufferAllArray[keyCode] = true;
+    }
+    else
+    {
+        //キーバッファに登録
+        triggerKeyBufferAllArray[keyCode] = false;
+    }
+
+    return triggerAllFlag;
+}
+
 //  キー入力のリピート取得
 bool KeyUtility::CheckRepeat(int keyCode)
 {
@@ -75,6 +109,35 @@ bool KeyUtility::CheckRepeat(int keyCode)
 
     return repeatFlag;
 }
+
+/*
+//パッド操作入力
+
+//  パッド入力のトリガー取得
+bool KeyUtility::CheckTriggerPad(input.Buttons[XINPUT_BUTTON_B])
+{
+    bool triggerPadFlag = false;
+
+    //  該当キーが押されている
+    if (CheckHitKey(keyCode) != 0)
+    {
+        //  前フレームで押されていなかった＝トリガー
+        if (!triggerPadBufferArray[keyCode])
+        {
+            triggerPadFlag = true;
+        }
+        //キーバッファに登録
+        triggerPadBufferArray[keyCode] = true;
+    }
+    else
+    {
+        //キーバッファに登録
+        triggerPadBufferArray[keyCode] = false;
+    }
+
+    return triggerPadFlag;
+}
+*/
 
 
 /*******************/
