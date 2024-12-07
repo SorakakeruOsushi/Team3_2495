@@ -9,7 +9,6 @@
 const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24)); 
 const int SIDE_SPACE = CHIP_SIZE * 8; //横余白
 
-
 Stage::Stage()
 {
 	emptyImage = LoadGraph("data/image/EmptyA1.png");
@@ -35,6 +34,7 @@ Stage::Stage()
 		}
 	}
 	scroll = 0;
+	cellBG = false;
 }
 
 Stage::~Stage()
@@ -59,13 +59,15 @@ void Stage::Draw()
 		{
 			int x = i * CHIP_SIZE + SIDE_SPACE;
 
-			
-			if (map[j][i] == 0)		// マス目「Empty.png」
+			if (cellBG)
 			{
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 40);
-				//四角を表示(左上,右下、色(R,G,B)、塗りつぶし)
-				DrawGraph(x, y - scroll, emptyImage, TRUE);
-				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
+				if (map[j][i] == 0)		// マス目「Empty.png」
+				{
+					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 40);
+					//四角を表示(左上,右下、色(R,G,B)、塗りつぶし)
+					DrawGraph(x, y - scroll, emptyImage, TRUE);
+					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
+				}
 			}
 
 			if (map[j][i] == 1)		// グレーブロック「Block.png」

@@ -20,10 +20,10 @@ public:
 	int IsWallLeft(VECTOR2 pos);
 	int IsWallDown(VECTOR2 pos);
 	int IsWallUp(VECTOR2 pos);
-
-	bool IsGoal(VECTOR2 pos);
+	bool IsGoal(VECTOR2 pos);	//ゴール判定
 
 	Player* p;
 
 	int scroll;		//画面のスクロール
+	bool cellBG;	//背景のマス目の表示
 };

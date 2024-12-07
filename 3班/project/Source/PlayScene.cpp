@@ -1,8 +1,8 @@
 #include <DxLib.h>
+#include <cassert>
 #include "../Library/sceneManager.h"
 #include "PlayScene.h"
 #include "Player.h"
-#include <cassert>
 #include "Block.h"
 #include "time.h"
 #include "../Library/Utility.h"
@@ -11,6 +11,12 @@ PlayScene::PlayScene()
 {
 	s = Instantiate<Stage>();
 	p = FindGameObject<Player>();
+	/*
+	pm = FindGameObject<PlayMode>();
+		assert(pm != nullptr);
+	*/
+	bestTime = FindGameObject<BestTime>(); // 最高得点管理用GameObjectの取得 
+		assert(bestTime != nullptr);
 
 	Instantiate<Block>();
 
@@ -29,16 +35,10 @@ PlayScene::PlayScene()
 	g = nullptr;
 	f = nullptr;
 
-	playMode = 0; //プレイモード(プレイヤー０/ブロック１)
-
 	playTime = 0.0f;		//プレイ時間
 
 	height = 0.0f;			//床文の高さ(10)を引く
 	bestHeight = 0.0f;
-
-	// 最高得点管理用GameObjectの取得 
-	bestTime = FindGameObject<BestTime>();
-		assert(bestTime != nullptr);
 
 	//IsPause = false; // ポーズ
 }
@@ -55,29 +55,28 @@ void PlayScene::Update()
 	//パッド用関数(毎フレーム呼び出す)
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
-	// タイトルへ戻る（隠し機能）
+	//[T]タイトルへ戻る（隠し機能）
 	if (CheckHitKey(KEY_INPUT_T))
 	{
 		// サウンドが終了するまで待つ 
 		PlaySoundMem(titleBackVoice, DX_PLAYTYPE_NORMAL);
 		SceneManager::ChangeScene("TITLE");
 	}
-
-	//[Tab]ポーズ(願望)
+	//[Tab]ポーズ&操作ヘルプ
 	if (KeyUtility::CheckTrigger(KEY_INPUT_TAB))
 	{
-		//IsPause = !IsPause;
+		// COMING SOON
 	}
-	//[0]リスタート(願望)
+	//[0]リスタート
 	if (KeyUtility::CheckTrigger(KEY_INPUT_0))
 	{
-		//レスターとシーン
-		//SceneManager::ChangeScene("PLAY");
+		//１フレームだけ"RESTARTシーン"に行き、"PLAYシーン"に戻ってくる
+		SceneManager::ChangeScene("RESTART");
 	}
-	//[1]セル表示(願望)
+	//[1]セル表示切り替え
 	if (KeyUtility::CheckTrigger(KEY_INPUT_1))
 	{
-		
+		s->cellBG = !s->cellBG;
 	}
 	
 	
@@ -101,11 +100,9 @@ void PlayScene::Update()
 	// プレイモード切り替え
 	if ( (KeyUtility::CheckTrigger(KEY_INPUT_C)) || (input.Buttons[XINPUT_BUTTON_Y]) )
 	{
-		//PlayModeクラスから関数を呼び出す
-		//ここに
-
 		PlaySoundMem(changeModeVoice, DX_PLAYTYPE_BACK);
-		playMode = (playMode + 1) % 2; // ０か１
+		//PlayModeクラスから関数を呼び出す
+		pm->changeMode();
 	}
 	
 	//GOALかFINISHを呼び出し
@@ -155,7 +152,7 @@ void PlayScene::Draw()
 
 	//プレイモード(TETRA/BLOCK)
 	SetFontSize(60);
-	DrawFormatString(25, 530, GetColor(255, 255, 255), "%5s", playMode == 0 ? "TETRA" : "BLOCK");
+	//DrawFormatString(25, 530, GetColor(255, 255, 255), "%5s", pm->playMode == 0 ? "TETRA" : "BLOCK");
 	SetFontSize(20);
 	//モード変更
 	DrawString(20, 600, "CHANGE：[C] KEY", GetColor(255, 255, 255));

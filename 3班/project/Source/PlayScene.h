@@ -3,8 +3,9 @@
 #include "Stage.h"
 #include "GoalText.h"
 #include "FinishText.h"
-#include "GoalText.h"
 #include "BestTime.h" 
+
+#include "PlayMode.h"
 
 
 class PlayScene : public SceneBase
@@ -23,18 +24,15 @@ public:
 
 	float playTime;		//プレイ時間
 
-	int playMode; //プレイモード
-	
-	//bool IsPause; // 中断
-
 	float height;	 //高さ
-	float bestHeight; //最高の高さ
+	float bestHeight; //最高の高さ()
 
-	Stage* s;
-	Player* p;
-	FinishText* f;
-	GoalText* g;
-	BestTime* bestTime;  // 最高得点管理GameObject
+	Stage* s;			// マップ
+	Player* p;			// プレイヤー
+	FinishText* f;		// ゲームオーバー演出表示
+	GoalText* g;		// ゴール演出表示
+	BestTime* bestTime; // 最速クリアタイム更新
+	PlayMode* pm;		// 操作モード切り替え(TETRA/BLOCK)
 
 	void CheckBestTime(); // 最高得点の更新確認
 };

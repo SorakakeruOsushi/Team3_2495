@@ -60,6 +60,8 @@
       <Filter>Library</Filter>
     </ClCompile>
     <ClCompile Include="Source\BestTime.cpp" />
+    <ClCompile Include="Source\PlayMode.cpp" />
+    <ClCompile Include="Source\RestartScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -137,6 +139,8 @@
       <Filter>Library</Filter>
     </ClInclude>
     <ClInclude Include="Source\BestTime.h" />
+    <ClInclude Include="Source\PlayMode.h" />
+    <ClInclude Include="Source\RestartScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">

@@ -3,8 +3,6 @@
 #include "Screen.h"
 #include "GoalText.h"
 
-#include "PlayScene.h"
-
 const float Gravity = 0.2f;							 //重力
 const float JumpHight = 30 * 2.5f;						 //ジャンプの高さ
 //			v0 = -  √   2   *   g     *    S
@@ -149,7 +147,6 @@ void Player::Update()
 		}
 	}
 
-
 	//ジャンプ
 	if (CheckHitKey(KEY_INPUT_SPACE) || (input.Buttons[XINPUT_BUTTON_A]) || (input.Buttons[XINPUT_BUTTON_B]) )
 	{
@@ -223,6 +220,16 @@ void Player::Update()
 		}
 	}
 	
+	//プレイヤーをプレイエリアに閉じ込める
+	if (position.x <= CHIP_SIZE*8)
+	{
+		position.x = CHIP_SIZE * 8;
+	}
+	if (position.x >= (CHIP_SIZE * 8) + (CHIP_SIZE * 24) - 45 )
+	{
+		position.x = (CHIP_SIZE * 8) + (CHIP_SIZE * 24) - 45;
+	}
+
 	//プレイヤーに合わせてスクロール(上方向)
 	if (position.y - s->scroll < CHIP_SIZE * 15) //プレイヤーのY座標が〇マス以上(仮)
 	{

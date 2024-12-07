@@ -158,6 +158,8 @@
     <ClInclude Include="Source\FinishText.h" />
     <ClInclude Include="Source\GoalText.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\PlayMode.h" />
+    <ClInclude Include="Source\RestartScene.h" />
     <ClInclude Include="Source\Screen.h" />
     <ClInclude Include="Source\PlayScene.h" />
     <ClInclude Include="Source\SceneFactory.h" />
@@ -188,7 +190,9 @@
     <ClCompile Include="Source\FinishText.cpp" />
     <ClCompile Include="Source\GoalText.cpp" />
     <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\PlayMode.cpp" />
     <ClCompile Include="Source\PlayScene.cpp" />
+    <ClCompile Include="Source\RestartScene.cpp" />
     <ClCompile Include="Source\SceneFactory.cpp" />
     <ClCompile Include="Source\Stage.cpp" />
     <ClCompile Include="Source\TitleScene.cpp" />
