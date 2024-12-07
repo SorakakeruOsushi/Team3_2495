@@ -42,5 +42,4 @@ void TitleScene::Draw()
 
 	SetFontSize(50);
 	DrawString(500, 600, "PUSH ANY KEY", GetColor(255, 255, 255));
-	
 }
