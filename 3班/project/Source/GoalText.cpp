@@ -45,7 +45,7 @@ void GoalText::Update()
 	//Time::DeltaTime();：秒で測れるためモニター性能に左右されない
 	timer += Time::DeltaTime();
 
-	if (timer >= 6.5f)
+	if (timer >= 5.5f)
 	{
 		if ((CheckHitKey(KEY_INPUT_SPACE)) || (input.Buttons[XINPUT_BUTTON_A]) || (input.Buttons[XINPUT_BUTTON_B]))
 		{
@@ -56,14 +56,14 @@ void GoalText::Update()
 	//alpha値 増加
 	if (timer >= 0.3f)
 	{
-		alpha += 1.5f;
+		alpha += 1.0f;
 		if (alpha >= 255)
 		{
 			alpha = 255;
 		}
 	}
 	//帯スライド
-	if (timer >= 6.0f)
+	if (timer >= 5.0f)
 	{
 		bannerSlide += 30;
 		if (bannerSlide >= 1280.0f)
@@ -123,35 +123,35 @@ void GoalText::Draw()
 	}
 
 	//「GAME CLEAR!」表示
-	if (timer >= 4.0f)
+	if (timer >= 3.0f)
 	{
 		DrawGraph(255, 160, gameClearTextImage, TRUE);
 	}
 	SetFontSize(30);
-	if (timer >= 5.0f)
+	if (timer >= 4.0f)
 	{
 		// スコア表示
 		DrawFormatString(500, 350, GetColor(255, 255, 255), "SCORE:%3.0f", fabs(resultHeight));//スコアに変わる、高さは死のみ
 	}
-	if (timer >= 5.5f)
+	if (timer >= 4.5f)
 	{
 		// タイム表示
 		DrawFormatString(500, 400, GetColor(255, 255, 255), "TIME:%4.2f", resultTime);
 	}
 
-	if (timer >= 5.8f)
+	if (timer >= 4.8f)
 	{
 		//「Thank You For Playing!」表示
 		DrawGraph(275, 500, thanksTextImage, TRUE);
 	}
 
 	// "スペースキーで終了"
-	if (timer >= 6.0f)
+	if (timer >= 5.0f)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 		DrawRectGraph(0, 600, 0, 0, bannerSlide, 50, bannerImage, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		if (timer >= 6.5f)
+		if (timer >= 5.5f)
 		{
 			//「スペースキーを押して終了」表示
 			DrawGraph(450, 600, titleBackKeyTextImage, TRUE);
