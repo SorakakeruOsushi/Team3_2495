@@ -13,12 +13,17 @@ public:
 
 	XINPUT_STATE input; //PAD‘€ì—p•Ï”
 
+	int gameOverVoice;
+	int finishTextImage;
+	int gameOverTextImage;
+	int bannerImage;
+	int titleBackKeyTextImage;
+	//int playerSDcryImage;
+
 	float timer;
+	float alpha;
+	float bannerSlide;
 
 	float resultTime;
 	float resultHeight;
-
-	int gameOverVoice;
-
-	float alpha;
 };

@@ -20,6 +20,8 @@ Stage::Stage()
 	wallImage = LoadGraph("data/image/SideWall.png");
 		assert(wallImage > 0);
 	// 背景画像
+	stageBGImage = LoadGraph("data/image/X/XmodeBGtetra.png");
+		assert(stageBGImage > 0);
 	hBGImageI = LoadGraph("data/image/Back1.JPG");
 		assert(hBGImageI > 0);
 	hBGImageII = LoadGraph("data/image/Back2.JPG");
@@ -42,7 +44,7 @@ Stage::Stage()
 		}
 	}
 	scroll = 0;
-	cellBG = false;
+	cellBG = true;
 }
 
 Stage::~Stage()
@@ -52,6 +54,7 @@ Stage::~Stage()
 	DeleteGraph(goalImage);
 	DeleteGraph(wallImage);
 
+	DeleteGraph(stageBGImage);
 	DeleteGraph(hBGImageI);
 	DeleteGraph(hBGImageII);
 	DeleteGraph(hBGImageIII);
@@ -59,6 +62,9 @@ Stage::~Stage()
 
 void Stage::Draw()
 {
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 60);
+	DrawGraph(30*8, -(Screen::HEIGHT * 0), stageBGImage, TRUE);   //下から１番目
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
 	/*
 	// 背景画像表示(本当は連番pngや配列でやりたい)
 	DrawGraph(0, -(Screen::HEIGHT * 0) - scroll, hBGImageI, TRUE);   //下から１番目
@@ -82,7 +88,7 @@ void Stage::Draw()
 			{
 				if (map[j][i] == 0)		// マス目「Empty.png」
 				{
-					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 40);
+					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 30);
 					//四角を表示(左上,右下、色(R,G,B)、塗りつぶし)
 					DrawGraph(x, y - scroll, emptyImage, TRUE);
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない

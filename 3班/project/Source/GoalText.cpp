@@ -49,6 +49,7 @@ void GoalText::Update()
 
 void GoalText::Draw()
 {
+	/*
 	//「ゴール！」的な表示を行う"
 	SetFontSize(100);
 	DrawString(310, 200, "おめでとう", GetColor(255, 255, 127)); //(x,y,文字列,色)
@@ -82,4 +83,7 @@ void GoalText::Draw()
 	{
 		DrawString(300, 600, "スペースキーを押して終了 ", GetColor(255, 255, 255));
 	}
+	*/
+
+
 }

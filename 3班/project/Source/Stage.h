@@ -16,9 +16,10 @@ public:
 	int blockImage;  // ‰æ‘œ ŠDƒuƒƒbƒN
 	int goalImage;	 // ‰æ‘œ ƒS[ƒ‹(‰¼)
 	int wallImage;   // ‰æ‘œ ‰¡‚Ì•Ç
+	int stageBGImage; // ‰æ‘œ ƒvƒŒƒCƒGƒŠƒA”wŒi
 	int hBGImageI;    // ‰æ‘œ ”wŒi1
-	int hBGImageII;    // ‰æ‘œ ”wŒi2
-	int hBGImageIII;    // ‰æ‘œ ”wŒi3
+	int hBGImageII;   // ‰æ‘œ ”wŒi2
+	int hBGImageIII;  // ‰æ‘œ ”wŒi3
 
 	int IsWallRight(VECTOR2 pos);
 	int IsWallLeft(VECTOR2 pos);
