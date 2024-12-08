@@ -62,9 +62,10 @@ Stage::~Stage()
 
 void Stage::Draw()
 {
+	//‰¼
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 60);
-	DrawGraph(30*8, -(Screen::HEIGHT * 0), stageBGImage, TRUE);   //‰º‚©‚ç‚P”Ô–Ú
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //“§‰ß‚µ‚È‚¢
+	DrawGraph(30*8, -(Screen::HEIGHT * 0), stageBGImage, TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	/*
 	// ”wŒi‰æ‘œ•\Ž¦(–{“–‚Í˜A”Ôpng‚â”z—ñ‚Å‚â‚è‚½‚¢)
 	DrawGraph(0, -(Screen::HEIGHT * 0) - scroll, hBGImageI, TRUE);   //‰º‚©‚ç‚P”Ô–Ú

@@ -7,13 +7,15 @@ TitleScene::TitleScene()
 {
 	titleImage = LoadGraph("data/image/Title.JPG");
 		assert(titleImage > 0);
-	pushKeyTextImage = LoadGraph("data/image/X/XpushAnyKey.png");
+	pushKeyTextImage = LoadGraph("data/image/XA1/xPushAnyKey.png");
 		assert(pushKeyTextImage > 0);
+	pushKeyjpTextImage = LoadGraph("data/image/XA1/xキーをどれか押してスタート.png");
+		assert(pushKeyjpTextImage > 0);
 
 	// 最高得点管理用GameObjectの作成
 	Instantiate<BestTime>();
 
-	alpha = 0;    // [PUSH SPACE KEY]のアルファ値 
+	alpha = 0;    // [PUSH SPACE KEY]のアルファ値
 	ofset = (int)((float)MAX_ALPHA / DRAW_KEY_WAIT);
 	DrawKeyTimer = 0.0f;  // タイマー 
 
@@ -63,7 +65,8 @@ void TitleScene::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);  // 通常描画 
 	DrawGraph(0, 0, titleImage, TRUE);
 
-	// [PUSH SPACE KEY] 
+	// [PUSH ANY KEY]表示 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha); // アルファブレンディング 
 	DrawGraph(300, 500, pushKeyTextImage, TRUE);
+	DrawGraph(470, 600, pushKeyjpTextImage, TRUE);
 }

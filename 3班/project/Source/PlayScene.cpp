@@ -19,12 +19,20 @@ PlayScene::PlayScene()
 		assert(bestTime != nullptr);
 
 	Instantiate<Block>();
-
+	// 画像読み込み
+	nextTextImage = LoadGraph("data/image/XA1/xNEXT.png");
+		assert(nextTextImage > 0);
+	modeChangeTextImage = LoadGraph("data/image/XA1/xChangeCKey.png");
+		assert(modeChangeTextImage > 0);
+	tetraModeTextImage = LoadGraph("data/image/XA1/xTETRA.png");
+		assert(tetraModeTextImage > 0);
+	blockModeTextImage = LoadGraph("data/image/XA1/xBLOCK.png");
+		assert(blockModeTextImage > 0);
+	// 音声読み込み
 	titleBackVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");
 		assert(titleBackVoice > 0);
 	changeModeVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「はいは～い♪」.mp3");
 		assert(changeModeVoice > 0);
-
 	/*
 	// BGMのループ再生
 	gameBGM = LoadSoundMem("data/sound/効果音ラボ/水のしたたる洞窟.mp3");
@@ -39,12 +47,12 @@ PlayScene::PlayScene()
 
 	height = 0.0f;			//床文の高さ(10)を引く
 	bestHeight = 0.0f;
-
-	//IsPause = false; // ポーズ
 }
 
 PlayScene::~PlayScene()
 {
+	DeleteGraph(nextTextImage);
+	DeleteGraph(modeChangeTextImage);
 	DeleteSoundMem(titleBackVoice);
 	DeleteSoundMem(changeModeVoice);
 	DeleteSoundMem(gameBGM);
@@ -127,8 +135,8 @@ void PlayScene::Update()
 
 void PlayScene::Draw()
 {
-	SetFontSize(40);
-	DrawString(1035, 50, "N E X T", GetColor(255, 255, 255));
+	//「NEXT」表示
+	DrawGraph(1025, 50, nextTextImage, TRUE);
 
 	//(x,y,色,文字列,変わる文字列)   「%d」を置き換える
 	//「%6d」 ：６桁用意する　（if文でカンストさせればオーバーしない）
@@ -151,11 +159,11 @@ void PlayScene::Draw()
 	DrawFormatString(1030, 630, GetColor(255, 255, 255), "BEST TIME:%4.2f", bestTime->GetBestTime() );
 
 	//プレイモード(TETRA/BLOCK)
-	SetFontSize(60);
+	//SetFontSize(60);
 	//DrawFormatString(25, 530, GetColor(255, 255, 255), "%5s", pm->playMode == 0 ? "TETRA" : "BLOCK");
-	SetFontSize(20);
-	//モード変更
-	DrawString(20, 600, "CHANGE：[C] KEY", GetColor(255, 255, 255));
+	DrawGraph(5, 530, tetraModeTextImage, TRUE); //playModeImageに入れる画像を切り替える?
+	//「CHANGE：[C] KEY」表示
+	DrawGraph(5, 600, modeChangeTextImage, TRUE);
 }
 
 void PlayScene::CheckBestTime()

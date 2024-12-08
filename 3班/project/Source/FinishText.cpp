@@ -4,13 +4,13 @@
 
 FinishText::FinishText()
 {
-	finishTextImage = LoadGraph("data/image/X/XfinishText.png");
+	finishTextImage = LoadGraph("data/image/XA1/xFINISH.png");
 		assert(finishTextImage > 0);
-	gameOverTextImage = LoadGraph("data/image/X/XgameOverText.png");
+	gameOverTextImage = LoadGraph("data/image/XA1/xGAME_OVER.png");
 		assert(gameOverTextImage > 0);
-	bannerImage = LoadGraph("data/image/X/Xbanner.png");
+	bannerImage = LoadGraph("data/image/XA1/xバナー1.png");
 		assert(bannerImage > 0);
-	titleBackKeyTextImage = LoadGraph("data/image/X/XbackTitleKey.png");
+	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png");
 		assert(titleBackKeyTextImage > 0);
 
 	gameOverVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「ひゃーっ！」.mp3");
@@ -26,6 +26,8 @@ FinishText::~FinishText()
 {
 	DeleteGraph(finishTextImage);
 	DeleteGraph(gameOverTextImage);
+	DeleteGraph(bannerImage);
+	DeleteGraph(titleBackKeyTextImage);
 	DeleteSoundMem(gameOverVoice);
 }
 
@@ -49,16 +51,15 @@ void FinishText::Update()
 	if (timer >= 0.3f)
 	{
 		alpha += 3.0f;
-		if (alpha >= 100)
+		if (alpha >= 125)
 		{
-			alpha = 100;
+			alpha = 125;
 		}
 	}
-
 	//帯スライド
 	if (timer >= 1.5f)
 	{
-		bannerSlide +=100;
+		bannerSlide +=30;
 		if (bannerSlide >= 1280.0f)
 		{
 			bannerSlide = 1280.0f;
@@ -114,32 +115,30 @@ void FinishText::Draw()
 	//「GAME OVER!」表示
 	if (timer >= 0.3f) 
 	{
-		DrawGraph(260, 260, gameOverTextImage, TRUE);
+		DrawGraph(255, 260, gameOverTextImage, TRUE);
 	}
 	SetFontSize(30);
 	if (timer >= 0.5f)
 	{
 		// スコア表示
-		DrawFormatString(450, 450, GetColor(255, 255, 255), "SCORE:%3.0f", fabs(resultHeight));//スコアに変わる、高さは死のみ
+		DrawFormatString(500, 450, GetColor(255, 255, 255), "SCORE:%3.0f", fabs(resultHeight));//スコアに変わる、高さは死のみ
 	}
 	if (timer >= 1.0f)
 	{
 		// タイム表示
-		DrawFormatString(450, 500, GetColor(255, 255, 255), "TIME:%4.2f", resultTime);
+		DrawFormatString(500, 500, GetColor(255, 255, 255), "TIME:%4.2f", resultTime);
 	}
-
-
-
 
 	// "スペースキーで終了"
 	if (timer >= 1.5f)
 	{
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200); //透過する
-		DrawRectGraph(0, 600, 0,0, bannerSlide,50, bannerImage, TRUE); //いずれ画像
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);   //透過しない
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+		DrawRectGraph(0, 600, 0,0, bannerSlide,50, bannerImage, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		if (timer >= 2.0f)
 		{
-			DrawGraph(600, 600, titleBackKeyTextImage, TRUE);
+			//「スペースキーを押して終了」表示
+			DrawGraph(450, 600, titleBackKeyTextImage, TRUE);
 		}
 	}
 }

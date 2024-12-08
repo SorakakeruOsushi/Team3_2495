@@ -16,6 +16,7 @@ public:
 	int blockImage;  // ‰æ‘œ ŠDƒuƒƒbƒN
 	int goalImage;	 // ‰æ‘œ ƒS[ƒ‹(‰¼)
 	int wallImage;   // ‰æ‘œ ‰¡‚Ì•Ç
+
 	int stageBGImage; // ‰æ‘œ ƒvƒŒƒCƒGƒŠƒA”wŒi
 	int hBGImageI;    // ‰æ‘œ ”wŒi1
 	int hBGImageII;   // ‰æ‘œ ”wŒi2

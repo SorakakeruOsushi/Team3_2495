@@ -16,11 +16,17 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	int titleBackVoice;
-	int changeModeVoice;
-	int gameBGM;
+	XINPUT_STATE input; // PAD操作用変数
 
-	XINPUT_STATE input; //PAD操作用変数
+	int nextTextImage;		// 画像「NEXT」の文字画像
+	int modeChangeTextImage;// 画像「CHANGE:[C]KEY」の文字画像
+	int playModeTextImage;  // 画像「(現在のプレイモード)」の文字画像
+		int tetraModeTextImage; // 画像「TETRA」の文字画像
+		int blockModeTextImage; // 画像「BLOCK」の文字画像
+
+	int titleBackVoice;		// 音声 [T]タイトルに戻るとき
+	int changeModeVoice;	// 音声 [C]プレイモード変更
+	int gameBGM;			// 音楽 BGM
 
 	float playTime;		//プレイ時間
 
