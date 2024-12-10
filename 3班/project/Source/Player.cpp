@@ -13,10 +13,14 @@ Player::Player()
 	// Playerは縦２x横１マスの大きさ
 	hImage = LoadGraph("data/image/TETRAall.png");
 		assert(hImage > 0);
-
 	// Jumpサウンドデータを読み込む 
 	jumpSE = LoadSoundMem("data/sound/効果音ラボ/ジャンプ.mp3");  // プレイヤーJumpサウンド
 		assert(jumpSE > 0);
+
+		//pm = Instantiate<PlayMode>();
+
+	pm = FindGameObject<PlayMode>();
+		assert(pm != nullptr);
 
 	s = FindGameObject<Stage>();
 
@@ -54,10 +58,11 @@ void Player::Update()
 {
 	if (finished || goaled)
 	{
-		//if (pm->playMode == 1)
-		{
-			return;
-		}
+		return;
+	}
+	else if (pm->playMode == 1)
+	{
+		return;
 	}
 
 	IsWalkLeft = false;
