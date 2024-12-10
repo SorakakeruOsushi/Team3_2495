@@ -22,12 +22,6 @@ Stage::Stage()
 	// ”wŒi‰æ‘œ
 	stageBGImage = LoadGraph("data/image/X/XmodeBGtetra.png");
 		assert(stageBGImage > 0);
-	hBGImageI = LoadGraph("data/image/Back1.JPG");
-		assert(hBGImageI > 0);
-	hBGImageII = LoadGraph("data/image/Back2.JPG");
-		assert(hBGImageII > 0);
-	hBGImageIII = LoadGraph("data/image/Back3.JPG");
-		assert(hBGImageIII > 0);
 
 
 	//9‚ğ’T‚µ‚ÄAPlayer‚ğ’u‚­
@@ -55,9 +49,6 @@ Stage::~Stage()
 	DeleteGraph(wallImage);
 
 	DeleteGraph(stageBGImage);
-	DeleteGraph(hBGImageI);
-	DeleteGraph(hBGImageII);
-	DeleteGraph(hBGImageIII);
 }
 
 void Stage::Draw()
@@ -66,12 +57,6 @@ void Stage::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 60);
 	DrawGraph(30*8, -(Screen::HEIGHT * 0), stageBGImage, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	/*
-	// ”wŒi‰æ‘œ•\¦(–{“–‚Í˜A”Ôpng‚â”z—ñ‚Å‚â‚è‚½‚¢)
-	DrawGraph(0, -(Screen::HEIGHT * 0) - scroll, hBGImageI, TRUE);   //‰º‚©‚ç‚P”Ô–Ú
-	DrawGraph(0, -(Screen::HEIGHT * 1) - scroll, hBGImageII, TRUE);  //‰º‚©‚ç‚Q”Ô–Ú
-	DrawGraph(0, -(Screen::HEIGHT * 2) - scroll, hBGImageIII, TRUE);   //‰º‚©‚ç‚R”Ô–Ú
-	*/
 
 	//•Ç•\¦(‰¼)
 	DrawGraph(30*7, 0,  wallImage, TRUE);

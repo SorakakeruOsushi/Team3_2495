@@ -3,6 +3,7 @@
 #include "Vector2.h"
 #include "Screen.h"
 //#include "Player.h"
+
 class Player;
 const int CHIP_SIZE = 30;   //チップサイズ
 class Stage : public GameObject
@@ -18,9 +19,6 @@ public:
 	int wallImage;   // 画像 横の壁
 
 	int stageBGImage; // 画像 プレイエリア背景
-	int hBGImageI;    // 画像 背景1
-	int hBGImageII;   // 画像 背景2
-	int hBGImageIII;  // 画像 背景3
 
 	int IsWallRight(VECTOR2 pos);
 	int IsWallLeft(VECTOR2 pos);

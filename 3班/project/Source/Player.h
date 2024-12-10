@@ -3,6 +3,7 @@
 #include "Vector2.h"
 #include "time.h"
 #include "Stage.h"
+#include "PlayMode.h"
 
 class Player : public GameObject {
 public:
@@ -15,6 +16,7 @@ public:
 	int jumpSE;    // サウンドハンドル(Hit) 
 
 	Stage* s;
+	PlayMode* pm;
 
 	VECTOR2 position;
 

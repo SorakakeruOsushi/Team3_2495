@@ -9,12 +9,14 @@
 
 PlayScene::PlayScene()
 {
+	pm = Instantiate<PlayMode>();
 	s = Instantiate<Stage>();
+	
+	//
 	p = FindGameObject<Player>();
-	/*
+		assert(pm != nullptr);
 	pm = FindGameObject<PlayMode>();
 		assert(pm != nullptr);
-	*/
 	bestTime = FindGameObject<BestTime>(); // 最高得点管理用GameObjectの取得 
 		assert(bestTime != nullptr);
 
@@ -28,6 +30,12 @@ PlayScene::PlayScene()
 		assert(tetraModeTextImage > 0);
 	blockModeTextImage = LoadGraph("data/image/XA1/xBLOCK.png");
 		assert(blockModeTextImage > 0);
+	hBGImageI = LoadGraph("data/image/Back1.JPG");
+		assert(hBGImageI > 0);
+	hBGImageII = LoadGraph("data/image/Back2.JPG");
+		assert(hBGImageII > 0);
+	hBGImageIII = LoadGraph("data/image/Back3.JPG");
+		assert(hBGImageIII > 0);
 	// 音声読み込み
 	titleBackVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");
 		assert(titleBackVoice > 0);
@@ -51,6 +59,9 @@ PlayScene::PlayScene()
 
 PlayScene::~PlayScene()
 {
+	DeleteGraph(hBGImageI);
+	DeleteGraph(hBGImageII);
+	DeleteGraph(hBGImageIII);
 	DeleteGraph(nextTextImage);
 	DeleteGraph(modeChangeTextImage);
 	DeleteSoundMem(titleBackVoice);
@@ -135,6 +146,11 @@ void PlayScene::Update()
 
 void PlayScene::Draw()
 {
+	// 背景画像表示(本当は連番pngや配列でやりたい)
+	DrawGraph(0, -(Screen::HEIGHT * 0) - s->scroll, hBGImageI, TRUE);   //下から１番目
+	DrawGraph(0, -(Screen::HEIGHT * 1) - s->scroll, hBGImageII, TRUE);  //下から２番目
+	DrawGraph(0, -(Screen::HEIGHT * 2) - s->scroll, hBGImageIII, TRUE);   //下から３番目
+
 	//「NEXT」表示
 	DrawGraph(1025, 50, nextTextImage, TRUE);
 
@@ -159,8 +175,8 @@ void PlayScene::Draw()
 	DrawFormatString(1030, 630, GetColor(255, 255, 255), "BEST TIME:%4.2f", bestTime->GetBestTime() );
 
 	//プレイモード(TETRA/BLOCK)
-	//SetFontSize(60);
-	//DrawFormatString(25, 530, GetColor(255, 255, 255), "%5s", pm->playMode == 0 ? "TETRA" : "BLOCK");
+	DrawFormatString(25, 530, GetColor(255, 255, 255), "%5s", pm->playMode == 0 ? "TETRA" : "BLOCK");
+
 	DrawGraph(5, 530, tetraModeTextImage, TRUE); //playModeImageに入れる画像を切り替える?
 	//「CHANGE：[C] KEY」表示
 	DrawGraph(5, 600, modeChangeTextImage, TRUE);

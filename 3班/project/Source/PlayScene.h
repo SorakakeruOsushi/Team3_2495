@@ -24,6 +24,10 @@ public:
 		int tetraModeTextImage; // 画像「TETRA」の文字画像
 		int blockModeTextImage; // 画像「BLOCK」の文字画像
 
+	int hBGImageI;    // 画像 背景1
+	int hBGImageII;   // 画像 背景2
+	int hBGImageIII;  // 画像 背景3
+
 	int titleBackVoice;		// 音声 [T]タイトルに戻るとき
 	int changeModeVoice;	// 音声 [C]プレイモード変更
 	int gameBGM;			// 音楽 BGM
