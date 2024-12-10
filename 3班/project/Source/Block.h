@@ -42,5 +42,6 @@ public:
 
 	bool isMovedLeft;//‰E‚ÉˆÚ“®‚µ‚½‚©
 	bool isMovedRight;//¶‚ÉˆÚ“®‚µ‚½‚©
+	bool isTurn;//‰ñ“]‚µ‚½‚©
 };
 

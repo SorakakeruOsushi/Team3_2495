@@ -242,9 +242,10 @@ Block::Block()
 {
 	isMovedLeft = false;
 	isMovedRight = false;
+	isTurn = false;
 
-	position.x = 0;
-	position.y = 0;
+	position.x =WIDTH-5;
+	position.y =0;
 
 	blockSize = 30;
 
@@ -292,7 +293,7 @@ void Block::Update()
 	if (counter >= timer) {
 		if (position.y >= 20) { // 本当は、既にあるブロックの上に乗ったら
 			nowBlock = nextBlock;
-			position.x = 0;
+			position.x = WIDTH-5;
 			position.y = 0;
 			nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
 			nextBlock.rotation = 0;
@@ -324,7 +325,13 @@ void Block::Update()
 	}
 	// 回転
 	if (CheckHitKey(KEY_INPUT_SPACE)) {
-		nowBlock.rotation = (nowBlock.rotation + 1) % 4; // ４回転で一周
+		if (not isTurn) {
+			nowBlock.rotation = (nowBlock.rotation + 1) % 4; // ４回転で一周
+			isTurn = true; 
+		}
+	}
+	else {
+		isTurn = false;
 	}
 
 }
