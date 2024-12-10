@@ -19,16 +19,6 @@ Stage::Stage()
 		assert(goalImage > 0);
 	wallImage = LoadGraph("data/image/SideWall.png");
 		assert(wallImage > 0);
-	// 背景画像
-	stageBGImage = LoadGraph("data/image/X/XmodeBGtetra.png");
-		assert(stageBGImage > 0);
-	hBGImageI = LoadGraph("data/image/Back1.JPG");
-		assert(hBGImageI > 0);
-	hBGImageII = LoadGraph("data/image/Back2.JPG");
-		assert(hBGImageII > 0);
-	hBGImageIII = LoadGraph("data/image/Back3.JPG");
-		assert(hBGImageIII > 0);
-
 
 	//9を探して、Playerを置く
 	for (int j = 0; j < HEIGHT; j++)    //「j」縦
@@ -53,26 +43,10 @@ Stage::~Stage()
 	DeleteGraph(blockImage);
 	DeleteGraph(goalImage);
 	DeleteGraph(wallImage);
-
-	DeleteGraph(stageBGImage);
-	DeleteGraph(hBGImageI);
-	DeleteGraph(hBGImageII);
-	DeleteGraph(hBGImageIII);
 }
 
 void Stage::Draw()
 {
-	//仮
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 60);
-	DrawGraph(30*8, -(Screen::HEIGHT * 0), stageBGImage, TRUE);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	/*
-	// 背景画像表示(本当は連番pngや配列でやりたい)
-	DrawGraph(0, -(Screen::HEIGHT * 0) - scroll, hBGImageI, TRUE);   //下から１番目
-	DrawGraph(0, -(Screen::HEIGHT * 1) - scroll, hBGImageII, TRUE);  //下から２番目
-	DrawGraph(0, -(Screen::HEIGHT * 2) - scroll, hBGImageIII, TRUE);   //下から３番目
-	*/
-
 	//壁表示(仮)
 	DrawGraph(30*7, 0,  wallImage, TRUE);
 	DrawGraph(30*7 + 30*25, 0,wallImage, TRUE);
