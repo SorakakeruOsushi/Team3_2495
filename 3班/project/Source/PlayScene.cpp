@@ -26,10 +26,13 @@ PlayScene::PlayScene()
 		assert(nextTextImage > 0);
 	modeChangeTextImage = LoadGraph("data/image/XA1/xChangeCKey.png");
 		assert(modeChangeTextImage > 0);
-	tetraModeTextImage = LoadGraph("data/image/XA1/xTETRA.png");
-		assert(tetraModeTextImage > 0);
-	blockModeTextImage = LoadGraph("data/image/XA1/xBLOCK.png");
-		assert(blockModeTextImage > 0);
+	// 無くてもいい?
+	playModeTextImage = LoadGraph("data/image/XA1/xTETRA.png"); // プレイモードのデフォルトは「TETRA」
+		assert(modeChangeTextImage > 0);
+	playModeBGImage = LoadGraph("data/image/X/XmodeBGtetra.png");   // プレイモードのデフォルトは「TETRA」
+		assert(modeChangeTextImage > 0);
+
+	// 画像 背景1,2,3
 	hBGImageI = LoadGraph("data/image/Back1.JPG");
 		assert(hBGImageI > 0);
 	hBGImageII = LoadGraph("data/image/Back2.JPG");
@@ -59,14 +62,18 @@ PlayScene::PlayScene()
 
 PlayScene::~PlayScene()
 {
-	DeleteGraph(hBGImageI);
+	DeleteGraph(hBGImageI);			 // プレイシーン 背景
 	DeleteGraph(hBGImageII);
 	DeleteGraph(hBGImageIII);
-	DeleteGraph(nextTextImage);
-	DeleteGraph(modeChangeTextImage);
+
+	DeleteGraph(playModeTextImage); //「TETRA」か「BLOCK」
+	DeleteGraph(playModeTextImage); // プレイエリア プレイモード背景
+
+	DeleteGraph(nextTextImage);		 //「NEXT」
+	DeleteGraph(modeChangeTextImage);//「CHANGE:[C]KEY」
 	DeleteSoundMem(titleBackVoice);
 	DeleteSoundMem(changeModeVoice);
-	DeleteSoundMem(gameBGM);
+	// DeleteSoundMem(gameBGM);
 }
 
 void PlayScene::Update()
@@ -123,6 +130,17 @@ void PlayScene::Update()
 		//PlayModeクラスから関数を呼び出す
 		pm->changeMode();
 	}
+	if (pm->playMode == 0) // テトラモード
+	{
+		playModeTextImage = LoadGraph("data/image/XA1/xTETRA.png");
+		playModeBGImage = LoadGraph("data/image/X/XmodeBGtetra.png");
+	}
+	else 				   // ブロックモード
+	{
+		playModeTextImage = LoadGraph("data/image/XA1/xBLOCK.png");
+		playModeBGImage = LoadGraph("data/image/X/XmodeBGblock.png");
+	}
+
 	
 	//GOALかFINISHを呼び出し
 	if (p->goaled && g == nullptr)
@@ -149,7 +167,12 @@ void PlayScene::Draw()
 	// 背景画像表示(本当は連番pngや配列でやりたい)
 	DrawGraph(0, -(Screen::HEIGHT * 0) - s->scroll, hBGImageI, TRUE);   //下から１番目
 	DrawGraph(0, -(Screen::HEIGHT * 1) - s->scroll, hBGImageII, TRUE);  //下から２番目
-	DrawGraph(0, -(Screen::HEIGHT * 2) - s->scroll, hBGImageIII, TRUE);   //下から３番目
+	DrawGraph(0, -(Screen::HEIGHT * 2) - s->scroll, hBGImageIII, TRUE); //下から３番目
+
+	//仮
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	DrawGraph(30 * 8, -(Screen::HEIGHT * 0), playModeBGImage, TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	//「NEXT」表示
 	DrawGraph(1025, 50, nextTextImage, TRUE);
@@ -177,7 +200,7 @@ void PlayScene::Draw()
 	//プレイモード(TETRA/BLOCK)
 	DrawFormatString(25, 530, GetColor(255, 255, 255), "%5s", pm->playMode == 0 ? "TETRA" : "BLOCK");
 
-	DrawGraph(5, 530, tetraModeTextImage, TRUE); //playModeImageに入れる画像を切り替える?
+	DrawGraph(5, 530, playModeTextImage, TRUE); //playModeImageに入れる画像を切り替える?
 	//「CHANGE：[C] KEY」表示
 	DrawGraph(5, 600, modeChangeTextImage, TRUE);
 }

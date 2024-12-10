@@ -19,10 +19,6 @@ Stage::Stage()
 		assert(goalImage > 0);
 	wallImage = LoadGraph("data/image/SideWall.png");
 		assert(wallImage > 0);
-	// 背景画像
-	stageBGImage = LoadGraph("data/image/X/XmodeBGtetra.png");
-		assert(stageBGImage > 0);
-
 
 	//9を探して、Playerを置く
 	for (int j = 0; j < HEIGHT; j++)    //「j」縦
@@ -47,17 +43,10 @@ Stage::~Stage()
 	DeleteGraph(blockImage);
 	DeleteGraph(goalImage);
 	DeleteGraph(wallImage);
-
-	DeleteGraph(stageBGImage);
 }
 
 void Stage::Draw()
 {
-	//仮
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 60);
-	DrawGraph(30*8, -(Screen::HEIGHT * 0), stageBGImage, TRUE);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
 	//壁表示(仮)
 	DrawGraph(30*7, 0,  wallImage, TRUE);
 	DrawGraph(30*7 + 30*25, 0,wallImage, TRUE);

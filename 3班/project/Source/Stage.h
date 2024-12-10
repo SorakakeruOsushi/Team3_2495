@@ -18,8 +18,6 @@ public:
 	int goalImage;	 // 画像 ゴール(仮)
 	int wallImage;   // 画像 横の壁
 
-	int stageBGImage; // 画像 プレイエリア背景
-
 	int IsWallRight(VECTOR2 pos);
 	int IsWallLeft(VECTOR2 pos);
 	int IsWallDown(VECTOR2 pos);
