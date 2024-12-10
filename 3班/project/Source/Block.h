@@ -1,6 +1,7 @@
 #pragma once
 #include "../Library/GameObject.h"
 #include "Vector2.h"
+#include "PlayMode.h"
 
 
 class Block :
@@ -43,5 +44,7 @@ public:
 	bool isMovedLeft;//‰E‚ÉˆÚ“®‚µ‚½‚©
 	bool isMovedRight;//¶‚ÉˆÚ“®‚µ‚½‚©
 	bool isTurn;//‰ñ“]‚µ‚½‚©
+
+	PlayMode* pm;
 };
 

@@ -267,6 +267,9 @@ Block::Block()
 	hImage[4] = LoadGraph("data/image/Tmino_One.png");
 	hImage[5] = LoadGraph("data/image/Omino_One.png");
 
+	pm = FindGameObject<PlayMode>();
+	assert(pm != nullptr);
+
 }
 
 Block::~Block()
@@ -282,6 +285,15 @@ Block::~Block()
 
 void Block::Update()
 {
+	/*if (finished || goaled)
+	{
+		return;
+	}
+	else*/ if (pm->playMode == 0)
+	{
+		return;
+	}
+
 	//ƒuƒƒbƒN‚ğ—‚Æ‚·
 	if (CheckHitKey(KEY_INPUT_S)) {
 		counter += Time::DeltaTime() * quickCount;
