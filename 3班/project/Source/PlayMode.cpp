@@ -7,7 +7,8 @@ PlayMode::PlayMode()
 
 void PlayMode::changeMode()
 {
-	playMode = (playMode + 1) % 2; // ０か１
+	/*playMode = (playMode + 1) % 2; // ０か１*/
+	//エラー起きてます　thisがぬるぽだそうで
 }
 
 

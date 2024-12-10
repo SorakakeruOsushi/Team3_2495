@@ -4,7 +4,7 @@
 
 
 class Block :
-    public GameObject
+	public GameObject
 {
 public:
 	Block();
@@ -13,15 +13,30 @@ public:
 	void Draw() override;
 
 
-	int hImage;
-	VECTOR2 position;
+	int hImage[6]; // 画像は全て持っておく
+	struct IVECTOR2 {
+		int x;
+		int y;
+	};
+	IVECTOR2 position; // 座標は、ブロックのマスで持っておく
 
-	float blockSize;
+	int blockSize; // ブロックサイズはintで
 
-	float downBlock;
-	float nextBlock;
+	enum ShapeType {
+		SHAPE_L,
+		SHAPE_J,
+		SHAPE_T,
+		SHAPE_O,
+		SHAPE_MAX
+	};
+	struct BlockSet {
+		ShapeType shape;  // ブロックの形
+		int rotation; // ブロックの回転
+	};
+	BlockSet nextBlock; // nextのブロック
+	BlockSet nowBlock;  // 今のブロック
 
-	float time;
+	float timer; // timeという名前は使っているので、timerにしました
 	float counter;
 	float quickCount;//Sを押している時にcounterを増やす倍率
 
