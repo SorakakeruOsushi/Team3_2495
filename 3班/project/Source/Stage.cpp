@@ -19,14 +19,13 @@ Stage::Stage()
 		}
 	}
 
-
 	emptyImage = LoadGraph("data/image/EmptyA1.png");
 		assert(emptyImage > 0);
-	blockImage = LoadGraph("data/image/Block.png");
+	blockImage = LoadGraph("data/image/BlockA2.png");
 		assert(blockImage > 0);
 	goalImage = LoadGraph("data/image/GoalLineShort.png");
 		assert(goalImage > 0);
-	wallImage = LoadGraph("data/image/SideWall.png");
+	wallImage = LoadGraph("data/image/WallA1Long.png");
 		assert(wallImage > 0);
 
 	//9‚ğ’T‚µ‚ÄAPlayer‚ğ’u‚­

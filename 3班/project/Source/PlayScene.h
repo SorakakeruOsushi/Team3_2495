@@ -24,6 +24,9 @@ public:
 	int playModeTextImage;  // 画像「(現在のプレイモード)」の文字画像
 	int playModeBGImage;	// 画像 「(現在のプレイモード)」プレイエリア背景画像
 
+	int gameBGImage;
+	int changeBGheight;
+
 	int hBGImageI;    // 画像 背景1
 	int hBGImageII;   // 画像 背景2
 	int hBGImageIII;  // 画像 背景3

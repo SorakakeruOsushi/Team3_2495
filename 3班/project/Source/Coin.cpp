@@ -51,7 +51,7 @@ void Coin::Update()
 
 void Coin::Draw()
 {
-	DrawGraph(position.x - s->scroll, position.y, coinImage, TRUE);
+	DrawGraph(position.x, position.y - s->scroll, coinImage, TRUE);
 }
 
 

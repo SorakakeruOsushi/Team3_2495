@@ -58,6 +58,8 @@ PlayScene::PlayScene()
 
 	height = 0.0f;			//床文の高さ(10)を引く
 	bestHeight = 0.0f;
+
+	changeBGheight = 50 /3;
 }
 
 PlayScene::~PlayScene()
@@ -133,14 +135,31 @@ void PlayScene::Update()
 	if (pm->playMode == 0) // テトラモード
 	{
 		playModeTextImage = LoadGraph("data/image/XA1/xTETRA.png");
-		playModeBGImage = LoadGraph("data/image/X/XmodeBGtetra.png");
+			assert(playModeTextImage > 0);
+		playModeBGImage = LoadGraph("data/image/TetraSDBig.png");
+			assert(playModeBGImage > 0);
 	}
 	else 				   // ブロックモード
 	{
 		playModeTextImage = LoadGraph("data/image/XA1/xBLOCK.png");
-		playModeBGImage = LoadGraph("data/image/X/XmodeBGblock.png");
+			assert(playModeTextImage > 0);
+		playModeBGImage = LoadGraph("data/image/BlockA1Big.png");
+			assert(playModeBGImage > 0);
 	}
 
+	//背景の表示切り替え
+	if ( (height >= changeBGheight * 0) && (height < changeBGheight * 1) )
+	{
+		gameBGImage = hBGImageI;
+	}
+	if ((height >= changeBGheight * 1) && (height < changeBGheight * 2))
+	{
+		gameBGImage = hBGImageII;
+	}
+	if ((height >= changeBGheight * 2) && (height < changeBGheight * 3))
+	{
+		gameBGImage = hBGImageIII;
+	}
 	
 	//GOALかFINISHを呼び出し
 	if (p->goaled && g == nullptr)
@@ -166,24 +185,21 @@ void PlayScene::Update()
 
 void PlayScene::Draw()
 {
+	/*
 	// 背景画像表示(本当は連番pngや配列でやりたい)
 	DrawGraph(0, -(Screen::HEIGHT * 0) - s->scroll, hBGImageI, TRUE);   //下から１番目
 	DrawGraph(0, -(Screen::HEIGHT * 1) - s->scroll, hBGImageII, TRUE);  //下から２番目
 	DrawGraph(0, -(Screen::HEIGHT * 2) - s->scroll, hBGImageIII, TRUE); //下から３番目
+	*/
+	DrawGraph(0, 0, gameBGImage, TRUE); // TETRA/BLOCK
 
-	//仮
+	// プレイモード背景
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
-	DrawGraph(30 * 8, -(Screen::HEIGHT * 0), playModeBGImage, TRUE);
+	DrawGraph(30 * 8, 0, playModeBGImage, TRUE); // TETRA/BLOCK
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	//「NEXT」表示
 	DrawGraph(1025, 50, nextTextImage, TRUE);
-
-	//(x,y,色,文字列,変わる文字列)   「%d」を置き換える
-	//「%6d」 ：６桁用意する　（if文でカンストさせればオーバーしない）
-	//「%06d」：６桁用意する　空白を０で埋める
-	//「%06d%%」：「ｎ％」表示出来る
-	//デフォルトでは右詰なので、左詰にしたいときは桁数指定のまえにマイナスをつけなければならない。
 
 	SetFontSize(25);
 	//高さ(playerHeight)
@@ -193,7 +209,7 @@ void PlayScene::Draw()
 	//タイム(playTime)
 	DrawFormatString(1030, 600, GetColor(255, 255, 255), "TIME:%4.2f", playTime);
 	
-	SetFontSize(15);
+	SetFontSize(20);
 	//ベストスコア(bestScore)
 	DrawFormatString(1030, 530, GetColor(255, 255, 255), "BEST SCORE:%d", bestTime->GetBestScore() );
 	//ベストタイム(bestTime)
