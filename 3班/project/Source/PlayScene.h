@@ -44,5 +44,6 @@ public:
 	BestTime* bestTime; // 最速クリアタイム更新
 	PlayMode* pm;		// 操作モード切り替え(TETRA/BLOCK)
 
-	void CheckBestTime(); // 最高得点の更新確認
+	void CheckBestTime(); // ベストタイムの更新確認
+	void CheckBestScore(); // ベストスコアの更新確認
 };

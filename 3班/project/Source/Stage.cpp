@@ -24,7 +24,7 @@ Stage::Stage()
 		assert(emptyImage > 0);
 	blockImage = LoadGraph("data/image/Block.png");
 		assert(blockImage > 0);
-	goalImage = LoadGraph("data/image/Xgoal.png");
+	goalImage = LoadGraph("data/image/GoalLineShort.png");
 		assert(goalImage > 0);
 	wallImage = LoadGraph("data/image/SideWall.png");
 		assert(wallImage > 0);
@@ -39,6 +39,12 @@ Stage::Stage()
 				p = Instantiate<Player>();
 				p->position.x = CHIP_SIZE * i + SIDE_SPACE;
 				p->position.y = CHIP_SIZE * j + TOP_SPACE;
+			}
+			if (map[j][i] == 2)//ÉRÉCÉìê∂ê¨
+			{
+				c = Instantiate<Coin>();
+				c->position.x = CHIP_SIZE * i + SIDE_SPACE;
+				c->position.y = CHIP_SIZE * j + TOP_SPACE;
 			}
 		}
 	}

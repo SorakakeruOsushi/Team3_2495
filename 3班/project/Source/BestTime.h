@@ -5,13 +5,18 @@
 class BestTime : public GameObject
 {
 private:
-	float bestTime;
+	float bestTime; // 最速ゴールタイム
+	int bestScore;  // 最高スコア
 
 public:
 	BestTime();
-	~BestTime();
 
+	// ベストタイム
 	float GetBestTime() { return bestTime; }
 	void SetBestTime(float playTime) { bestTime = playTime; }
+	// ベストスコア
+	int GetBestScore() { return bestScore; }
+	void SetBestScore(int gotCoin) {
+		bestScore = gotCoin; }
 };
 

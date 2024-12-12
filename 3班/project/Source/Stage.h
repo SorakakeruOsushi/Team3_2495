@@ -2,7 +2,7 @@
 #include "../Library/gameObject.h"
 #include "Vector2.h"
 #include "Screen.h"
-//#include "Player.h"
+#include "Coin.h"
 
 class Player;
 const int CHIP_SIZE = 30;   //チップサイズ
@@ -25,6 +25,7 @@ public:
 	bool IsGoal(VECTOR2 pos);	//ゴール判定
 
 	Player* p;
+	Coin* c;
 
 	int scroll;		//画面のスクロール
 	bool cellBG;	//背景のマス目の表示
