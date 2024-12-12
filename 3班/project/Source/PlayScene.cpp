@@ -198,8 +198,6 @@ void PlayScene::Draw()
 	DrawFormatString(1030, 630, GetColor(255, 255, 255), "BEST TIME:%4.2f", bestTime->GetBestTime() );
 
 	//プレイモード(TETRA/BLOCK)
-	DrawFormatString(25, 530, GetColor(255, 255, 255), "%5s", pm->playMode == 0 ? "TETRA" : "BLOCK");
-
 	DrawGraph(5, 530, playModeTextImage, TRUE); //playModeImageに入れる画像を切り替える?
 	//「CHANGE：[C] KEY」表示
 	DrawGraph(5, 600, modeChangeTextImage, TRUE);

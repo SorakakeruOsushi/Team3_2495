@@ -6,7 +6,8 @@
 
 class Block :
 	public GameObject
-{
+{private:
+	Stage* s;
 public:
 	Block();
 	~Block();
