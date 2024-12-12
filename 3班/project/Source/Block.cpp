@@ -202,7 +202,7 @@ void Block::Update()
 			position.x--;
 			isMovedLeft = true;
 		}
-		else if (pressTimerLeft >= 30.0f)
+		else if (pressTimerLeft >= 20.0f)
 		{
 			//if (pressTimerLeft / 2.0f == 0.0f)
 			//{
@@ -221,7 +221,7 @@ void Block::Update()
 			position.x++;
 			isMovedRight = true;
 		}
-		else if (pressTimerRight >= 30.0f)
+		else if (pressTimerRight >= 20.0f)
 		{
 			//if (pressTimerRight / 2.0f == 0.0f)
 			//{
