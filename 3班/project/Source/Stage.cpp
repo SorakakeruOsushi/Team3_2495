@@ -9,8 +9,17 @@
 const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24)); 
 const int SIDE_SPACE = CHIP_SIZE * 8; //‰¡—]”’
 
+int map[HEIGHT][WIDTH];
+
 Stage::Stage()
 {
+	for (int y = 0; y < HEIGHT; y++) {
+		for (int x = 0; x < WIDTH; x++) {
+			map[y][x] = orgmap[y][x];
+		}
+	}
+
+
 	emptyImage = LoadGraph("data/image/EmptyA1.png");
 		assert(emptyImage > 0);
 	blockImage = LoadGraph("data/image/Block.png");

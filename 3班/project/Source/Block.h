@@ -5,7 +5,8 @@
 
 class Block :
 	public GameObject
-{
+{private:
+	Stage* s;
 public:
 	Block();
 	~Block();
@@ -43,5 +44,6 @@ public:
 	bool isMovedLeft;//‰E‚ÉˆÚ“®‚µ‚½‚©
 	bool isMovedRight;//¶‚ÉˆÚ“®‚µ‚½‚©
 	bool isTurn;//‰ñ“]‚µ‚½‚©
+
 };
 

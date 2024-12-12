@@ -3,7 +3,7 @@
 const int WIDTH = 24;		//ステージ 幅
 const int HEIGHT = 51;		//ステージ 高(もっと高くなる?)50とか
 
-int map[HEIGHT][WIDTH] =
+int orgmap[HEIGHT][WIDTH] =
 {
 	//  			   10				   20
   // 1,2.3.4.5.6.7.8.9.0,1,2.3.4.5.6.7.8.9.0,1,2.3.4.
