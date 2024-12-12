@@ -46,6 +46,8 @@ Player::Player()
 	goaled = false;
 
 	velocity = 0.0f;
+
+	gotCoin = 0;
 }
 
 Player::~Player()

@@ -30,6 +30,8 @@ public:
 	bool prevJumpKey;	//前のジャンプキー
 	bool onGround;		//接地判定
 
+	int gotCoin;		//コイン取得数
+
 	bool finished;		//死んだ！
 	bool goaled;		//ゴール
 

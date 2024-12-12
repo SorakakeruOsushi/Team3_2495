@@ -9,17 +9,8 @@ TitleScene::TitleScene()
 		assert(titleImage > 0);
 	pushKeyTextImage = LoadGraph("data/image/XA1/xPushAnyKey.png");
 		assert(pushKeyTextImage > 0);
-	pushKeyjpTextImage = LoadGraph("data/image/XA1/xキーをどれか押してスタート.png");
-		assert(pushKeyjpTextImage > 0);
-
-	// 最高得点管理用GameObjectの作成
-	Instantiate<BestTime>();
-
-	alpha = 0;    // [PUSH SPACE KEY]のアルファ値
-	ofset = (int)((float)MAX_ALPHA / DRAW_KEY_WAIT);
+	
 	DrawKeyTimer = 0.0f;  // タイマー 
-
-
 }
 
 TitleScene::~TitleScene()
@@ -34,16 +25,7 @@ void TitleScene::Update()
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
 
-	// アルファ値の計算 
-	alpha += (int)(ofset * Time::DeltaTime());
-	// 前フレームからの経過時間を取得 
-	DrawKeyTimer += Time::DeltaTime();
-	// 一定時間(DRAW_KEY_WAIT)経過したら、アルファ値の加算・減算を切りかえる 
-	if (DrawKeyTimer >= DRAW_KEY_WAIT)
-	{
-		ofset = -ofset;
-		DrawKeyTimer = 0.0f;
-	}
+	//
 
 	// キー入力なら何でもOK(１回だけ入力)
 	if ( (KeyUtility::CheckTriggerAll(DX_CHECKINPUT_KEY)) || (input.Buttons[XINPUT_BUTTON_B]))
@@ -66,7 +48,5 @@ void TitleScene::Draw()
 	DrawGraph(0, 0, titleImage, TRUE);
 
 	// [PUSH ANY KEY]表示 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha); // アルファブレンディング 
 	DrawGraph(300, 500, pushKeyTextImage, TRUE);
-	DrawGraph(470, 600, pushKeyjpTextImage, TRUE);
 }
