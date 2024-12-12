@@ -2,6 +2,7 @@
 #include <cassert>
 #include "Player.h"
 
+
 //ステージ
 #include "stageXtest.h"
 //#include "stage1.h"
@@ -13,6 +14,8 @@ int map[HEIGHT][WIDTH];
 
 Stage::Stage()
 {
+	block = Instantiate<Block>();
+
 	for (int y = 0; y < HEIGHT; y++) {
 		for (int x = 0; x < WIDTH; x++) {
 			map[y][x] = orgmap[y][x];
@@ -44,6 +47,7 @@ Stage::Stage()
 	}
 	scroll = 0;
 	cellBG = true;
+
 }
 
 Stage::~Stage()
@@ -79,11 +83,15 @@ void Stage::Draw()
 				}
 			}
 
-			if (map[j][i] == 1)		// グレーブロック「Block.png」
+			int chip = map[j][i];
+			if (chip == 1)		// グレーブロック「Block.png」
 			{
 				DrawGraph(x, y - scroll, blockImage, TRUE);
 			}
-			if (map[j][i] == 8)		// ゴール「Xgoal.png」
+			else if (chip >= 2&&chip<6) {//各種ブロック
+				DrawGraph(x, y - scroll, block->hImage[chip], TRUE);
+			}
+			if (chip == 8)		// ゴール「Xgoal.png」
 			{
 				DrawGraph(x, y - scroll, goalImage, TRUE);
 			}
@@ -97,12 +105,14 @@ int Stage::IsWallRight(VECTOR2 pos)//posにはplayer座標が入る
 	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
 	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
-	if (map[j][i] == 1)
-	{
-		//めり込んだ分押し返す
-		//★(int)少数だけどintとして扱う
-		int push = ((int)pos.x - SIDE_SPACE) % CHIP_SIZE + 1;//0なら1 1なら2
-		return push;
+	for (int x = 1; x < 6; x++) {
+		if (map[j][i] == x)
+		{
+			//めり込んだ分押し返す
+			//★(int)少数だけどintとして扱う
+			int push = ((int)pos.x - SIDE_SPACE) % CHIP_SIZE + 1;//0なら1 1なら2
+			return push;
+		}
 	}
 	return 0;
 }
@@ -111,12 +121,14 @@ int Stage::IsWallLeft(VECTOR2 pos)
 	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
 	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
-	if (map[j][i] == 1)
-	{
-		//めり込んだ分押し返す
-		//★(int)少数だけどintとして扱う
-		int push = CHIP_SIZE - ((int)pos.x - SIDE_SPACE) % CHIP_SIZE;//29なら1 28なら2
-		return push;
+	for (int x=1; x < 6; x++) {
+		if (map[j][i] == x)
+		{
+			//めり込んだ分押し返す
+			//★(int)少数だけどintとして扱う
+			int push = CHIP_SIZE - ((int)pos.x - SIDE_SPACE) % CHIP_SIZE;//29なら1 28なら2
+			return push;
+		}
 	}
 	return 0;
 }
@@ -125,12 +137,14 @@ int Stage::IsWallDown(VECTOR2 pos)
 	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
 	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
-	if (map[j][i] == 1)
-	{
-		//めり込んだ分押し返す
-		//★(int)少数だけどintとして扱う
-		int push = ((int)pos.y - TOP_SPACE) % CHIP_SIZE + 1;
-		return push;
+	for (int x = 1; x < 6; x++) {
+		if (map[j][i] == x)
+		{
+			//めり込んだ分押し返す
+			//★(int)少数だけどintとして扱う
+			int push = ((int)pos.y - TOP_SPACE) % CHIP_SIZE + 1;
+			return push;
+		}
 	}
 	return 0;
 }
@@ -139,12 +153,14 @@ int Stage::IsWallUp(VECTOR2 pos)
 	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
 	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
-	if (map[j][i] == 1)
-	{
-		//めり込んだ分押し返す
-		//★(int)少数だけどintとして扱う
-		int push = CHIP_SIZE - ((int)pos.y - TOP_SPACE) % CHIP_SIZE;//29なら1 28なら2
-		return push;
+	for (int x=1; x < 6; x++) {
+		if (map[j][i] == x)
+		{
+			//めり込んだ分押し返す
+			//★(int)少数だけどintとして扱う
+			int push = CHIP_SIZE - ((int)pos.y - TOP_SPACE) % CHIP_SIZE;//29なら1 28なら2
+			return push;
+		}
 	}
 	return 0;
 }

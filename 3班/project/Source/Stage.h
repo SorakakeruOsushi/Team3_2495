@@ -2,6 +2,7 @@
 #include "../Library/gameObject.h"
 #include "Vector2.h"
 #include "Screen.h"
+#include "Block.h"
 //#include "Player.h"
 
 class Player;
@@ -25,6 +26,7 @@ public:
 	bool IsGoal(VECTOR2 pos);	//ゴール判定
 
 	Player* p;
+	Block* block;
 
 	int scroll;		//画面のスクロール
 	bool cellBG;	//背景のマス目の表示
