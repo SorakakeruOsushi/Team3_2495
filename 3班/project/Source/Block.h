@@ -2,6 +2,7 @@
 #include "../Library/GameObject.h"
 #include "Vector2.h"
 #include "PlayMode.h"
+#include "Stage.h"
 
 
 class Block :
