@@ -22,7 +22,6 @@ void Coin::Update()
 	//取られたら
 	if (got)
 	{
-		p->gotCoin += 1;
 
 		position.y += v; //浮遊感与えちゃったか…
 		v += 9.8f / 60;  // 重力/60フレーム
@@ -30,6 +29,7 @@ void Coin::Update()
 		counter -= 1;
 		if (counter == 0)
 		{
+			p->gotCoin += 1;
 			//取得
 			DestroyMe(); //死ぬしかないじゃない！
 		}

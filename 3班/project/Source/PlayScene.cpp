@@ -189,13 +189,13 @@ void PlayScene::Draw()
 	//高さ(playerHeight)
 	DrawFormatString(1030, 400, GetColor(255, 255, 255), "HEIGHT:%.0f/50", fabs(height));
 	//スコア(Coin?)
-	DrawFormatString(1030, 500, GetColor(255, 255, 255), "SCORE:%0d", p->gotCoin);
+	DrawFormatString(1030, 500, GetColor(255, 255, 255), "SCORE:%d", p->gotCoin);
 	//タイム(playTime)
 	DrawFormatString(1030, 600, GetColor(255, 255, 255), "TIME:%4.2f", playTime);
 	
 	SetFontSize(15);
 	//ベストスコア(bestScore)
-	DrawFormatString(1030, 530, GetColor(255, 255, 255), "BEST SCORE:%0.0f", bestTime->GetBestScore() );
+	DrawFormatString(1030, 530, GetColor(255, 255, 255), "BEST SCORE:%d", bestTime->GetBestScore() );
 	//ベストタイム(bestTime)
 	DrawFormatString(1030, 630, GetColor(255, 255, 255), "BEST TIME:%4.2f", bestTime->GetBestTime() );
 
