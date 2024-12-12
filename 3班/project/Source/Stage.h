@@ -3,6 +3,8 @@
 #include "Vector2.h"
 #include "Screen.h"
 #include "Coin.h"
+//#include "Block.h"
+class Block;
 
 class Player;
 const int CHIP_SIZE = 30;   //チップサイズ
@@ -26,6 +28,7 @@ public:
 
 	Player* p;
 	Coin* c;
+	Block* b;
 
 	int scroll;		//画面のスクロール
 	bool cellBG;	//背景のマス目の表示

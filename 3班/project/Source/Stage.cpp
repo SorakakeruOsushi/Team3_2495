@@ -1,6 +1,8 @@
 #include "Stage.h"
 #include <cassert>
 #include "Player.h"
+#include "Block.h"
+
 
 //ステージ
 #include "stageXtest.h"
@@ -9,8 +11,17 @@
 const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24)); 
 const int SIDE_SPACE = CHIP_SIZE * 8; //横余白
 
+int map[HEIGHT][WIDTH];
+
 Stage::Stage()
 {
+	for (int y = 0; y < HEIGHT; y++) {
+		for (int x = 0; x < WIDTH; x++) {
+			map[y][x] = orgmap[y][x];
+		}
+	}
+
+
 	emptyImage = LoadGraph("data/image/EmptyA1.png");
 		assert(emptyImage > 0);
 	blockImage = LoadGraph("data/image/Block.png");
@@ -31,7 +42,7 @@ Stage::Stage()
 				p->position.x = CHIP_SIZE * i + SIDE_SPACE;
 				p->position.y = CHIP_SIZE * j + TOP_SPACE;
 			}
-			if (map[j][i] == 2)//コイン生成
+			if (map[j][i] == 7)//コイン生成
 			{
 				c = Instantiate<Coin>();
 				c->position.x = CHIP_SIZE * i + SIDE_SPACE;
@@ -41,6 +52,9 @@ Stage::Stage()
 	}
 	scroll = 0;
 	cellBG = true;
+
+	
+	b== FindGameObject<Block>();
 }
 
 Stage::~Stage()
@@ -75,12 +89,15 @@ void Stage::Draw()
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
 				}
 			}
-
-			if (map[j][i] == 1)		// グレーブロック「Block.png」
+			int chip = map[j][i];
+			if (chip == 1)		// グレーブロック「Block.png」
 			{
 				DrawGraph(x, y - scroll, blockImage, TRUE);
 			}
-			if (map[j][i] == 8)		// ゴール「Xgoal.png」
+			else if (chip >= 2 && chip < 6) {
+				DrawGraph(x, y - scroll, b->hImage[chip], TRUE);
+			}
+			else if (map[j][i] == 8)		// ゴール「Xgoal.png」
 			{
 				DrawGraph(x, y - scroll, goalImage, TRUE);
 			}
@@ -94,12 +111,14 @@ int Stage::IsWallRight(VECTOR2 pos)//posにはplayer座標が入る
 	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
 	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
-	if (map[j][i] == 1)
-	{
-		//めり込んだ分押し返す
-		//★(int)少数だけどintとして扱う
-		int push = ((int)pos.x - SIDE_SPACE) % CHIP_SIZE + 1;//0なら1 1なら2
-		return push;
+	for (int x = 1; x < 6; x++) {
+		if (map[j][i] == x)
+		{
+			//めり込んだ分押し返す
+			//★(int)少数だけどintとして扱う
+			int push = ((int)pos.x - SIDE_SPACE) % CHIP_SIZE + 1;//0なら1 1なら2
+			return push;
+		}
 	}
 	return 0;
 }
@@ -108,12 +127,14 @@ int Stage::IsWallLeft(VECTOR2 pos)
 	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
 	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
-	if (map[j][i] == 1)
-	{
-		//めり込んだ分押し返す
-		//★(int)少数だけどintとして扱う
-		int push = CHIP_SIZE - ((int)pos.x - SIDE_SPACE) % CHIP_SIZE;//29なら1 28なら2
-		return push;
+	for (int x = 1; x < 6; x++) {
+		if (map[j][i] == x)
+		{
+			//めり込んだ分押し返す
+			//★(int)少数だけどintとして扱う
+			int push = CHIP_SIZE - ((int)pos.x - SIDE_SPACE) % CHIP_SIZE;//29なら1 28なら2
+			return push;
+		}
 	}
 	return 0;
 }
@@ -122,12 +143,14 @@ int Stage::IsWallDown(VECTOR2 pos)
 	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
 	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
-	if (map[j][i] == 1)
-	{
-		//めり込んだ分押し返す
-		//★(int)少数だけどintとして扱う
-		int push = ((int)pos.y - TOP_SPACE) % CHIP_SIZE + 1;
-		return push;
+	for (int x = 1; x < 6; x++) {
+		if (map[j][i] == x)
+		{
+			//めり込んだ分押し返す
+			//★(int)少数だけどintとして扱う
+			int push = ((int)pos.y - TOP_SPACE) % CHIP_SIZE + 1;
+			return push;
+		}
 	}
 	return 0;
 }
@@ -136,12 +159,14 @@ int Stage::IsWallUp(VECTOR2 pos)
 	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
 	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
-	if (map[j][i] == 1)
-	{
-		//めり込んだ分押し返す
-		//★(int)少数だけどintとして扱う
-		int push = CHIP_SIZE - ((int)pos.y - TOP_SPACE) % CHIP_SIZE;//29なら1 28なら2
-		return push;
+	for (int x = 1; x < 6; x++) {
+		if (map[j][i] == x)
+		{
+			//めり込んだ分押し返す
+			//★(int)少数だけどintとして扱う
+			int push = CHIP_SIZE - ((int)pos.y - TOP_SPACE) % CHIP_SIZE;//29なら1 28なら2
+			return push;
+		}
 	}
 	return 0;
 }

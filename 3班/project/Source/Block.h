@@ -1,11 +1,14 @@
 #pragma once
 #include "../Library/GameObject.h"
 #include "Vector2.h"
+#include "PlayMode.h"
+#include "Stage.h"
 
 
 class Block :
 	public GameObject
-{
+{private:
+	Stage* s;
 public:
 	Block();
 	~Block();
@@ -43,5 +46,7 @@ public:
 	bool isMovedLeft;//‰E‚ÉˆÚ“®‚µ‚½‚©
 	bool isMovedRight;//¶‚ÉˆÚ“®‚µ‚½‚©
 	bool isTurn;//‰ñ“]‚µ‚½‚©
+
+	PlayMode* pm;
 };
 
