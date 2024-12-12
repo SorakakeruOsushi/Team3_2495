@@ -5,7 +5,7 @@
 Coin::Coin()
 {
 	//コンストラクタで絵をロード
-	hImage = LoadGraph("data/image/parts.png");
+	coinImage = LoadGraph("data/image/Xgoal.png");
 	got = false;
 
 	s = FindGameObject<Stage>();
@@ -14,7 +14,7 @@ Coin::Coin()
 
 Coin::~Coin()
 {
-	DeleteGraph(hImage);
+	DeleteGraph(coinImage);
 }
 
 void Coin::Update()
@@ -22,8 +22,7 @@ void Coin::Update()
 	//取られたら
 	if (got)
 	{
-		//取得
-		p->gotCoin++;
+		p->gotCoin += 1;
 
 		position.y += v; //浮遊感与えちゃったか…
 		v += 9.8f / 60;  // 重力/60フレーム
@@ -31,6 +30,7 @@ void Coin::Update()
 		counter -= 1;
 		if (counter == 0)
 		{
+			//取得
 			DestroyMe(); //死ぬしかないじゃない！
 		}
 		return;			 //終わり！閉廷！以上！皆解散！
@@ -41,7 +41,7 @@ void Coin::Update()
 	VECTOR2 playerPos = p->position;	  //playerPosにplayerのpositionを入れる
 
 	//当たり判定："playerPos"と"position"が当たったら
-	if (CircleHit(position, playerPos, 40))
+	if (CircleHit(position, playerPos, 30))
 	{
 		got = true;	  //取られた！
 		counter = 20; //死へのカウンター２０フレーム
@@ -51,7 +51,7 @@ void Coin::Update()
 
 void Coin::Draw()
 {
-	DrawRectGraph(position.x - s->scroll, position.y, 30 * 3, 30 * 0, 30, 30, hImage, TRUE);
+	DrawGraph(position.x - s->scroll, position.y, coinImage, TRUE);
 }
 
 

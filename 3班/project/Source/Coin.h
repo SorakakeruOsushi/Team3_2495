@@ -14,7 +14,7 @@ public:
 	Stage* s;
 	Player* p;
 
-	int hImage;
+	int coinImage;
 	VECTOR2 position;
 
 	bool got;	 //–‚—¹‚Í‘å•Ï‚ÈƒRƒCƒ“‚ğ“‚ñ‚Å‚¢‚«‚Ü‚µ‚½

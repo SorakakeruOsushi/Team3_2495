@@ -2,8 +2,9 @@
 #include "../Library/gameObject.h"
 #include "Vector2.h"
 #include "time.h"
-#include "Stage.h"
+//#include "Stage.h"
 #include "PlayMode.h"
+class Stage;
 
 class Player : public GameObject {
 public:

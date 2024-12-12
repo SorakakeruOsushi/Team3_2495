@@ -148,8 +148,10 @@ void PlayScene::Update()
 		g = FindGameObject<GoalText>();
 		g->resultTime = playTime;
 		g->resultHeight = bestHeight;
-		// 最高得点確認 
+		// ベストタイム確認 
 		CheckBestTime();
+		// 確認 
+		CheckBestScore();
 		return;
 	}
 	if (p->finished && f == nullptr)
@@ -193,7 +195,7 @@ void PlayScene::Draw()
 	
 	SetFontSize(15);
 	//ベストスコア(bestScore)
-	DrawFormatString(1030, 530, GetColor(255, 255, 255), "BEST SCORE:%0.0f", 0);
+	DrawFormatString(1030, 530, GetColor(255, 255, 255), "BEST SCORE:%0.0f", bestTime->GetBestScore() );
 	//ベストタイム(bestTime)
 	DrawFormatString(1030, 630, GetColor(255, 255, 255), "BEST TIME:%4.2f", bestTime->GetBestTime() );
 
