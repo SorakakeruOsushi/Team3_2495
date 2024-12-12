@@ -2,8 +2,9 @@
 #include "../Library/gameObject.h"
 #include "Vector2.h"
 #include "time.h"
-#include "Stage.h"
+//#include "Stage.h"
 #include "PlayMode.h"
+class Stage;
 
 class Player : public GameObject {
 public:
@@ -29,6 +30,8 @@ public:
 	float velocity;		//力と方向
 	bool prevJumpKey;	//前のジャンプキー
 	bool onGround;		//接地判定
+
+	int gotCoin;		//コイン取得数
 
 	bool finished;		//死んだ！
 	bool goaled;		//ゴール

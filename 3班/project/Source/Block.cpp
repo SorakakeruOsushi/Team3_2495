@@ -240,6 +240,9 @@ BlockPos GetBlockPos(Block::ShapeType type, int rot) {
 
 Block::Block()
 {
+
+	s = FindGameObject<Stage>();
+
 	isMovedLeft = false;
 	isMovedRight = false;
 	isTurn = false;
@@ -345,6 +348,7 @@ void Block::Update()
 	else {
 		isTurn = false;
 	}
+	
 
 }
 

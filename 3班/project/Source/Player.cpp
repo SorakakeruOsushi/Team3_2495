@@ -2,6 +2,7 @@
 #include <cassert>
 #include "Screen.h"
 #include "GoalText.h"
+#include "Stage.h"
 
 const float Gravity = 0.2f;							 //d—Í
 const float JumpHight = 30 * 2.5f;						 //ƒWƒƒƒ“ƒv‚Ì‚‚³
@@ -46,6 +47,8 @@ Player::Player()
 	goaled = false;
 
 	velocity = 0.0f;
+
+	gotCoin = 0;
 }
 
 Player::~Player()
@@ -260,6 +263,5 @@ void Player::Update()
 
 void Player::Draw()
 {
-	Stage* s = FindGameObject<Stage>();
 	DrawRectGraph(position.x, position.y - s->scroll, patternX*45, patternY*70, 45, 70, hImage, TRUE);
 }
