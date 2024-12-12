@@ -37,8 +37,8 @@ void Coin::Update()
 	}
 
 	//æ‚ç‚ê‚é‘O
-		//“–‚½‚è”»’è
-	VECTOR2 playerPos = p->position;	  //playerPos‚Éplayer‚Ìposition‚ğ“ü‚ê‚é
+	//“–‚½‚è”»’è
+   	VECTOR2 playerPos = p->position;	  //playerPos‚Éplayer‚Ìposition‚ğ“ü‚ê‚é
 
 	//“–‚½‚è”»’èF"playerPos"‚Æ"position"‚ª“–‚½‚Á‚½‚ç
 	if (CircleHit(position, playerPos, 30))

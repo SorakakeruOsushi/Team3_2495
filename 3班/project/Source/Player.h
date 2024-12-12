@@ -16,6 +16,8 @@ public:
 	int hImage;
 	int jumpSE;    // サウンドハンドル(Hit) 
 
+	XINPUT_STATE input; //PAD操作用変数
+	
 	Stage* s;
 	PlayMode* pm;
 
@@ -41,6 +43,4 @@ public:
 	int patternX;
 	int patternY;
 	float timer;
-
-	XINPUT_STATE input; //PAD操作用変数
 };

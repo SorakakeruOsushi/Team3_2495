@@ -5,7 +5,7 @@
 #include "Stage.h"
 
 const float Gravity = 0.2f;							 //重力
-const float JumpHight = 30 * 32.5f;						 //ジャンプの高さ
+const float JumpHight = 30 * 2.5f;						 //ジャンプの高さ
 //			v0 = -  √   2   *   g     *    S
 const float V0 = -sqrtf(2.0f * Gravity * JumpHight); //放物線(ジャンプ)の式
 
@@ -17,8 +17,6 @@ Player::Player()
 	// Jumpサウンドデータを読み込む 
 	jumpSE = LoadSoundMem("data/sound/効果音ラボ/ジャンプ.mp3");  // プレイヤーJumpサウンド
 		assert(jumpSE > 0);
-
-		//pm = Instantiate<PlayMode>();
 
 	pm = FindGameObject<PlayMode>();
 		assert(pm != nullptr);

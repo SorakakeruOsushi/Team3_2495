@@ -13,8 +13,10 @@ int map[HEIGHT][WIDTH];
 
 Stage::Stage()
 {
-	for (int y = 0; y < HEIGHT; y++) {
-		for (int x = 0; x < WIDTH; x++) {
+	for (int y = 0; y < HEIGHT; y++) 
+	{
+		for (int x = 0; x < WIDTH; x++) 
+		{
 			map[y][x] = orgmap[y][x];
 		}
 	}
@@ -39,7 +41,7 @@ Stage::Stage()
 				p->position.x = CHIP_SIZE * i + SIDE_SPACE;
 				p->position.y = CHIP_SIZE * j + TOP_SPACE;
 			}
-			if (map[j][i] == 2)//コイン生成
+			if (map[j][i] == 7)//コイン生成
 			{
 				c = Instantiate<Coin>();
 				c->position.x = CHIP_SIZE * i + SIDE_SPACE;
@@ -66,16 +68,16 @@ void Stage::Draw()
 	DrawGraph(30*7 + 30*25, 0,wallImage, TRUE);
 
 	//マップタイル表示
-	for (int j = 0; j < HEIGHT; j++)// 縦「j」
+	for (int j = 0; j < HEIGHT; j++)	// 縦「j」
 	{
 		int y = j * CHIP_SIZE + TOP_SPACE;
-		for (int i = 0; i < WIDTH; i++)// 幅「i」
+		for (int i = 0; i < WIDTH; i++) // 幅「i」
 		{
 			int x = i * CHIP_SIZE + SIDE_SPACE;
 
 			if (cellBG)
 			{
-				if (map[j][i] == 0)		// マス目「Empty.png」
+				if (map[j][i] == 0)	// マス目「EmptyA1.png」
 				{
 					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 30);
 					//四角を表示(左上,右下、色(R,G,B)、塗りつぶし)
@@ -84,11 +86,11 @@ void Stage::Draw()
 				}
 			}
 
-			if (map[j][i] == 1)		// グレーブロック「Block.png」
+			if (map[j][i] == 1)		// グレーブロック「BlockA3.png」
 			{
 				DrawGraph(x, y - scroll, blockImage, TRUE);
 			}
-			if (map[j][i] == 8)		// ゴール「Xgoal.png」
+			if (map[j][i] == 8)		// ゴール「GoalLineShort.png」
 			{
 				DrawGraph(x, y - scroll, goalImage, TRUE);
 			}
