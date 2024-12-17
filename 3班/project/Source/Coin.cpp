@@ -1,36 +1,46 @@
 #include "Coin.h"
+#include <cassert>
 #include "Player.h"
 #include "Stage.h"
+#include "Time.h"
 
 Coin::Coin()
 {
 	//コンストラクタで絵をロード
-	coinImage = LoadGraph("data/image/Xgoal.png");
+	coinImage = LoadGraph("data/image/Xgoal.png");				 // 画像 コイン画像
+		assert(coinImage > 0);
+	/*
+	coinSE = LoadSoundMem("data/sound/効果音ラボ/ボヨン.mp3"); // SE コイン取得音
+		assert(coinSE > 0);
+	*/
+	
 	got = false;
+	CoinDraw = true;
+
+	destroyTimer = 0.0f;     //コイン表示タイマー
+	destroyTimeLimit = 0.1f; //コイン表示時間
 
 	s = FindGameObject<Stage>();
-	p = FindGameObject<Player>();
 }
 
 Coin::~Coin()
 {
 	DeleteGraph(coinImage);
+	//DeleteSoundMem(coinSE);
 }
 
 void Coin::Update()
 {
+	p = FindGameObject<Player>();
+
 	//取られたら
 	if (got)
 	{
-
-		position.y += v; //浮遊感与えちゃったか…
-		v += 9.8f / 60;  // 重力/60フレーム
-
-		counter -= 1;
-		if (counter == 0)
+		destroyTimer += Time::DeltaTime();
+		if (destroyTimer >= destroyTimeLimit)
 		{
-			p->gotCoin += 1;
 			//取得
+			p->gotCoin += 1;
 			DestroyMe(); //死ぬしかないじゃない！
 		}
 		return;			 //終わり！閉廷！以上！皆解散！
@@ -43,19 +53,14 @@ void Coin::Update()
 	//当たり判定："playerPos"と"position"が当たったら
 	if (CircleHit(position, playerPos, 30))
 	{
-		got = true;	  //取られた！
-		counter = 20; //死へのカウンター２０フレーム
-		v = -2.5;	  //跳ねる力(上方向なので「-」符号)
+		got = true;	      //取られた
 	}
 }
 
 void Coin::Draw()
 {
-	DrawGraph(position.x, position.y - s->scroll, coinImage, TRUE);
+	if (CoinDraw)
+	{
+		DrawGraph(position.x, position.y - s->scroll, coinImage, TRUE);
+	}
 }
-
-
-//放物線（二次方程式）　
-//[数学]　y = ax ^ 2 + bx + c;	　		←まぁ、使いませんケド！
-//[物理]　v = v0 + at／v = v0 + gt　	←ｖ:速 = v0:初速 + gt:初速　ｔ:時間
-//[プログラム]　x += v; v += g;

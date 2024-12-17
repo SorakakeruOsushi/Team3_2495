@@ -4,18 +4,18 @@
 
 FinishText::FinishText()
 {
-	finishTextImage = LoadGraph("data/image/XA1/xFINISH.png");
+	finishTextImage = LoadGraph("data/image/XA1/xFINISH.png");						  // 画像「FINISH」文字画像
 		assert(finishTextImage > 0);
-	gameOverTextImage = LoadGraph("data/image/XA1/xGAME_OVER.png");
+	gameOverTextImage = LoadGraph("data/image/XA1/xGAME_OVER.png");					  // 画像「GAME OVER」文字画像
 		assert(gameOverTextImage > 0);
 	bannerImage = LoadGraph("data/image/XA1/xバナー1.png");
 		assert(bannerImage > 0);
-	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png");
+	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png");// 画像「SPACEで終了」文字画像
 		assert(titleBackKeyTextImage > 0);
 
-	gameOverVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「ひゃーっ！」.mp3");
+	gameOverVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「ひゃーっ！」.mp3");	  // 音声「(悲鳴)」文字画像
 		assert(gameOverVoice > 0);
-	PlaySoundMem(gameOverVoice, DX_PLAYTYPE_BACK); // 悲鳴ボイス
+	PlaySoundMem(gameOverVoice, DX_PLAYTYPE_BACK); // 悲鳴ボイス再生
 
 	timer = 0.0f;
 	alpha = 0.0f;
@@ -77,11 +77,6 @@ void FinishText::Draw()
 	
 	if (timer >= 0.3f) //１秒超えたらずっと表示
 	{
-		//(x,y,色,文字列,変わる文字列)   「%d」を置き換える
-		//「%6d」 ：６桁用意する　（if文でカンストさせればオーバーしない）
-		//「%06d」：６桁用意する　空白を０で埋める
-		//「%06d%%」：「ｎ％」表示出来る
-
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha); //透過する
 	DrawBox(0, 0, 1280, 720, GetColor(0,0,0), TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
@@ -132,9 +127,14 @@ void FinishText::Draw()
 	// "スペースキーで終了"
 	if (timer >= 1.5f)
 	{
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-		DrawRectGraph(0, 600, 0,0, bannerSlide,50, bannerImage, TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		/* //ボックス
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255); //透過する
+		DrawBox(0, 600, bannerSlide, 650, GetColor(0, 0, 0), TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
+		*/
+		//SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+		//DrawRectGraph(0, 600, 0,0, bannerSlide,50, bannerImage, TRUE);
+		//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		if (timer >= 2.0f)
 		{
 			//「スペースキーを押して終了」表示

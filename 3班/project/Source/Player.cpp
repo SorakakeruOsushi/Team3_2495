@@ -4,24 +4,23 @@
 #include "GoalText.h"
 #include "Stage.h"
 
-const float Gravity = 0.2f;							 //重力
-const float JumpHight = 30 * 2.5f;						 //ジャンプの高さ
+const float Gravity = 0.3f;							 //重力
+const float JumpHight = 30 * 2.5f;				     //ジャンプの高さ
 //			v0 = -  √   2   *   g     *    S
 const float V0 = -sqrtf(2.0f * Gravity * JumpHight); //放物線(ジャンプ)の式
 
 Player::Player()
 {
 	// Playerは縦２x横１マスの大きさ
-	hImage = LoadGraph("data/image/TETRAall.png");
-		assert(hImage > 0);
-	// Jumpサウンドデータを読み込む 
-	jumpSE = LoadSoundMem("data/sound/効果音ラボ/ジャンプ.mp3");  // プレイヤーJumpサウンド
+	hImage = LoadGraph("data/image/TETRAall.png"); // 画像 プレイヤー
+		assert(hImage > 0); 
+	jumpSE = LoadSoundMem("data/sound/効果音ラボ/ジャンプ.mp3");  // SE プレイヤージャンプ
 		assert(jumpSE > 0);
 
 	pm = FindGameObject<PlayMode>();
 		assert(pm != nullptr);
-
 	s = FindGameObject<Stage>();
+		assert(pm != nullptr);
 
 	position.x = 0;
 	position.y = 0;
@@ -162,7 +161,7 @@ void Player::Update()
 			{
 				//2マス分飛ぶ velocity:速度
 				velocity = V0; //"初速"
-				PlaySoundMem(jumpSE, DX_PLAYTYPE_BACK);
+				PlaySoundMem(jumpSE, DX_PLAYTYPE_BACK); // ジャンプ音の再生
 			}
 		}
 		prevJumpKey = true;
@@ -247,6 +246,9 @@ void Player::Update()
 	{
 		finished = true;
 	}
+
+	
+
 
 	//ゴールした
 	if (!goaled && s->IsGoal(position + VECTOR2(22.5, 35))) //ゴールは左上でなく中心で（右に20,下に20ずれる）

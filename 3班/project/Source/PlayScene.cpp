@@ -60,6 +60,7 @@ PlayScene::PlayScene()
 	bestHeight = 0.0f;
 
 	changeBGheight = 50 /3;
+	gameBGImage = hBGImageI;
 }
 
 PlayScene::~PlayScene()
@@ -216,9 +217,9 @@ void PlayScene::Draw()
 	DrawFormatString(1030, 630, GetColor(255, 255, 255), "BEST TIME:%4.2f", bestTime->GetBestTime() );
 
 	//プレイモード(TETRA/BLOCK)
-	DrawGraph(5, 530, playModeTextImage, TRUE); //playModeImageに入れる画像を切り替える?
+	DrawGraph(5, 530, playModeTextImage, TRUE);  // playModeTextImageに入れる画像を切り替える
 	//「CHANGE：[C] KEY」表示
-	DrawGraph(5, 600, modeChangeTextImage, TRUE);
+	DrawGraph(5, 600, modeChangeTextImage, TRUE);// modeChangeTextImageに入れる画像を切り替える
 }
 
 void PlayScene::CheckBestTime()

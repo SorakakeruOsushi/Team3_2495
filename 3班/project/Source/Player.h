@@ -13,8 +13,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	int hImage;
-	int jumpSE;    // サウンドハンドル(Hit) 
+	int hImage; // 画像 プレイヤー
+	int jumpSE; // SE ジャンプ音
 
 	XINPUT_STATE input; //PAD操作用変数
 	
