@@ -22,10 +22,8 @@ Stage::Stage()
 			map[y][x] = orgmap[y][x];
 		}
 	}
-<<<<<<< HEAD
-
-=======
 	
+	// 画像 ミノ画像
 	MinoImage[2] = LoadGraph("data/image/Lmino_One.png");
 	MinoImage[3] = LoadGraph("data/image/Jmino_One.png");
 	MinoImage[4] = LoadGraph("data/image/Tmino_One.png");
@@ -33,7 +31,7 @@ Stage::Stage()
 	for (int i = 2; i < 6; i++) {
 		assert(MinoImage[i] > 0);
 	}
->>>>>>> Blockstage
+
 	emptyImage = LoadGraph("data/image/EmptyA1.png");
 		assert(emptyImage > 0);
 	blockImage = LoadGraph("data/image/BlockA2.png");
@@ -54,11 +52,7 @@ Stage::Stage()
 				p->position.x = CHIP_SIZE * i + SIDE_SPACE;
 				p->position.y = CHIP_SIZE * j + TOP_SPACE;
 			}
-<<<<<<< HEAD
 			if (map[j][i] == 7) //コイン生成
-=======
-			if (map[j][i] == 7)//コイン生成
->>>>>>> Blockstage
 			{
 				c = Instantiate<Coin>();
 				c->position.x = CHIP_SIZE * i + SIDE_SPACE;
@@ -105,24 +99,25 @@ void Stage::Draw()
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
 				}
 			}
-<<<<<<< HEAD
 
-			if (map[j][i] == 1)		// グレーブロック「BlockA3.png」
+			/*
+			if (map[j][i] == 1)		
 			{
 				DrawGraph(x, y - scroll, blockImage, TRUE);
 			}
-			if (map[j][i] == 8)		// ゴール「GoalLineShort.png」
-=======
+			if (map[j][i] == 8)	
+			*/
+
 			int chip = map[j][i];
-			if (chip == 1)		// グレーブロック「Block.png」
+			if (chip == 1)		     // グレーブロック「BlockA3.png」
 			{
 				DrawGraph(x, y - scroll, blockImage, TRUE);
 			}
 			else if (chip >= 2 && chip < 6) {
 				DrawGraph(x, y - scroll, MinoImage[chip], TRUE);
 			}
-			else if (map[j][i] == 8)		// ゴール「Xgoal.png」
->>>>>>> Blockstage
+			else if (map[j][i] == 8) // ゴール「GoalLineShort.png」
+
 			{
 				DrawGraph(x, y - scroll, goalImage, TRUE);
 			}

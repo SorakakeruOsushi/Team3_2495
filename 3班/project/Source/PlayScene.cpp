@@ -26,10 +26,14 @@ PlayScene::PlayScene()
 		assert(nextTextImage > 0);
 	modeChangeTextImage = LoadGraph("data/image/XA1/xChangeCKey.png");
 		assert(modeChangeTextImage > 0);
+	ladyTextImage = LoadGraph("data/image/XA1/xレディ.png"); //画像「レディ…」の文字画像
+		assert(ladyTextImage > 0);
+	goTextImage = LoadGraph("data/image/XA1/xゴー.png");	 //画像「ゴー！」の文字画像
+		assert(goTextImage > 0);
 	// 無くてもいい?
-	playModeTextImage = LoadGraph("data/image/XA1/xTETRA.png"); // プレイモードのデフォルトは「TETRA」
+	playModeTextImage = LoadGraph("data/image/XA1/xTETRA.png");	 // プレイモードのデフォルトは「TETRA」
 		assert(modeChangeTextImage > 0);
-	playModeBGImage = LoadGraph("data/image/X/XmodeBGtetra.png");   // プレイモードのデフォルトは「TETRA」
+	playModeBGImage = LoadGraph("data/image/X/XmodeBGtetra.png");// プレイモードのデフォルトは「TETRA」
 		assert(modeChangeTextImage > 0);
 
 	// 画像 背景1,2,3
@@ -40,16 +44,10 @@ PlayScene::PlayScene()
 	hBGImageIII = LoadGraph("data/image/Back3.JPG");
 		assert(hBGImageIII > 0);
 	// 音声読み込み
-	titleBackVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");
+	titleBackVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音声 [T]タイトルに戻る
 		assert(titleBackVoice > 0);
-	changeModeVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「はいは～い♪」.mp3");
+	changeModeVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「はいは～い♪」.mp3");// 音声 [C]プレイモード変更
 		assert(changeModeVoice > 0);
-	/*
-	// BGMのループ再生
-	gameBGM = LoadSoundMem("data/sound/効果音ラボ/水のしたたる洞窟.mp3");
-		assert(gameBGM > 0);
-	PlaySoundMem(gameBGM, DX_PLAYTYPE_LOOP);
-	*/
 
 	g = nullptr;
 	f = nullptr;
@@ -65,18 +63,20 @@ PlayScene::PlayScene()
 
 PlayScene::~PlayScene()
 {
-	DeleteGraph(hBGImageI);			 // プレイシーン 背景
-	DeleteGraph(hBGImageII);
-	DeleteGraph(hBGImageIII);
+	DeleteGraph(hBGImageI);			 // 画像 プレイシーン 背景1
+	DeleteGraph(hBGImageII);		 // 画像 プレイシーン 背景2
+	DeleteGraph(hBGImageIII);		 // 画像 プレイシーン 背景3
 
-	DeleteGraph(playModeTextImage); //「TETRA」か「BLOCK」
-	DeleteGraph(playModeTextImage); // プレイエリア プレイモード背景
+	DeleteGraph(playModeTextImage);  // 画像「TETRA」か「BLOCK」
+	DeleteGraph(playModeTextImage);  // 画像  プレイエリア プレイモード背景
+	DeleteGraph(ladyTextImage);  // 画像「レディ」
+	DeleteGraph(goTextImage);  // 画像「ゴー」
 
-	DeleteGraph(nextTextImage);		 //「NEXT」
-	DeleteGraph(modeChangeTextImage);//「CHANGE:[C]KEY」
-	DeleteSoundMem(titleBackVoice);
-	DeleteSoundMem(changeModeVoice);
-	// DeleteSoundMem(gameBGM);
+	DeleteGraph(nextTextImage);		 // 画像「NEXT」
+	DeleteGraph(modeChangeTextImage);// 画像「CHANGE:[C]KEY」
+
+	DeleteSoundMem(titleBackVoice);  //音声「CHANGE:[C]KEY」
+	DeleteSoundMem(changeModeVoice); //音声「CHANGE:[C]KEY」
 }
 
 void PlayScene::Update()
@@ -192,12 +192,17 @@ void PlayScene::Draw()
 	DrawGraph(0, -(Screen::HEIGHT * 1) - s->scroll, hBGImageII, TRUE);  //下から２番目
 	DrawGraph(0, -(Screen::HEIGHT * 2) - s->scroll, hBGImageIII, TRUE); //下から３番目
 	*/
-	DrawGraph(0, 0, gameBGImage, TRUE); // TETRA/BLOCK
+	// プレイエリア外のの背景
+	DrawGraph(0, 0, gameBGImage, TRUE); // 洞窟の背景
 
 	// プレイモード背景
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 	DrawGraph(30 * 8, 0, playModeBGImage, TRUE); // TETRA/BLOCK
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	//「レディ…」→「ゴー！」
+	DrawGraph(350, 250, ladyTextImage, TRUE); //「レディ…」
+	DrawGraph(430, 230, goTextImage, TRUE);   //「ゴー！」
 
 	//「NEXT」表示
 	DrawGraph(1025, 50, nextTextImage, TRUE);

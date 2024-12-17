@@ -28,7 +28,6 @@ public:
 
 	float speed;		//速度
 
-
 	float velocity;		//力と方向
 	bool prevJumpKey;	//前のジャンプキー
 	bool onGround;		//接地判定

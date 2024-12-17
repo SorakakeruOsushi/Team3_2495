@@ -4,8 +4,8 @@
 
 RestartScene::RestartScene()
 {
-	
-	resetTextImage = LoadGraph("data/image/XA1/xRESET.png"); //「RESET!」
+	//「RESET!」
+	resetTextImage = LoadGraph("data/image/XA1/xRESET.png"); 
 		assert(resetTextImage > 0);
 	//resetSE = LoadSoundMem("data/sound/効果音ラボ/ジャンプ.mp3");  // リセットサウンド
 	//	assert(resetSE > 0);

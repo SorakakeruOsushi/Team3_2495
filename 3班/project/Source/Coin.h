@@ -16,6 +16,7 @@ public:
 
 	int coinImage; // 画像 コイン画像
 	int coinSE;    // SE コイン取得音
+
 	VECTOR2 position;
 
 	bool got;		 //魔理沙は大変なコインを盗んでいきました
@@ -23,4 +24,5 @@ public:
 	bool CoinDraw;
 	float destroyTimer;     //コイン表示タイマー
 	float destroyTimeLimit; //コイン表示時間
+	float v;//跳ねる動きの速度
 };

@@ -7,7 +7,7 @@
 Coin::Coin()
 {
 	//コンストラクタで絵をロード
-	coinImage = LoadGraph("data/image/Xgoal.png");				 // 画像 コイン画像
+	coinImage = LoadGraph("data/image/Coin.PNG");				 // 画像 コイン画像
 		assert(coinImage > 0);
 	/*
 	coinSE = LoadSoundMem("data/sound/効果音ラボ/ボヨン.mp3"); // SE コイン取得音
@@ -36,6 +36,9 @@ void Coin::Update()
 	//取られたら
 	if (got)
 	{
+		position.y += v;//浮遊感与えちゃったか…
+		v += 9.8f / 60; // 重力/60フレーム
+
 		destroyTimer += Time::DeltaTime();
 		if (destroyTimer >= destroyTimeLimit)
 		{
@@ -54,6 +57,7 @@ void Coin::Update()
 	if (CircleHit(position, playerPos, 30))
 	{
 		got = true;	      //取られた
+		v = -2.5;//跳ねる力(上方向なので「-」符号)
 	}
 }
 

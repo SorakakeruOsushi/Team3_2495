@@ -20,20 +20,18 @@ public:
 
 	int nextTextImage;		// 画像「NEXT」の文字画像
 	int modeChangeTextImage;// 画像「CHANGE:[C]KEY」の文字画像
-
+	int ladyTextImage; //画像「レディ…」の文字画像
+	int goTextImage;   //画像「ゴー！」の文字画像
 	int playModeTextImage;  // 画像「(現在のプレイモード)」の文字画像
 	int playModeBGImage;	// 画像 「(現在のプレイモード)」プレイエリア背景画像
-
-	int gameBGImage;
+	int gameBGImage; // 画像 ゲーム背景
 	int changeBGheight;
-
-	int hBGImageI;    // 画像 背景1
-	int hBGImageII;   // 画像 背景2
-	int hBGImageIII;  // 画像 背景3
+		int hBGImageI;    // 画像 背景1
+		int hBGImageII;   // 画像 背景2
+		int hBGImageIII;  // 画像 背景3
 
 	int titleBackVoice;		// 音声 [T]タイトルに戻るとき
 	int changeModeVoice;	// 音声 [C]プレイモード変更
-	int gameBGM;			// 音楽 BGM
 
 	float playTime;		//プレイ時間
 
