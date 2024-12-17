@@ -129,10 +129,19 @@ void PlayScene::Update()
 	// プレイモード切り替え
 	if ( (KeyUtility::CheckTrigger(KEY_INPUT_C)) || (input.Buttons[XINPUT_BUTTON_Y]) )
 	{
-		PlaySoundMem(changeModeVoice, DX_PLAYTYPE_BACK);
-		//PlayModeクラスから関数を呼び出す
-		pm->changeMode();
+		// ボタンを押し込んだ時だけ入力を取る
+		if (!isButtonDown) {
+			PlaySoundMem(changeModeVoice, DX_PLAYTYPE_BACK);
+			//PlayModeクラスから関数を呼び出す
+			pm->changeMode();
+		}
+
+		isButtonDown = true;
 	}
+	else {
+		isButtonDown = false;
+	}
+
 	if (pm->playMode == 0) // テトラモード
 	{
 		playModeTextImage = LoadGraph("data/image/XA1/xTETRA.png");

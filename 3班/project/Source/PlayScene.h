@@ -17,6 +17,7 @@ public:
 	void Draw() override;
 
 	XINPUT_STATE input; // PAD操作用変数
+	bool isButtonDown;	// プレイモード切り替えで、ボタンの押し込んだ時の入力を取るのに使います
 
 	int nextTextImage;		// 画像「NEXT」の文字画像
 	int modeChangeTextImage;// 画像「CHANGE:[C]KEY」の文字画像
