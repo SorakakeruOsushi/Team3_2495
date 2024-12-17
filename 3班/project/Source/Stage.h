@@ -3,7 +3,8 @@
 #include "Vector2.h"
 #include "Screen.h"
 #include "Coin.h"
-//#include "Block.h"
+//include "Block.h"
+
 class Block;
 
 class Player;
@@ -19,6 +20,7 @@ public:
 	int blockImage;  // 画像 灰ブロック
 	int goalImage;	 // 画像 ゴール(仮)
 	int wallImage;   // 画像 横の壁
+	int MinoImage[6];//ミノの画像
 
 	int IsWallRight(VECTOR2 pos);
 	int IsWallLeft(VECTOR2 pos);

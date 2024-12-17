@@ -20,8 +20,14 @@ Stage::Stage()
 			map[y][x] = orgmap[y][x];
 		}
 	}
-
-
+	
+	MinoImage[2] = LoadGraph("data/image/Lmino_One.png");
+	MinoImage[3] = LoadGraph("data/image/Jmino_One.png");
+	MinoImage[4] = LoadGraph("data/image/Tmino_One.png");
+	MinoImage[5] = LoadGraph("data/image/Omino_One.png");
+	for (int i = 2; i < 6; i++) {
+		assert(MinoImage[i] > 0);
+	}
 	emptyImage = LoadGraph("data/image/EmptyA1.png");
 		assert(emptyImage > 0);
 	blockImage = LoadGraph("data/image/Block.png");
@@ -54,7 +60,7 @@ Stage::Stage()
 	cellBG = true;
 
 	
-	b== FindGameObject<Block>();
+	b = FindGameObject<Block>();
 }
 
 Stage::~Stage()
@@ -95,7 +101,7 @@ void Stage::Draw()
 				DrawGraph(x, y - scroll, blockImage, TRUE);
 			}
 			else if (chip >= 2 && chip < 6) {
-				DrawGraph(x, y - scroll, b->hImage[chip], TRUE);
+				DrawGraph(x, y - scroll, MinoImage[chip], TRUE);
 			}
 			else if (map[j][i] == 8)		// ÉSÅ[ÉãÅuXgoal.pngÅv
 			{
