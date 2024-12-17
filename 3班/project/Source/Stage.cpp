@@ -29,7 +29,7 @@ Stage::Stage()
 	MinoImage[4] = LoadGraph("data/image/Tmino_One.png");
 	MinoImage[5] = LoadGraph("data/image/Omino_One.png");
 	for (int i = 2; i < 6; i++) {
-		assert(MinoImage[i] > 0);
+ 		assert(MinoImage[i] > 0);
 	}
 
 	emptyImage = LoadGraph("data/image/EmptyA1.png");
