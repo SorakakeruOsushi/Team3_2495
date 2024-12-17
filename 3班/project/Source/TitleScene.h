@@ -20,7 +20,7 @@ public:
 	int titleImage;			// 画像 タイトル画面
 	int titleLogoImage;		// 画像 タイトルロゴ
 	int titleBGImage;		// 画像 タイトル背景
-	//int pushKeyTextImage;   // 画像「PUSH ANY KEY」の文字画像
+	int pushKeyTextImage;   // 画像「PUSH ANY KEY」の文字画像
 
 	float DrawKeyTimer;		// タイマー 
 	bool IsDraw;				// 描画

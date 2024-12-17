@@ -11,10 +11,8 @@ TitleScene::TitleScene()
 		assert(titleLogoImage > 0);
 	titleBGImage = LoadGraph("data/image/Back1.png"); // ƒ^ƒCƒgƒ‹ƒƒS
 		assert(titleBGImage > 0);
-	/*
-	pushKeyTextImage = LoadGraph("data/image/XA1/xPushAnyKey.png");
+	pushKeyTextImage = LoadGraph("data/image/XA1/xPushAnyKey.png"); //uPUSH ANY KEYv
 		assert(pushKeyTextImage > 0);
-	*/
 	
 	DrawKeyTimer = 0.0f;  // ƒ^ƒCƒ}[ 
 	IsDraw = true;
@@ -25,7 +23,7 @@ TitleScene::~TitleScene()
 	DeleteGraph(titleImage);
 	DeleteGraph(titleLogoImage);
 	DeleteGraph(titleBGImage);
-	//DeleteGraph(pushKeyTextImage);
+	DeleteGraph(pushKeyTextImage);
 }
 
 void TitleScene::Update()
@@ -68,13 +66,14 @@ void TitleScene::Draw()
 	SetFontSize(50);
 	if (IsDraw)
 	{
-		DrawString(340, 500, "‚o‚t‚r‚g ‚`‚m‚x ‚j‚d‚x", GetColor(255, 255, 255), TRUE);
+		// DrawString(340, 500, "‚o‚t‚r‚g ‚`‚m‚x ‚j‚d‚x", GetColor(255, 255, 255), TRUE);
+		DrawGraph(270, 500, pushKeyTextImage, TRUE);
 	}
-	//DrawGraph(300, 500, pushKeyTextImage, TRUE);
 
 	SetFontSize(25);
 	DrawString(585, 615, "‚g‚d‚k‚o", GetColor(255, 255, 255));
 	DrawString(560, 650, "‚b‚n‚m‚e‚h‚f", GetColor(255, 255, 255));
 
-	DrawString(1280 / 2, 720 / 2, ".", GetColor(255, 0, 0), TRUE);
+	//’²®—pƒZƒ“ƒ^[ƒhƒbƒg
+	//DrawString(1280/2, 720/2, ".", GetColor(255, 0, 0), TRUE);
 }

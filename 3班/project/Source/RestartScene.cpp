@@ -4,14 +4,17 @@
 
 RestartScene::RestartScene()
 {
-	/*
-	resetTextImage = LoadGraph("data/image/XA1/xRESET.png");
+	
+	resetTextImage = LoadGraph("data/image/XA1/xRESET.png"); //「RESET!」
 		assert(resetTextImage > 0);
-	*/
+	//resetSE = LoadSoundMem("data/sound/効果音ラボ/ジャンプ.mp3");  // リセットサウンド
+	//	assert(resetSE > 0);
+	//PlaySoundMem(resetSE, DX_PLAYTYPE_BACK);
 }
 RestartScene::~RestartScene()
 {
-	//DeleteGraph(resetTextImage);
+	DeleteGraph(resetTextImage);
+	//DeleteSoundMem(resetSE);
 }
 void RestartScene::Update()
 {
@@ -21,13 +24,16 @@ void RestartScene::Update()
 
 void RestartScene::Draw()
 {
-	// [RESET!]表示 
+	// [RESET!]表示
+	DrawGraph(30 * 8.5, 200, resetTextImage, TRUE);
+	/* 
 	SetFontSize(60);
 	DrawString(420, 340, "ＲＥＳＥＴ!", GetColor(255, 255, 255), TRUE);
+	*/
 
 	/*
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-	DrawGraph(30*8.5,200, resetTextImage, TRUE);
+	
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	*/
 }

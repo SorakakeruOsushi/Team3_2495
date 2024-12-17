@@ -2,7 +2,7 @@
 #include <cassert>
 #include "Player.h"
 
-//ステージ
+//開始時にステージをランダムでロードしたい
 #include "stageXtest.h"
 //#include "stage1.h"
 
@@ -35,13 +35,13 @@ Stage::Stage()
 	{
 		for (int i = 0; i < WIDTH; i++) //「i」横
 		{
-			if (map[j][i] == 9)//プレイヤー生成
+			if (map[j][i] == 9) //プレイヤー生成
 			{
 				p = Instantiate<Player>();
 				p->position.x = CHIP_SIZE * i + SIDE_SPACE;
 				p->position.y = CHIP_SIZE * j + TOP_SPACE;
 			}
-			if (map[j][i] == 7)//コイン生成
+			if (map[j][i] == 7) //コイン生成
 			{
 				c = Instantiate<Coin>();
 				c->position.x = CHIP_SIZE * i + SIDE_SPACE;
@@ -97,6 +97,11 @@ void Stage::Draw()
 		}
 	}
 }
+
+//########################################################
+// 使うかもしれない
+//if (map[j][i] == 1)
+//if ( (map[j][i] == 1)|| (map[j][i] == 2) || (map[j][i] == 3) || (map[j][i] == 4) || (map[j][i] == 5) )
 
 //ブロックの当たり判定
 int Stage::IsWallRight(VECTOR2 pos)//posにはplayer座標が入る

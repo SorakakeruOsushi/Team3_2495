@@ -14,11 +14,13 @@ public:
 	Stage* s;
 	Player* p;
 
-	int coinImage;
+	int coinImage; // 画像 コイン画像
+	int coinSE;    // SE コイン取得音
 	VECTOR2 position;
 
-	bool got;	 //魔理沙は大変なコインを盗んでいきました
-	int counter; //コイン表示の寿命
+	bool got;		 //魔理沙は大変なコインを盗んでいきました
 
-	float v;	 //跳ねる動きの速度
+	bool CoinDraw;
+	float destroyTimer;     //コイン表示タイマー
+	float destroyTimeLimit; //コイン表示時間
 };
