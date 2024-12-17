@@ -48,5 +48,8 @@ public:
 	bool isTurn;//‰ñ“]‚µ‚½‚©
 
 	PlayMode* pm;
+	Player* p;
+
+	XINPUT_STATE input; //PAD‘€ì—p•Ï”
 };
 

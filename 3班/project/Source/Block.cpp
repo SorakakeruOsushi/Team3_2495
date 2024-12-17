@@ -242,6 +242,9 @@ Block::Block()
 {
 
 	s = FindGameObject<Stage>();
+	assert(s != nullptr);
+	p = FindGameObject<Player>();
+	assert(p != nullptr);
 
 	isMovedLeft = false;
 	isMovedRight = false;
@@ -262,7 +265,7 @@ Block::Block()
 	nowBlock.rotation = 0;
 	nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
 	nextBlock.rotation = 0;
-	for (int i = 0; i < ShapeType::SHAPE_MAX; i++) {
+	for (int i = 2; i < 6; i++) {
 		hImage[i] = -1;
 	}
 	hImage[2] = LoadGraph("data/image/Lmino_One.png");
@@ -272,12 +275,11 @@ Block::Block()
 
 	pm = FindGameObject<PlayMode>();
 	assert(pm != nullptr);
-
 }
 
 Block::~Block()
 {
-	for (int i = 0; i < ShapeType::SHAPE_MAX; i++) {
+	for (int i = 2; i < 6; i++) {
 		if (hImage[i] > 0) {
 			DeleteGraph(hImage[i]);
 		}
@@ -288,14 +290,17 @@ Block::~Block()
 
 void Block::Update()
 {
-	/*if (finished || goaled)
+	if (p->finished || p->goaled)
 	{
 		return;
 	}
-	else*/ if (pm->playMode == 0)
+	else if (pm->playMode == 0)
 	{
 		return;
 	}
+
+	//パッド用関数(毎フレーム呼び出す)
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
 	//ブロックを落とす
 	if (CheckHitKey(KEY_INPUT_S)) {
@@ -318,8 +323,9 @@ void Block::Update()
 		}
 		counter = 0.0f;
 	}
-	//左に移動
-	if (CheckHitKey(KEY_INPUT_A)) {
+	//左に移動(A・←・PAD←)
+	if (CheckHitKey(KEY_INPUT_A)||(CheckHitKey(KEY_INPUT_LEFT)) 
+		||(input.Buttons[XINPUT_BUTTON_DPAD_LEFT])) {
 		if (isMovedLeft == false) {
 			position.x--;
 			isMovedLeft = true;
@@ -328,8 +334,9 @@ void Block::Update()
 	else {
 		isMovedLeft = false;
 	}
-	//右に移動
-	if (CheckHitKey(KEY_INPUT_D)) {
+	//右に移動(D・→・PAD→)
+	if (CheckHitKey(KEY_INPUT_D) || (CheckHitKey(KEY_INPUT_RIGHT)) 
+		|| (input.Buttons[XINPUT_BUTTON_DPAD_RIGHT])) {
 		if (isMovedRight == false) {
 			position.x++;
 			isMovedRight = true;
@@ -338,18 +345,28 @@ void Block::Update()
 	else {
 		isMovedRight = false;
 	}
-	// 回転
-	if (CheckHitKey(KEY_INPUT_SPACE)) {
+	// 回転(スペース、RBボタン)
+	if (CheckHitKey(KEY_INPUT_SPACE)||
+		input.Buttons[XINPUT_BUTTON_RIGHT_SHOULDER]) {
 		if (not isTurn) {
 			nowBlock.rotation = (nowBlock.rotation + 1) % 4; // ４回転で一周
 			isTurn = true; 
 		}
 	}
+	//左回転(左右のShift、LBボタン)
+	else if (CheckHitKey(KEY_INPUT_RSHIFT) || CheckHitKey(KEY_INPUT_LSHIFT)
+		|| input.Buttons[XINPUT_BUTTON_LEFT_SHOULDER]) {
+		if (not isTurn) {
+			nowBlock.rotation -= 1;
+			if (nowBlock.rotation <= -1) {
+				nowBlock.rotation = 3;
+			}
+			isTurn = true;
+		}
+	}
 	else {
 		isTurn = false;
 	}
-	
-
 }
 
 void Block::Draw()
