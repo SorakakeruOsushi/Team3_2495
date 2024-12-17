@@ -1,20 +1,26 @@
 #include "Stage.h"
 #include <cassert>
+#include <sstream>
+#include <fstream>
 #include "Player.h"
 #include "Block.h"
 
 
 //開始時にステージをランダムでロードしたい
-#include "stageXtest.h"
+//#include "stageXtest.h"
 //#include "stage1.h"
+const int WIDTH = 24;		//ステージ 幅
+const int HEIGHT = 51;		//ステージ 高(もっと高くなる?)50とか
 
 const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24)); 
 const int SIDE_SPACE = CHIP_SIZE * 8; //横余白
+const char* STAGE_DATA_PATH = "data/Stage/Stage%02d.csv";	//	ブロック配置情報のファイル名
 
 int map[HEIGHT][WIDTH];
 
 Stage::Stage()
 {
+#if false
 	for (int y = 0; y < HEIGHT; y++) 
 	{
 		for (int x = 0; x < WIDTH; x++) 
@@ -22,6 +28,34 @@ Stage::Stage()
 			map[y][x] = orgmap[y][x];
 		}
 	}
+#endif
+
+	//ランダムなCSVファイルを読み込んでステージ生成する！(堀越先生ありがとう！)
+	int stageNo = 0;
+	stageNo = GetRand(9) + 1;
+
+	char stageFile[100];
+	sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
+
+	// std::ifstream ifs(stageFile); //Stage(01～10).CSV
+	std::ifstream ifs("data/stage/Test.csv"); //テスト.CSV
+
+	std::string text;
+	int y = 0;
+	while (std::getline(ifs, text))
+	{
+		//  [,]で分割する
+		std::vector<std::string> element = split(text, ',');
+
+		for (int x = 0; x < element.size(); x++)
+		{
+			int id = std::stoi(element[x]);
+			map[y][x] = id;
+		}
+		y++;
+	}
+	ifs.close();
+
 	
 	// 画像 ミノ画像
 	MinoImage[2] = LoadGraph("data/image/Lmino_One.png");
@@ -207,3 +241,20 @@ bool Stage::IsGoal(VECTOR2 pos)
 	}
 	return false;
 }
+
+// 区切り文字を指定して文字列を分割する
+std::vector<std::string> Stage::split(const std::string& text, char delim)
+{
+	std::vector<std::string>elements;
+	std::stringstream ss(text);
+	std::string item;
+	while (getline(ss, item, delim))
+	{
+		if (!item.empty())
+		{
+			elements.push_back(item);
+		}
+	}
+	return elements;
+}
+
