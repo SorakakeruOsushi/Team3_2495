@@ -287,7 +287,6 @@ Block::~Block()
 }
 
 
-
 void Block::Update()
 {
 	if (p->finished || p->goaled)
@@ -313,7 +312,7 @@ void Block::Update()
 	if (counter >= timer) {
 		if (position.y >= 20) { // 本当は、既にあるブロックの上に乗ったら
 			nowBlock = nextBlock;
-			position.x = WIDTH-5;
+			position.x = WIDTH - 5;
 			position.y = 0;
 			nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
 			nextBlock.rotation = 0;
@@ -324,33 +323,62 @@ void Block::Update()
 		counter = 0.0f;
 	}
 	//左に移動(A・←・PAD←)
-	if (CheckHitKey(KEY_INPUT_A)||(CheckHitKey(KEY_INPUT_LEFT)) 
-		||(input.Buttons[XINPUT_BUTTON_DPAD_LEFT])) {
+	if (CheckHitKey(KEY_INPUT_A) || (CheckHitKey(KEY_INPUT_LEFT))
+		|| (input.Buttons[XINPUT_BUTTON_DPAD_LEFT])) {
 		if (isMovedLeft == false) {
 			position.x--;
 			isMovedLeft = true;
+			pressTimerL = 20;//pressTimerを20Fに設定
 		}
+		pressTimerL--;
+		if (pressTimerL <= 0 && isMovedLeft == true) {//pressTimerが0以下かつ長押し中
+			position.x--;
+			pressTimerL = 3;//pressTimerを3Fに設定(3F毎に繰り返す)
+		}
+		SetPosition();
+		//左に壁があるか調べる
+		/*int push = s->IsWallLeft(nowPosition + VECTOR2(0, 0));
+		position.x += push;
+		push = s->IsWallLeft(nowPosition + VECTOR2(0, 34));
+		position.x += push;
+		push = s->IsWallLeft(nowPosition + VECTOR2(0, 35));
+		position.x += push;
+		push = s->IsWallLeft(nowPosition + VECTOR2(0, 69));
+		position.x += push;*/
 	}
 	else {
 		isMovedLeft = false;
 	}
 	//右に移動(D・→・PAD→)
-	if (CheckHitKey(KEY_INPUT_D) || (CheckHitKey(KEY_INPUT_RIGHT)) 
+	if (CheckHitKey(KEY_INPUT_D) || (CheckHitKey(KEY_INPUT_RIGHT))
 		|| (input.Buttons[XINPUT_BUTTON_DPAD_RIGHT])) {
 		if (isMovedRight == false) {
 			position.x++;
 			isMovedRight = true;
+			pressTimerR = 20;//pressTimerを20Fに設定
 		}
+		pressTimerR--;
+		if (pressTimerR <= 0 && isMovedRight) {//pressTimerが0以下かつ長押し中
+			position.x++;
+			pressTimerR = 3;//pressTimerを3Fに設定(3F毎に繰り返す)
+		}
+
 	}
 	else {
 		isMovedRight = false;
 	}
 	// 回転(スペース、RBボタン)
-	if (CheckHitKey(KEY_INPUT_SPACE)||
+	if (CheckHitKey(KEY_INPUT_SPACE) ||
 		input.Buttons[XINPUT_BUTTON_RIGHT_SHOULDER]) {
 		if (not isTurn) {
 			nowBlock.rotation = (nowBlock.rotation + 1) % 4; // ４回転で一周
-			isTurn = true; 
+			isTurn = true;
+			pressTimerRT = 20;//pressTimerを20Fに設定
+		}
+		pressTimerRT--;
+		if (pressTimerRT <= 0 && isTurn) {
+			nowBlock.rotation = (nowBlock.rotation + 1) % 4;
+			pressTimerRT = 3;//pressTimerを3Fに設定(3F毎に繰り返す)
 		}
 	}
 	//左回転(左右のShift、LBボタン)
@@ -362,6 +390,19 @@ void Block::Update()
 				nowBlock.rotation = 3;
 			}
 			isTurn = true;
+			pressTimerLT = 20;//pressTimerを20Fに設定
+		}
+		pressTimerLT--;
+		if (pressTimerLT <= 0 && isTurn) {//pressTimerが0以下かつ長押し中
+			TurnWaitTimer--;
+			if (TurnWaitTimer < 0) {
+				TurnWaitTimer = 2;//回転の書き方のせいでここだけ早いので遅延
+				nowBlock.rotation -= 1;
+				if (nowBlock.rotation <= -1) {
+					nowBlock.rotation = 3;
+					pressTimerLT = 3;//pressTimerを3Fに設定(3F毎に繰り返す)
+				}
+			}
 		}
 	}
 	else {
