@@ -37,7 +37,7 @@ Stage::Stage()
 	char stageFile[100];
 	sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
 
-	// std::ifstream ifs(stageFile); //Stage(01Å`10).CSV
+	// std::ifstream ifs(stageFile);		  //Stage(01Å`10).CSV
 	std::ifstream ifs("data/stage/Test.csv"); //ÉeÉXÉg.CSV
 
 	std::string text;

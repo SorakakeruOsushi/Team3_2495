@@ -4,7 +4,7 @@
 
 FinishText::FinishText()
 {
-	finishTextImage = LoadGraph("data/image/XA1/xFINISH.png");						  // 画像「FINISH」文字画像
+	finishTextImage = LoadGraph("data/image/XA1/xFinishA1.png");						  // 画像「FINISH」文字画像
 		assert(finishTextImage > 0);
 	gameOverTextImage = LoadGraph("data/image/XA1/xGAME_OVER.png");					  // 画像「GAME OVER」文字画像
 		assert(gameOverTextImage > 0);

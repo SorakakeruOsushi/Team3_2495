@@ -12,7 +12,7 @@ PlayScene::PlayScene()
 	pm = Instantiate<PlayMode>();
 	s = Instantiate<Stage>();
 	
-	//
+	// コンストラクタ
 	p = FindGameObject<Player>();
 		assert(pm != nullptr);
 	pm = FindGameObject<PlayMode>();
@@ -22,13 +22,17 @@ PlayScene::PlayScene()
 
 	Instantiate<Block>();
 	// 画像読み込み
-	nextTextImage = LoadGraph("data/image/XA1/xNEXT.png");
+	nextTextImage = LoadGraph("data/image/XA1/xNEXT.png");   // 画像「NEXT」
 		assert(nextTextImage > 0);
-	modeChangeTextImage = LoadGraph("data/image/XA1/xChangeCKey.png");
+	modeChangeTextImage = LoadGraph("data/image/XA1/xChangeCKey.png"); // 画像「ChangeC」
 		assert(modeChangeTextImage > 0);
-	ladyTextImage = LoadGraph("data/image/XA1/xレディ.png"); //画像「レディ…」の文字画像
+
+	modeChangeTextImage = LoadGraph("data/image/XA1/xChangeCKey.png"); // 画像「ChangeC」
+		assert(modeChangeTextImage > 0);
+
+	ladyTextImage = LoadGraph("data/image/XA1/xレディA1.png"); //画像「レディ…」
 		assert(ladyTextImage > 0);
-	goTextImage = LoadGraph("data/image/XA1/xゴー.png");	 //画像「ゴー！」の文字画像
+	goTextImage = LoadGraph("data/image/XA1/xゴーA1.png");	 //画像「ゴー！」
 		assert(goTextImage > 0);
 	// 無くてもいい?
 	playModeTextImage = LoadGraph("data/image/XA1/xTETRA.png");	 // プレイモードのデフォルトは「TETRA」
@@ -58,7 +62,7 @@ PlayScene::PlayScene()
 	bestHeight = 0.0f;
 
 	changeBGheight = 50 /3;
-	gameBGImage = hBGImageI;
+	gameBGImage = hBGImageI; // デフォルトの背景画像
 }
 
 PlayScene::~PlayScene()
