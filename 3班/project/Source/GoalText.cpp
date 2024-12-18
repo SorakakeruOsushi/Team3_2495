@@ -6,7 +6,7 @@ GoalText::GoalText()
 {
 	goalBGImage = LoadGraph("data/image/Goal.JPG");						  // 画像 ゴール背景画像
 		assert(goalBGImage > 0);
-	finishTextImage = LoadGraph("data/image/XA1/xFINISH.png");			  // 画像「FINISH」文字画像
+	finishTextImage = LoadGraph("data/image/XA1/xFinishA1.png");		  // 画像「FINISH」文字画像
 		assert(finishTextImage > 0);
 	gameClearTextImage = LoadGraph("data/image/XA1/xGAME_CLEAR.png");	  // 画像「GAME CLEAR」文字画像
 		assert(gameClearTextImage > 0);
