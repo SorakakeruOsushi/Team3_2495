@@ -25,11 +25,7 @@ public:
 
 	VECTOR2 nowPosition;
 
-	void SetPosition() {
-		nowPosition.x = position.x;
-		nowPosition.y = position.y;
-	}
-	
+	void SetPosition(int x,int y);
 
 	int blockSize; // ブロックサイズはintで
 
@@ -56,9 +52,11 @@ public:
 	float pressTimerLT = 20;
 	float TurnWaitTimer = 2;
 
+	bool Put;
 	bool isMovedLeft;//右に移動したか
 	bool isMovedRight;//左に移動したか
 	bool isTurn;//回転したか
+	bool putBlock;
 
 	PlayMode* pm;
 	Player* p;

@@ -250,8 +250,12 @@ Block::Block()
 	isMovedRight = false;
 	isTurn = false;
 
+	Put = false;
+
+	putBlock = false;
+
 	position.x =WIDTH-5;
-	position.y =0;
+	position.y =0-s->scroll;
 
 	blockSize = 30;
 
@@ -309,13 +313,34 @@ void Block::Update()
 	else {
 		counter += Time::DeltaTime();//押されていなければそのまま
 	}
-	if (counter >= timer) {
-		if (position.y >= 20) { // 本当は、既にあるブロックの上に乗ったら
+	if (counter >= timer) {//地面についたら置く、失敗
+		BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (s->CheckBlock(position.x + x, position.y + y)==1) {
+						Put = true;
+					}
+				}
+			}
+		}
+		if (Put) { // 本当は、既にあるブロックの上に乗ったら
+			BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+			for (int y = 0; y < 3; y++) {
+				for (int x = 0; x < 3; x++) {
+					int id = block.blockPos[y][x];
+					if (id > 0) {
+						s->PutBlock(position.x + x, position.y + y, id);
+					}
+				}
+			}
 			nowBlock = nextBlock;
 			position.x = WIDTH - 5;
-			position.y = 0;
+			position.y = 0-s->scroll;
 			nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
 			nextBlock.rotation = 0;
+			Put = false;
 		}
 		else {
 			position.y++;
@@ -335,16 +360,6 @@ void Block::Update()
 			position.x--;
 			pressTimerL = 3;//pressTimerを3Fに設定(3F毎に繰り返す)
 		}
-		SetPosition();
-		//左に壁があるか調べる
-		/*int push = s->IsWallLeft(nowPosition + VECTOR2(0, 0));
-		position.x += push;
-		push = s->IsWallLeft(nowPosition + VECTOR2(0, 34));
-		position.x += push;
-		push = s->IsWallLeft(nowPosition + VECTOR2(0, 35));
-		position.x += push;
-		push = s->IsWallLeft(nowPosition + VECTOR2(0, 69));
-		position.x += push;*/
 	}
 	else {
 		isMovedLeft = false;
@@ -373,16 +388,11 @@ void Block::Update()
 		if (not isTurn) {
 			nowBlock.rotation = (nowBlock.rotation + 1) % 4; // ４回転で一周
 			isTurn = true;
-			pressTimerRT = 20;//pressTimerを20Fに設定
-		}
-		pressTimerRT--;
-		if (pressTimerRT <= 0 && isTurn) {
-			nowBlock.rotation = (nowBlock.rotation + 1) % 4;
-			pressTimerRT = 3;//pressTimerを3Fに設定(3F毎に繰り返す)
+			
 		}
 	}
 	//左回転(左右のShift、LBボタン)
-	else if (CheckHitKey(KEY_INPUT_RSHIFT) || CheckHitKey(KEY_INPUT_LSHIFT)
+ else if (CheckHitKey(KEY_INPUT_RSHIFT) || CheckHitKey(KEY_INPUT_LSHIFT)
 		|| input.Buttons[XINPUT_BUTTON_LEFT_SHOULDER]) {
 		if (not isTurn) {
 			nowBlock.rotation -= 1;
@@ -390,24 +400,34 @@ void Block::Update()
 				nowBlock.rotation = 3;
 			}
 			isTurn = true;
-			pressTimerLT = 20;//pressTimerを20Fに設定
-		}
-		pressTimerLT--;
-		if (pressTimerLT <= 0 && isTurn) {//pressTimerが0以下かつ長押し中
-			TurnWaitTimer--;
-			if (TurnWaitTimer < 0) {
-				TurnWaitTimer = 2;//回転の書き方のせいでここだけ早いので遅延
-				nowBlock.rotation -= 1;
-				if (nowBlock.rotation <= -1) {
-					nowBlock.rotation = 3;
-					pressTimerLT = 3;//pressTimerを3Fに設定(3F毎に繰り返す)
-				}
-			}
 		}
 	}
 	else {
 		isTurn = false;
 	}
+	if (CheckHitKey(KEY_INPUT_X)) {//ブロックを設置
+		if (not putBlock) {
+			BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+			for (int y = 0; y < 3; y++) {
+				for (int x = 0; x < 3; x++) {
+					int id = block.blockPos[y][x];
+					if (id > 0) {
+						s->PutBlock(position.x + x, position.y + y, id);
+					}
+				}
+			}
+			nowBlock = nextBlock;
+			position.x = WIDTH - 5;
+			position.y = 0 - s->scroll;
+			nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+			nextBlock.rotation = 0;
+			putBlock = true;
+		}
+	}
+	else {
+		putBlock = false;
+	}
+	
 }
 
 void Block::Draw()
@@ -432,3 +452,10 @@ void Block::Draw()
 		}
 	}
 }
+
+void Block::SetPosition(int x,int y)
+{
+			nowPosition.x =x;
+			nowPosition.y =y;
+}
+

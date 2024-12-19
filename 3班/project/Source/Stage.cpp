@@ -12,11 +12,14 @@
 const int WIDTH = 24;		//ステージ 幅
 const int HEIGHT = 51;		//ステージ 高(もっと高くなる?)50とか
 
+int map[HEIGHT][WIDTH];
+
+
 const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24)); 
 const int SIDE_SPACE = CHIP_SIZE * 8; //横余白
 const char* STAGE_DATA_PATH = "data/Stage/Stage%02d.csv";	//	ブロック配置情報のファイル名
 
-int map[HEIGHT][WIDTH];
+
 
 Stage::Stage()
 {
@@ -240,6 +243,28 @@ bool Stage::IsGoal(VECTOR2 pos)
 		return true;
 	}
 	return false;
+}
+
+void Stage::PutBlock(int x, int y, int id)
+{
+	y = y - (TOP_SPACE - scroll) / CHIP_SIZE;
+	x = x - (SIDE_SPACE / CHIP_SIZE);
+	map[y][x] = id;
+
+}
+
+int Stage::CheckBlock(int x, int y)
+{
+	//「マップチップ→座標」の逆、「座標→マップチップ」
+	int i = (x - SIDE_SPACE) / CHIP_SIZE;
+	int j = (y - TOP_SPACE) / CHIP_SIZE;
+	for (int x = 1; x < 6; x++) {
+		if (map[j][i] == x)
+		{
+			return 1;
+		}
+	}
+	return 0;
 }
 
 // 区切り文字を指定して文字列を分割する
