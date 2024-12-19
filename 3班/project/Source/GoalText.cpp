@@ -6,11 +6,11 @@ GoalText::GoalText()
 {
 	goalBGImage = LoadGraph("data/image/Goal.JPG");						  // 画像 ゴール背景画像
 		assert(goalBGImage > 0);
-	finishTextImage = LoadGraph("data/image/XA1/xFinishA1.png");		  // 画像「FINISH」文字画像
+	finishTextImage = LoadGraph("data/image/font/Finish.png");		      // 画像「FINISH」
 		assert(finishTextImage > 0);
-	gameClearTextImage = LoadGraph("data/image/XA1/xGAME_CLEAR.png");	  // 画像「GAME CLEAR」文字画像
+	gameClearTextImage = LoadGraph("data/image/font/Clear.png");	      // 画像「GAME CLEAR」
 		assert(gameClearTextImage > 0);
-	thanksTextImage = LoadGraph("data/image/XA1/xThankYouForPlaying.png");// 画像「GAME CLEAR」文字画像
+	thanksTextImage = LoadGraph("data/image/XA1/xThankYouForPlaying.png");// 画像「プレイしてくれてありがとナス！」
 		assert(thanksTextImage > 0);
 	bannerImage = LoadGraph("data/image/XA1/xバナー1.png");
 		assert(bannerImage > 0);

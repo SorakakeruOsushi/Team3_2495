@@ -4,16 +4,16 @@
 
 FinishText::FinishText()
 {
-	finishTextImage = LoadGraph("data/image/XA1/xFinishA1.png");						  // 画像「FINISH」文字画像
+	finishTextImage = LoadGraph("data/image/font/Finish.png");						  // 画像「FINISH」
 		assert(finishTextImage > 0);
-	gameOverTextImage = LoadGraph("data/image/XA1/xGAME_OVER.png");					  // 画像「GAME OVER」文字画像
+	gameOverTextImage = LoadGraph("data/image/font/GameOver.png");					  // 画像「GAME OVER」
 		assert(gameOverTextImage > 0);
 	bannerImage = LoadGraph("data/image/XA1/xバナー1.png");
 		assert(bannerImage > 0);
-	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png");// 画像「SPACEで終了」文字画像
+	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png");// 画像「SPACEで終了」
 		assert(titleBackKeyTextImage > 0);
 
-	gameOverVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「ひゃーっ！」.mp3");	  // 音声「(悲鳴)」文字画像
+	gameOverVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「ひゃーっ！」.mp3");	  // 音声「(悲鳴)」
 		assert(gameOverVoice > 0);
 	PlaySoundMem(gameOverVoice, DX_PLAYTYPE_BACK); // 悲鳴ボイス再生
 

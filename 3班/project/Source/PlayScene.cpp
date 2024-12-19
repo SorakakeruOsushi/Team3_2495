@@ -22,23 +22,38 @@ PlayScene::PlayScene()
 
 	Instantiate<Block>();
 	// 画像読み込み
-	nextTextImage = LoadGraph("data/image/font/NEXT.png");   // 画像「NEXT」
+	nextTextImage = LoadGraph("data/image/font/NEXT.png");			 // 画像「NEXT」
 		assert(nextTextImage > 0);
-	modeChangeTextImage = LoadGraph("data/image/XA1/xChangeCKey.png"); // 画像「ChangeC」
+	modeChangeTextImage = LoadGraph("data/image/font/change.png");   // 画像「ChangeC」
 		assert(modeChangeTextImage > 0);
 
-	modeChangeTextImage = LoadGraph("data/image/XA1/xChangeCKey.png"); // 画像「ChangeC」
-		assert(modeChangeTextImage > 0);
+	heightTextImage = LoadGraph("data/image/font/Finish.png");		 // 画像「HEIGHT」
+		assert(heightTextImage > 0);
+	scoreTextImage = LoadGraph("data/image/font/Score.png");		 // 画像「SCORE」
+		assert(scoreTextImage > 0);
+	timeTextImage = LoadGraph("data/image/font/Time.png");			 // 画像「TIME」
+		assert(timeTextImage > 0);
+	bestScoreTextImage = LoadGraph("data/image/font/BestScore.png"); // 画像「BEST SCORE」
+		assert(bestScoreTextImage > 0);
+	bestTimeTextImage = LoadGraph("data/image/font/BestTime.png");	 // 画像「BEST TIME」
+		assert(bestTimeTextImage > 0);
 
-	ladyTextImage = LoadGraph("data/image/XA1/xレディA1.png"); //画像「レディ…」
+	ladyTextImage = LoadGraph("data/image/XA1/xレディA1.png");	   //画像「レディ…」
 		assert(ladyTextImage > 0);
-	goTextImage = LoadGraph("data/image/XA1/xゴーA1.png");	 //画像「ゴー！」
+	goTextImage = LoadGraph("data/image/XA1/xゴーA1.png");		   //画像「ゴー！」
 		assert(goTextImage > 0);
-	// 無くてもいい?
-	playModeTextImage = LoadGraph("data/image/XA1/xTETRA.png");	 // プレイモードのデフォルトは「TETRA」
-		assert(modeChangeTextImage > 0);
-	playModeBGImage = LoadGraph("data/image/X/XmodeBGtetra.png");// プレイモードのデフォルトは「TETRA」
-		assert(modeChangeTextImage > 0);
+
+	tetraModeTextImage = LoadGraph("data/image/font/TETRA.png"); // 画像「TETRA」
+		assert(tetraModeTextImage > 0);
+	blockModeTextImage = LoadGraph("data/image/font/Block.png"); // 画像「BLOCK」
+		assert(blockModeTextImage > 0);
+	playModeTextImage = tetraModeTextImage;	// プレイモードのデフォルトは「TETRA」
+
+	tetraModeBGImage = LoadGraph("data/image/XA1/X数字/x0.png"); // 画像 TETRAモードのプレイエリア背景画像
+		assert(tetraModeBGImage > 0);
+	blockModeBGImage = LoadGraph("data/image/XA1/X数字/x1.png"); // 画像 BLOCKモードのプレイエリア背景画像
+		assert(blockModeBGImage > 0);
+	playModeBGImage = tetraModeBGImage;		// プレイモードのデフォルトは「TETRA」
 
 	// 画像 背景1,2,3
 	hBGImageI = LoadGraph("data/image/Back1.png");
@@ -47,6 +62,7 @@ PlayScene::PlayScene()
 		assert(hBGImageII > 0);
 	hBGImageIII = LoadGraph("data/image/Back3.png");
 		assert(hBGImageIII > 0);
+	gameBGImage = hBGImageI; // デフォルトの背景画像
 	// 音声読み込み
 	titleBackVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音声 [T]タイトルに戻る
 		assert(titleBackVoice > 0);
@@ -56,13 +72,12 @@ PlayScene::PlayScene()
 	g = nullptr;
 	f = nullptr;
 
-	playTime = 0.0f;		//プレイ時間
+	playTime = 0.0f;		// プレイ時間
 
-	height = 0.0f;			//床文の高さ(10)を引く
+	height = 0.0f;			// 床分の高さ(10)を引く
 	bestHeight = 0.0f;
 
 	changeBGheight = 50 /3;
-	gameBGImage = hBGImageI; // デフォルトの背景画像
 }
 
 PlayScene::~PlayScene()
@@ -71,13 +86,20 @@ PlayScene::~PlayScene()
 	DeleteGraph(hBGImageII);		 // 画像 プレイシーン 背景2
 	DeleteGraph(hBGImageIII);		 // 画像 プレイシーン 背景3
 
-	DeleteGraph(playModeTextImage);  // 画像「TETRA」か「BLOCK」
-	DeleteGraph(playModeTextImage);  // 画像  プレイエリア プレイモード背景
-	DeleteGraph(ladyTextImage);  // 画像「レディ」
-	DeleteGraph(goTextImage);  // 画像「ゴー」
+	DeleteGraph(tetraModeTextImage); // 画像「TETRA」
+	DeleteGraph(blockModeTextImage); // 画像「BLOCK」
+	DeleteGraph(tetraModeBGImage);   // 画像 TETRAモード背景
+	DeleteGraph(blockModeBGImage);   // 画像 BLOCKモード背景
+	DeleteGraph(ladyTextImage);		 // 画像「レディ」
+	DeleteGraph(goTextImage);		 // 画像「ゴー」
 
 	DeleteGraph(nextTextImage);		 // 画像「NEXT」
 	DeleteGraph(modeChangeTextImage);// 画像「CHANGE:[C]KEY」
+	DeleteGraph(heightTextImage);	 // 画像「HEIGHT」
+	DeleteGraph(scoreTextImage);	 // 画像「SCORE」
+	DeleteGraph(bestScoreTextImage); // 画像「BEST SCORE」
+	DeleteGraph(timeTextImage);		 // 画像「TIME」
+	DeleteGraph(bestTimeTextImage);  // 画像「BEST TIME」
 
 	DeleteSoundMem(titleBackVoice);  //音声「CHANGE:[C]KEY」
 	DeleteSoundMem(changeModeVoice); //音声「CHANGE:[C]KEY」
@@ -148,17 +170,13 @@ void PlayScene::Update()
 
 	if (pm->playMode == 0) // テトラモード
 	{
-		playModeTextImage = LoadGraph("data/image/XA1/xTETRA.png");
-			assert(playModeTextImage > 0);
-		playModeBGImage = LoadGraph("data/image/TetraSDBig.png");
-			assert(playModeBGImage > 0);
+		playModeTextImage = tetraModeTextImage;
+		playModeBGImage = tetraModeBGImage;
 	}
 	else 				   // ブロックモード
 	{
-		playModeTextImage = LoadGraph("data/image/XA1/xBLOCK.png");
-			assert(playModeTextImage > 0);
-		playModeBGImage = LoadGraph("data/image/BlockA1Big.png");
-			assert(playModeBGImage > 0);
+		playModeTextImage = blockModeTextImage;
+		playModeBGImage = blockModeBGImage;
 	}
 
 	//背景の表示切り替え
@@ -214,30 +232,37 @@ void PlayScene::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	//「レディ…」→「ゴー！」
-	DrawGraph(350, 250, ladyTextImage, TRUE); //「レディ…」
-	DrawGraph(430, 230, goTextImage, TRUE);   //「ゴー！」
+	//DrawGraph(350, 250, ladyTextImage, TRUE); //「レディ…」
+	//DrawGraph(430, 230, goTextImage, TRUE);   //「ゴー！」
 
 	//「NEXT」表示
 	DrawGraph(1025, 50, nextTextImage, TRUE);
 
 	SetFontSize(25);
 	//高さ(playerHeight)
+	DrawGraph(1030, 400, heightTextImage, TRUE);
 	DrawFormatString(1030, 400, GetColor(255, 255, 255), "HEIGHT:%.0f/50", fabs(height));
+	
 	//スコア(Coin?)
+	DrawGraph(1030, 500, scoreTextImage, TRUE);
 	DrawFormatString(1030, 500, GetColor(255, 255, 255), "SCORE:%d", p->gotCoin);
+
 	//タイム(playTime)
+	DrawGraph(1030, 600, timeTextImage, TRUE);
 	DrawFormatString(1030, 600, GetColor(255, 255, 255), "TIME:%4.2f", playTime);
 	
 	SetFontSize(20);
 	//ベストスコア(bestScore)
+	DrawGraph(1030, 530, bestScoreTextImage, TRUE);
 	DrawFormatString(1030, 530, GetColor(255, 255, 255), "BEST SCORE:%d", bestTime->GetBestScore() );
 	//ベストタイム(bestTime)
+	DrawGraph(1030, 630, bestTimeTextImage, TRUE);
 	DrawFormatString(1030, 630, GetColor(255, 255, 255), "BEST TIME:%4.2f", bestTime->GetBestTime() );
 
 	//プレイモード(TETRA/BLOCK)
-	DrawGraph(5, 530, playModeTextImage, TRUE);  // playModeTextImageに入れる画像を切り替える
+	DrawGraph(5, 530, playModeTextImage, TRUE);   // playModeTextImageに入れる画像を切り替える
 	//「CHANGE：[C] KEY」表示
-	DrawGraph(5, 600, modeChangeTextImage, TRUE);// modeChangeTextImageに入れる画像を切り替える
+	DrawGraph(5, 600, modeChangeTextImage, TRUE); // modeChangeTextImageに入れる画像を切り替える
 }
 
 void PlayScene::CheckBestTime()

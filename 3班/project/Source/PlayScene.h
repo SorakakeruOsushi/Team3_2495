@@ -28,8 +28,14 @@ public:
 	int timeTextImage;		//画像「TIME」の文字画像
 	int bestScoreTextImage;	//画像「BEST SCORE」の文字画像
 	int bestTimeTextImage;	//画像「BEST TIME」の文字画像
-	int playModeTextImage; // 画像「(現在のプレイモード)」の文字画像
-	int playModeBGImage;   // 画像 「(現在のプレイモード)」プレイエリア背景画像
+
+	int playModeTextImage; // 画像 (現在のプレイモード)の文字画像
+	int tetraModeTextImage;// 画像「TETRA」
+	int blockModeTextImage;// 画像「BLOCK」
+	int playModeBGImage;   // 画像 (現在のプレイモード)プレイエリア背景画像
+	int tetraModeBGImage;  // 画像 TETRAモードのプレイエリア背景画像
+	int blockModeBGImage;  // 画像 BLOCKモードのプレイエリア背景画像
+
 	int gameBGImage; // 画像 ゲーム背景
 	int changeBGheight;
 		int hBGImageI;    // 画像 背景1

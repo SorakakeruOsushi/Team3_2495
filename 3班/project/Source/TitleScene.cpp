@@ -5,13 +5,13 @@
 
 TitleScene::TitleScene()
 {
-	titleImage = LoadGraph("data/image/Title.JPG"); // タイトル画面
+	titleImage = LoadGraph("data/image/Title.JPG"); // 画像 タイトル画面
 		assert(titleImage > 0);
-	titleLogoImage = LoadGraph("data/image/ロゴ_透過.png"); // タイトルロゴ
+	titleLogoImage = LoadGraph("data/image/ロゴ_透過.png"); // 画像 タイトルロゴ
 		assert(titleLogoImage > 0);
-	titleBGImage = LoadGraph("data/image/Back1.png"); // タイトルロゴ
+	titleBGImage = LoadGraph("data/image/Back1.png"); // 画像 タイトル画面背景
 		assert(titleBGImage > 0);
-	pushKeyTextImage = LoadGraph("data/image/XA1/xPushAnyKey.png"); //「PUSH ANY KEY」
+	pushKeyTextImage = LoadGraph("data/image/font/Push.png"); //「PUSH ANY KEY」
 		assert(pushKeyTextImage > 0);
 	
 	DrawKeyTimer = 0.0f;  // タイマー 
@@ -72,7 +72,6 @@ void TitleScene::Draw()
 
 	SetFontSize(25);
 	DrawString(585, 615, "ＨＥＬＰ", GetColor(255, 255, 255));
-	DrawString(560, 650, "ＣＯＮＦＩＧ", GetColor(255, 255, 255));
 
 	//調整用センタードット
 	//DrawString(1280/2, 720/2, ".", GetColor(255, 0, 0), TRUE);
