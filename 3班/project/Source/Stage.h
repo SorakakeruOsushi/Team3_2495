@@ -33,7 +33,7 @@ public:
 
 	void PutBlock(int x, int y, int id);
 
-	int CheckBlock(int x, int y);
+	bool CheckBlock(int x, int y);
 
 	Player* p;
 	Coin* c;

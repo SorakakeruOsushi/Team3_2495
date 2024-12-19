@@ -255,7 +255,7 @@ Block::Block()
 	putBlock = false;
 
 	position.x =WIDTH-5;
-	position.y =0-s->scroll;
+	position.y =0;
 
 	blockSize = 30;
 
@@ -319,13 +319,12 @@ void Block::Update()
 			for (int x = 0; x < 3; x++) {
 				int id = block.blockPos[y][x];
 				if (id > 0) {
-					if (s->CheckBlock(position.x + x, position.y + y)==1) {
-						Put = true;
-					}
+					Put=s->CheckBlock(position.x + x, position.y + y);
+					if (Put) { break; }
 				}
 			}
 		}
-		if (Put) { // 本当は、既にあるブロックの上に乗ったら
+		if (Put) { // PutがTrueなら
 			BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
 			for (int y = 0; y < 3; y++) {
 				for (int x = 0; x < 3; x++) {
@@ -337,7 +336,7 @@ void Block::Update()
 			}
 			nowBlock = nextBlock;
 			position.x = WIDTH - 5;
-			position.y = 0-s->scroll;
+			position.y = 0+s->scroll;
 			nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
 			nextBlock.rotation = 0;
 			Put = false;
@@ -418,7 +417,7 @@ void Block::Update()
 			}
 			nowBlock = nextBlock;
 			position.x = WIDTH - 5;
-			position.y = 0 - s->scroll;
+			position.y = 0;
 			nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
 			nextBlock.rotation = 0;
 			putBlock = true;

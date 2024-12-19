@@ -56,7 +56,7 @@ public:
 	bool isMovedLeft;//右に移動したか
 	bool isMovedRight;//左に移動したか
 	bool isTurn;//回転したか
-	bool putBlock;
+	bool putBlock;//Xで置く用　仮
 
 	PlayMode* pm;
 	Player* p;
