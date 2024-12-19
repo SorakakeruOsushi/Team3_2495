@@ -66,13 +66,13 @@ Stage::Stage()
  		assert(MinoImage[i] > 0);
 	}
 
-	emptyImage = LoadGraph("data/image/EmptyA1.png");
+	emptyImage = LoadGraph("data/image/EmptyA1.png");	   // 画像 空っぽマス
 		assert(emptyImage > 0);
-	blockImage = LoadGraph("data/image/BlockA2.png");
+	blockImage = LoadGraph("data/image/Ground.JPG");	   // 画像 草ブロック
 		assert(blockImage > 0);
-	goalImage = LoadGraph("data/image/GoalLineShort.png");
+	goalImage = LoadGraph("data/image/GoalLineShort.png"); // 画像 草ブロック
 		assert(goalImage > 0);
-	wallImage = LoadGraph("data/image/WallA1Long.png");
+	wallImage = LoadGraph("data/image/WallA1Long.png");    // 画像 壁
 		assert(wallImage > 0);
 
 	//9を探して、Playerを置く

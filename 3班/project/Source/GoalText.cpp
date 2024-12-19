@@ -10,20 +10,19 @@ GoalText::GoalText()
 		assert(finishTextImage > 0);
 	gameClearTextImage = LoadGraph("data/image/font/Clear.png");	      // 画像「GAME CLEAR」
 		assert(gameClearTextImage > 0);
+	newRecordTextImage = LoadGraph("data/image/font/NewRecord.png");	  // 画像「NEW RECORD!」
+		assert(newRecordTextImage > 0);
 	thanksTextImage = LoadGraph("data/image/XA1/xThankYouForPlaying.png");// 画像「プレイしてくれてありがとナス！」
 		assert(thanksTextImage > 0);
-	bannerImage = LoadGraph("data/image/XA1/xバナー1.png");
-		assert(bannerImage > 0);
-	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png");
+	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png"); // 画像「TITLEに戻る」
 		assert(titleBackKeyTextImage > 0);
 
 	goalVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「ぱんぱかぱーん！」.mp3");
 		assert(goalVoice > 0);
-	PlaySoundMem(goalVoice, DX_PLAYTYPE_BACK); // ゴールボイス
+	PlaySoundMem(goalVoice, DX_PLAYTYPE_BACK); // ゴールボイス再生
 
 	timer = 0.0f;
 	alpha = 0.0f;
-	bannerSlide = -1280.0f;
 }
 
 GoalText::~GoalText()
@@ -31,7 +30,7 @@ GoalText::~GoalText()
 	DeleteGraph(goalBGImage);
 	DeleteGraph(finishTextImage);
 	DeleteGraph(gameClearTextImage);
-	DeleteGraph(bannerImage);
+	DeleteGraph(newRecordTextImage);
 	DeleteGraph(titleBackKeyTextImage);
 	DeleteGraph(thanksTextImage);
 	DeleteSoundMem(goalVoice);
@@ -60,15 +59,6 @@ void GoalText::Update()
 		if (alpha >= 255)
 		{
 			alpha = 255;
-		}
-	}
-	//帯スライド
-	if (timer >= 5.0f)
-	{
-		bannerSlide += 30;
-		if (bannerSlide >= 1280.0f)
-		{
-			bannerSlide = 1280.0f;
 		}
 	}
 }
@@ -148,9 +138,6 @@ void GoalText::Draw()
 	// "スペースキーで終了"
 	if (timer >= 5.0f)
 	{
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-		DrawRectGraph(0, 600, 0, 0, bannerSlide, 50, bannerImage, TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		if (timer >= 5.5f)
 		{
 			//「スペースキーを押して終了」表示

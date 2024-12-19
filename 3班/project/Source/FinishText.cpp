@@ -8,8 +8,6 @@ FinishText::FinishText()
 		assert(finishTextImage > 0);
 	gameOverTextImage = LoadGraph("data/image/font/GameOver.png");					  // 画像「GAME OVER」
 		assert(gameOverTextImage > 0);
-	bannerImage = LoadGraph("data/image/XA1/xバナー1.png");
-		assert(bannerImage > 0);
 	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png");// 画像「SPACEで終了」
 		assert(titleBackKeyTextImage > 0);
 
@@ -19,14 +17,12 @@ FinishText::FinishText()
 
 	timer = 0.0f;
 	alpha = 0.0f;
-	bannerSlide = -1280.0f;
 }
 
 FinishText::~FinishText()
 {
 	DeleteGraph(finishTextImage);
 	DeleteGraph(gameOverTextImage);
-	DeleteGraph(bannerImage);
 	DeleteGraph(titleBackKeyTextImage);
 	DeleteSoundMem(gameOverVoice);
 }
@@ -54,15 +50,6 @@ void FinishText::Update()
 		if (alpha >= 125)
 		{
 			alpha = 125;
-		}
-	}
-	//帯スライド
-	if (timer >= 1.5f)
-	{
-		bannerSlide +=30;
-		if (bannerSlide >= 1280.0f)
-		{
-			bannerSlide = 1280.0f;
 		}
 	}
 }

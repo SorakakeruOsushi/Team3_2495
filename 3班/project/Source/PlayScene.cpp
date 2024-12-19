@@ -27,7 +27,7 @@ PlayScene::PlayScene()
 	modeChangeTextImage = LoadGraph("data/image/font/change.png");   // 画像「ChangeC」
 		assert(modeChangeTextImage > 0);
 
-	heightTextImage = LoadGraph("data/image/font/Finish.png");		 // 画像「HEIGHT」
+	heightTextImage = LoadGraph("data/image/font/Hight.png");		 // 画像「HEIGHT」
 		assert(heightTextImage > 0);
 	scoreTextImage = LoadGraph("data/image/font/Score.png");		 // 画像「SCORE」
 		assert(scoreTextImage > 0);
@@ -49,9 +49,9 @@ PlayScene::PlayScene()
 		assert(blockModeTextImage > 0);
 	playModeTextImage = tetraModeTextImage;	// プレイモードのデフォルトは「TETRA」
 
-	tetraModeBGImage = LoadGraph("data/image/XA1/X数字/x0.png"); // 画像 TETRAモードのプレイエリア背景画像
+	tetraModeBGImage = LoadGraph("data/image/XA1/xプレイモードてとら.jpg"); // 画像 TETRAモードのプレイエリア背景画像
 		assert(tetraModeBGImage > 0);
-	blockModeBGImage = LoadGraph("data/image/XA1/X数字/x1.png"); // 画像 BLOCKモードのプレイエリア背景画像
+	blockModeBGImage = LoadGraph("data/image/XA1/xプレイモードぶろっく.jpg"); // 画像 BLOCKモードのプレイエリア背景画像
 		assert(blockModeBGImage > 0);
 	playModeBGImage = tetraModeBGImage;		// プレイモードのデフォルトは「TETRA」
 
@@ -231,9 +231,11 @@ void PlayScene::Draw()
 	DrawGraph(30 * 8, 0, playModeBGImage, TRUE); // TETRA/BLOCK
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
+	/*
 	//「レディ…」→「ゴー！」
-	//DrawGraph(350, 250, ladyTextImage, TRUE); //「レディ…」
-	//DrawGraph(430, 230, goTextImage, TRUE);   //「ゴー！」
+	DrawGraph(350, 250, ladyTextImage, TRUE); //「レディ…」
+	DrawGraph(430, 230, goTextImage, TRUE);   //「ゴー！」
+	*/
 
 	//「NEXT」表示
 	DrawGraph(1025, 50, nextTextImage, TRUE);

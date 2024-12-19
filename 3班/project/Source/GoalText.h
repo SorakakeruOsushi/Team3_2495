@@ -18,14 +18,12 @@ public:
 	int gameClearTextImage;	   // 画像「GAME CLEAR!」
 	int titleBackKeyTextImage; // 画像「スペースキーを押して終了」
 	int thanksTextImage;	   // 画像「Thank You For Playing!」
-	int bannerImage;		   // 画像 バナー
 	int newRecordTextImage;    // 画像「新記録」
 	int goalVoice;			   // 音声 ゲームクリア
 
-	float timer;
-	float alpha;
-	float bannerSlide;
+	float timer; // 表示タイマー
+	float alpha; // 透過度
 
-	float resultTime;
-	float resultHeight;
+	float resultTime;   // タイム結果
+	float resultHeight; // スコア結果　　名前直さなきゃ！
 };
