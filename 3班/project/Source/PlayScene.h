@@ -26,8 +26,10 @@ public:
 	int heightTextImage;	//画像「HEIGHT」の文字画像
 	int scoreTextImage;		//画像「SCORE」の文字画像
 	int timeTextImage;		//画像「TIME」の文字画像
-	int playModeTextImage;  // 画像「(現在のプレイモード)」の文字画像
-	int playModeBGImage;	// 画像 「(現在のプレイモード)」プレイエリア背景画像
+	int bestScoreTextImage;	//画像「BEST SCORE」の文字画像
+	int bestTimeTextImage;	//画像「BEST TIME」の文字画像
+	int playModeTextImage; // 画像「(現在のプレイモード)」の文字画像
+	int playModeBGImage;   // 画像 「(現在のプレイモード)」プレイエリア背景画像
 	int gameBGImage; // 画像 ゲーム背景
 	int changeBGheight;
 		int hBGImageI;    // 画像 背景1

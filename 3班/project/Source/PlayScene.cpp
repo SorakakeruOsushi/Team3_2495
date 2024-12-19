@@ -22,7 +22,7 @@ PlayScene::PlayScene()
 
 	Instantiate<Block>();
 	// 画像読み込み
-	nextTextImage = LoadGraph("data/image/XA1/xNEXT.png");   // 画像「NEXT」
+	nextTextImage = LoadGraph("data/image/font/NEXT.png");   // 画像「NEXT」
 		assert(nextTextImage > 0);
 	modeChangeTextImage = LoadGraph("data/image/XA1/xChangeCKey.png"); // 画像「ChangeC」
 		assert(modeChangeTextImage > 0);
@@ -41,11 +41,11 @@ PlayScene::PlayScene()
 		assert(modeChangeTextImage > 0);
 
 	// 画像 背景1,2,3
-	hBGImageI = LoadGraph("data/image/Back1.JPG");
+	hBGImageI = LoadGraph("data/image/Back1.png");
 		assert(hBGImageI > 0);
-	hBGImageII = LoadGraph("data/image/Back2.JPG");
+	hBGImageII = LoadGraph("data/image/Back2.png");
 		assert(hBGImageII > 0);
-	hBGImageIII = LoadGraph("data/image/Back3.JPG");
+	hBGImageIII = LoadGraph("data/image/Back3.png");
 		assert(hBGImageIII > 0);
 	// 音声読み込み
 	titleBackVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音声 [T]タイトルに戻る
