@@ -41,7 +41,7 @@ Stage::Stage()
 	sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
 
 	// std::ifstream ifs(stageFile);		  //Stage(01～10).CSV
-	std::ifstream ifs("data/stage/Test.csv"); //テスト.CSV
+	std::ifstream ifs("data/Stage/test.csv"); //テスト.CSV
 
 	std::string text;
 	int y = 0;
@@ -61,10 +61,10 @@ Stage::Stage()
 
 	
 	// 画像 ミノ画像
-	MinoImage[2] = LoadGraph("data/image/Lmino_One.png");
-	MinoImage[3] = LoadGraph("data/image/Jmino_One.png");
-	MinoImage[4] = LoadGraph("data/image/Tmino_One.png");
-	MinoImage[5] = LoadGraph("data/image/Omino_One.png");
+	MinoImage[2] = LoadGraph("data/image/Lmino.PNG");
+	MinoImage[3] = LoadGraph("data/image/Jmino.PNG");
+	MinoImage[4] = LoadGraph("data/image/Tmino.PNG");
+	MinoImage[5] = LoadGraph("data/image/Omino.PNG");
 	for (int i = 2; i < 6; i++) {
  		assert(MinoImage[i] > 0);
 	}

@@ -238,6 +238,7 @@ void PlayScene::Draw()
 	DrawGraph(430, 230, goTextImage, TRUE);   //「ゴー！」
 	*/
 
+	/*
 
 	//「NEXT」表示
 	//DrawGraph(1025, 50, nextTextImage, TRUE);
@@ -262,6 +263,8 @@ void PlayScene::Draw()
 	//ベストタイム(bestTime)
 	//DrawGraph(1030, 630, bestTimeTextImage, TRUE);
 	DrawFormatString(1030, 630, GetColor(255, 255, 255), "BEST TIME:%4.2f", bestTime->GetBestTime() );
+
+	*/
 
 	//プレイモード(TETRA/BLOCK)
 	DrawGraph(5, 530, playModeTextImage, TRUE);   // playModeTextImageに入れる画像を切り替える

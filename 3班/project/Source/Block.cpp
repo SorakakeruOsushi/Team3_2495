@@ -270,10 +270,10 @@ Block::Block()
 	for (int i = 2; i < 6; i++) {
 		hImage[i] = -1;
 	}
-	hImage[2] = LoadGraph("data/image/Lmino_One.png");
-	hImage[3] = LoadGraph("data/image/Jmino_One.png");
-	hImage[4] = LoadGraph("data/image/Tmino_One.png");
-	hImage[5] = LoadGraph("data/image/Omino_One.png");
+	hImage[2] = LoadGraph("data/image/Lmino.PNG");
+	hImage[3] = LoadGraph("data/image/Jmino.PNG");
+	hImage[4] = LoadGraph("data/image/Tmino.PNG");
+	hImage[5] = LoadGraph("data/image/Omino.PNG");
 
 	pm = FindGameObject<PlayMode>();
 	assert(pm != nullptr);
