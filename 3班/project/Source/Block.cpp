@@ -329,7 +329,7 @@ void Block::Update()
 						}
 						nowBlock = nextBlock;
 						position.x = WIDTH - 5;
-						position.y = 0 + s->scroll;
+						position.y = 0;
 						nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
 						nextBlock.rotation = 0;
 						return;
