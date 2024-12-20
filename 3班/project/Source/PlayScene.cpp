@@ -22,6 +22,7 @@ PlayScene::PlayScene()
 
 	Instantiate<Block>();
 	// 画像読み込み
+	/*
 	nextTextImage = LoadGraph("data/image/font/NEXT.png");			 // 画像「NEXT」
 		assert(nextTextImage > 0);
 	modeChangeTextImage = LoadGraph("data/image/font/change.png");   // 画像「ChangeC」
@@ -37,6 +38,8 @@ PlayScene::PlayScene()
 		assert(bestScoreTextImage > 0);
 	bestTimeTextImage = LoadGraph("data/image/font/BestTime.png");	 // 画像「BEST TIME」
 		assert(bestTimeTextImage > 0);
+
+	*/
 
 	ladyTextImage = LoadGraph("data/image/XA1/xレディA1.png");	   //画像「レディ…」
 		assert(ladyTextImage > 0);
