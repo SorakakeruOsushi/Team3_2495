@@ -250,8 +250,6 @@ Block::Block()
 	isMovedRight = false;
 	isTurn = false;
 
-	Put = false;
-
 	putBlock = false;
 
 	position.x =WIDTH-5;
@@ -313,37 +311,33 @@ void Block::Update()
 	else {
 		counter += Time::DeltaTime();//押されていなければそのまま
 	}
-	if (counter >= timer) {//地面についたら置く、失敗
+	if (counter >= timer) {//地面についたら置く
 		BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
 		for (int y = 0; y < 3; y++) {
 			for (int x = 0; x < 3; x++) {
 				int id = block.blockPos[y][x];
 				if (id > 0) {
-					Put=s->CheckBlock(position.x + x, position.y + y);
-					if (Put) { break; }
-				}
-			}
-		}
-		if (Put) { // PutがTrueなら
-			BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
-			for (int y = 0; y < 3; y++) {
-				for (int x = 0; x < 3; x++) {
-					int id = block.blockPos[y][x];
-					if (id > 0) {
-						s->PutBlock(position.x + x, position.y + y, id);
+					if (s->CheckBlock(position.x + x, (position.y + y) + 1)) { // ミノの下に障害物があれば
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						for (int y = 0; y < 3; y++) {
+							for (int x = 0; x < 3; x++) {
+								int id = block.blockPos[y][x];
+								if (id > 0) {
+									s->PutBlock(position.x + x, position.y + y, id);//ミノを配置する
+								}
+							}
+						}
+						nowBlock = nextBlock;
+						position.x = WIDTH - 5;
+						position.y = 0 + s->scroll;
+						nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+						nextBlock.rotation = 0;
+						return;
 					}
 				}
 			}
-			nowBlock = nextBlock;
-			position.x = WIDTH - 5;
-			position.y = 0+s->scroll;
-			nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
-			nextBlock.rotation = 0;
-			Put = false;
 		}
-		else {
 			position.y++;
-		}
 		counter = 0.0f;
 	}
 	//左に移動(A・←・PAD←)
@@ -358,6 +352,18 @@ void Block::Update()
 		if (pressTimerL <= 0 && isMovedLeft == true) {//pressTimerが0以下かつ長押し中
 			position.x--;
 			pressTimerL = 3;//pressTimerを3Fに設定(3F毎に繰り返す)
+		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (s->CheckBlock(position.x + x, position.y + y)) { 
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						position.x += 1;
+					}
+				}
+			}
 		}
 	}
 	else {
@@ -376,7 +382,18 @@ void Block::Update()
 			position.x++;
 			pressTimerR = 3;//pressTimerを3Fに設定(3F毎に繰り返す)
 		}
-
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (s->CheckBlock(position.x + x, position.y+y)) {
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						position.x -= 1;
+					}
+				}
+			}
+		}
 	}
 	else {
 		isMovedRight = false;
@@ -389,6 +406,18 @@ void Block::Update()
 			isTurn = true;
 			
 		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (s->CheckBlock(position.x + x, position.y + y)) { 
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						position.y -= 1;
+					}
+				}
+			}
+		}
 	}
 	//左回転(左右のShift、LBボタン)
  else if (CheckHitKey(KEY_INPUT_RSHIFT) || CheckHitKey(KEY_INPUT_LSHIFT)
@@ -400,9 +429,28 @@ void Block::Update()
 			}
 			isTurn = true;
 		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (s->CheckBlock(position.x + x, position.y + y)) { // ミノの下に障害物があれば
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						position.y -= 1;
+					}
+				}
+			}
+		}
 	}
 	else {
 		isTurn = false;
+	}
+	if (position.x <=(WIDTH - 5)-12)
+	{
+		position.x = WIDTH - 5-12;
+	}
+	if (position.x >= WIDTH - 5 + 12) {
+		position.x = WIDTH - 5 + 11;
 	}
 	if (CheckHitKey(KEY_INPUT_X)) {//ブロックを設置
 		if (not putBlock) {
@@ -436,7 +484,9 @@ void Block::Draw()
 		for (int x = 0; x < 3; x++) {
 			int id = block.blockPos[y][x];
 			if (id > 0) {
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
 				DrawGraph((position.x + x) * blockSize, (position.y + y) * blockSize, hImage[id], TRUE);
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 		}
 	}

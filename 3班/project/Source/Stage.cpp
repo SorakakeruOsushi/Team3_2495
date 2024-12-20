@@ -256,16 +256,15 @@ void Stage::PutBlock(int x, int y, int id)
 bool Stage::CheckBlock(int x, int y)//そこにマップチップがあるか
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
-	int i = (x - SIDE_SPACE) / CHIP_SIZE;
-	int j = (y - TOP_SPACE) / CHIP_SIZE;
-	for (int x = 1; x < 6; x++) {
-		if (map[j][i] == x)
+	y = y - (TOP_SPACE - scroll) / CHIP_SIZE;
+	x = x - (SIDE_SPACE / CHIP_SIZE);
+	int id = map[y][x];
+	if (map[y][x]>=1&&map[y][x]<6)
 		{
 			return true;
-			break;
+			
 		}
-	}
-	return false;
+	else { return false; }
 }
 
 // 区切り文字を指定して文字列を分割する

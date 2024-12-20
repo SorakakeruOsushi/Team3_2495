@@ -52,7 +52,6 @@ public:
 	float pressTimerLT = 20;
 	float TurnWaitTimer = 2;
 
-	bool Put;
 	bool isMovedLeft;//‰E‚ÉˆÚ“®‚µ‚½‚©
 	bool isMovedRight;//¶‚ÉˆÚ“®‚µ‚½‚©
 	bool isTurn;//‰ñ“]‚µ‚½‚©
