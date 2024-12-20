@@ -23,11 +23,17 @@ public:
 	int wallImage;   // ‰æ‘œ ‰¡‚Ì•Ç
 	int MinoImage[6];//ƒ~ƒm‚Ì‰æ‘œ
 
+	
+
 	int IsWallRight(VECTOR2 pos);
 	int IsWallLeft(VECTOR2 pos);
 	int IsWallDown(VECTOR2 pos);
 	int IsWallUp(VECTOR2 pos);
 	bool IsGoal(VECTOR2 pos);	//ƒS[ƒ‹”»’è
+
+	void PutBlock(int x, int y, int id);
+
+	bool CheckBlock(int x, int y);
 
 	Player* p;
 	Coin* c;
