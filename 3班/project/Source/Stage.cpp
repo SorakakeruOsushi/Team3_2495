@@ -4,77 +4,68 @@
 #include <fstream>
 #include "Player.h"
 #include "Block.h"
+#include "csvReader.h"
 
-
-//開始時にステージをランダムでロードしたい
-//#include "stageXtest.h"
-//#include "stage1.h"
 const int WIDTH = 24;		//ステージ 幅
-const int HEIGHT = 51;		//ステージ 高(もっと高くなる?)50とか
+const int HEIGHT = 51;		//ステージ 高
 
 int map[HEIGHT][WIDTH];
 
-const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24)); 
-const int SIDE_SPACE = CHIP_SIZE * 8; //横余白
+const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24));
+const int SIDE_SPACE = CHIP_SIZE * 8;				//横余白
 const char* STAGE_DATA_PATH = "data/Stage/Stage%02d.csv";	// ブロック配置情報のファイル名
 
 Stage::Stage()
 {
 #if false
-	for (int y = 0; y < HEIGHT; y++) 
+	for (int y = 0; y < HEIGHT; y++)
 	{
-		for (int x = 0; x < WIDTH; x++) 
+		for (int x = 0; x < WIDTH; x++)
 		{
 			map[y][x] = orgmap[y][x];
 		}
 	}
 #endif
+
 	//ランダムなCSVファイルを読み込んでステージ生成する！(堀越先生ありがとう！)
 	int stageNo = 0;
-	stageNo = GetRand(9) + 1; // 乱数 [01～10]のランダム
+	stageNo = GetRand(4) + 1; // 乱数 [01～05]のランダム
 
 	char stageFile[100];
 	sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
 
-	//std::ifstream ifs(stageFile);			  //Stage(01～10).CSV
-	std::ifstream ifs("data/stage/Test.csv"); //テスト.CSV
 
-	std::string text;
-	int y = 0;
-	while (std::getline(ifs, text))
+	//CsvReader* csv = new CsvReader(stageFile);			    //Stage(01～05).CSVをランダム表示
+	CsvReader* csv = new CsvReader("data/stage/Stage02.csv"); //決まったCSVファイルを表示
+
+	for (int y = 0; y < HEIGHT; y++) 
 	{
-		//  [,]で分割する
-		std::vector<std::string> element = split(text, ',');
-
-		for (int x = 0; x < element.size(); x++)
+		for (int x = 0; x < WIDTH; x++) 
 		{
-			int id = std::stoi(element[x]);
-			map[y][x] = id;
+			map[y][x] = csv->GetInt(y, x);
 		}
-		y++;
 	}
-	ifs.close();
+	delete csv;
 
-	
 	// 画像 ミノ画像
 	MinoImage[2] = LoadGraph("data/image/Lmino.PNG");
 	MinoImage[3] = LoadGraph("data/image/Jmino.PNG");
 	MinoImage[4] = LoadGraph("data/image/Tmino.PNG");
 	MinoImage[5] = LoadGraph("data/image/Omino.PNG");
 	for (int i = 2; i < 6; i++) {
- 		assert(MinoImage[i] > 0);
+		assert(MinoImage[i] > 0);
 	}
 
 	emptyImage = LoadGraph("data/image/EmptyA1.png");	   // 画像 空っぽマス
-		assert(emptyImage > 0);
+	assert(emptyImage > 0);
 	groundImage = LoadGraph("data/image/Ground.JPG");	   // 画像 草ブロック
-		assert(groundImage > 0);
+	assert(groundImage > 0);
 	blockImage = LoadGraph("data/image/BlockA2.png");	   // 画像 既存ブロック
-		assert(blockImage > 0);
+	assert(blockImage > 0);
 	goalImage = LoadGraph("data/image/GoalLineShort.png"); // 画像 ゴールライン
-		assert(goalImage > 0);
+	assert(goalImage > 0);
 	wallImage = LoadGraph("data/image/WallA1Long.png");    // 画像 壁
-		assert(wallImage > 0);
+	assert(wallImage > 0);
 
 	//9を探して、Playerを置く
 	for (int j = 0; j < HEIGHT; j++)    //「j」縦
@@ -98,7 +89,7 @@ Stage::Stage()
 	scroll = 0;
 	cellBG = true;
 
-	
+
 	b = FindGameObject<Block>();
 }
 
@@ -119,8 +110,8 @@ Stage::~Stage()
 void Stage::Draw()
 {
 	//壁表示(仮)
-	DrawGraph(30*7, 0,  wallImage, TRUE);
-	DrawGraph(30*7 + 30*25, 0,wallImage, TRUE);
+	DrawGraph(30 * 7, 0, wallImage, TRUE);
+	DrawGraph(30 * 7 + 30 * 25, 0, wallImage, TRUE);
 
 	//マップタイル表示
 	for (int j = 0; j < HEIGHT; j++)	// 縦「j」
@@ -165,7 +156,7 @@ void Stage::Draw()
 int Stage::IsWallRight(VECTOR2 pos) // posにはPlayer座標が入る
 {
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
+	int j = (pos.y - TOP_SPACE) / CHIP_SIZE;
 	for (int x = 1; x < 7; x++) // [1～6]
 	{
 		if (map[j][i] == x)
@@ -181,7 +172,7 @@ int Stage::IsWallRight(VECTOR2 pos) // posにはPlayer座標が入る
 int Stage::IsWallLeft(VECTOR2 pos)
 {
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
+	int j = (pos.y - TOP_SPACE) / CHIP_SIZE;
 	for (int x = 1; x < 7; x++) // [1～6]
 	{
 		if (map[j][i] == x)
@@ -197,7 +188,7 @@ int Stage::IsWallLeft(VECTOR2 pos)
 int Stage::IsWallDown(VECTOR2 pos)
 {
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
+	int j = (pos.y - TOP_SPACE) / CHIP_SIZE;
 	for (int x = 1; x < 7; x++) // [1～6]
 	{
 		if (map[j][i] == x)
@@ -213,7 +204,7 @@ int Stage::IsWallDown(VECTOR2 pos)
 int Stage::IsWallUp(VECTOR2 pos)
 {
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
+	int j = (pos.y - TOP_SPACE) / CHIP_SIZE;
 	for (int x = 1; x < 7; x++) // [1～6]
 	{
 		if (map[j][i] == x)
@@ -231,7 +222,7 @@ bool Stage::IsGoal(VECTOR2 pos)
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
+	int j = (pos.y - TOP_SPACE) / CHIP_SIZE;
 	if (map[j][i] == 8)
 	{
 		return true;
@@ -254,10 +245,10 @@ bool Stage::CheckBlock(int x, int y)//そこにマップチップがあるか
 	x = x - (SIDE_SPACE / CHIP_SIZE);
 	int id = map[y][x];
 	if (map[y][x] >= 1 && map[y][x] < 7) // [1以上 かつ 7未満]
-		{
-			return true;
-			
-		}
+	{
+		return true;
+
+	}
 	else { return false; }
 }
 

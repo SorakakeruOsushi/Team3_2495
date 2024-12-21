@@ -63,6 +63,9 @@
     <ClCompile Include="Source\PlayMode.cpp" />
     <ClCompile Include="Source\RestartScene.cpp" />
     <ClCompile Include="Source\Coin.cpp" />
+    <ClCompile Include="Source\csvReader.cpp">
+      <Filter>TitleScene\PlayScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -143,6 +146,9 @@
     <ClInclude Include="Source\PlayMode.h" />
     <ClInclude Include="Source\RestartScene.h" />
     <ClInclude Include="Source\Coin.h" />
+    <ClInclude Include="Source\csvReader.h">
+      <Filter>TitleScene\PlayScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">
