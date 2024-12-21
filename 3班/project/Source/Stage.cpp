@@ -57,10 +57,10 @@ Stage::Stage()
 
 	
 	// ‰æ‘œ ƒ~ƒm‰æ‘œ
-	MinoImage[2] = LoadGraph("data/image/Lmino.png");
-	MinoImage[3] = LoadGraph("data/image/Jmino.png");
-	MinoImage[4] = LoadGraph("data/image/Tmino.png");
-	MinoImage[5] = LoadGraph("data/image/Omino.png");
+	MinoImage[2] = LoadGraph("data/image/Lmino.PNG");
+	MinoImage[3] = LoadGraph("data/image/Jmino.PNG");
+	MinoImage[4] = LoadGraph("data/image/Tmino.PNG");
+	MinoImage[5] = LoadGraph("data/image/Omino.PNG");
 	for (int i = 2; i < 6; i++) {
  		assert(MinoImage[i] > 0);
 	}
