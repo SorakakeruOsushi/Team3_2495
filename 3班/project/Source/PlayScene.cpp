@@ -22,23 +22,23 @@ PlayScene::PlayScene()
 
 	Instantiate<Block>();
 	// 画像読み込み
-	/*
-	nextTextImage = LoadGraph("data/image/font/NEXT.png");			 // 画像「NEXT」
+	stageTextImage = LoadGraph("data/image/font/StageFont.png"); // 画像 [固定表示文字を１枚の画像にまとめた]
+		assert(stageTextImage > 0);
+	/* //固定表示の文字は無くなる
+	nextTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/NEXT.png");			 // 画像「NEXT」
 		assert(nextTextImage > 0);
-	modeChangeTextImage = LoadGraph("data/image/font/change.png");   // 画像「ChangeC」
+	modeChangeTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/change.png");  // 画像「ChangeC」
 		assert(modeChangeTextImage > 0);
-
-	heightTextImage = LoadGraph("data/image/font/Hight.png");		 // 画像「HEIGHT」
+	heightTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/Hight.png");		 // 画像「HEIGHT」
 		assert(heightTextImage > 0);
-	scoreTextImage = LoadGraph("data/image/font/Score.png");		 // 画像「SCORE」
+	scoreTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/Score.png");		 // 画像「SCORE」
 		assert(scoreTextImage > 0);
-	timeTextImage = LoadGraph("data/image/font/Time.png");			 // 画像「TIME」
+	timeTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/Time.png");			 // 画像「TIME」
 		assert(timeTextImage > 0);
-	bestScoreTextImage = LoadGraph("data/image/font/BestScore.png"); // 画像「BEST SCORE」
+	bestScoreTextImage = LoadGraph("data/image/一画面に統合する前のフォントたち/font/BestScore.png"); // 画像「BEST SCORE」
 		assert(bestScoreTextImage > 0);
-	bestTimeTextImage = LoadGraph("data/image/font/BestTime.png");	 // 画像「BEST TIME」
+	bestTimeTextImage = LoadGraph("data/image/一画面に統合する前のフォントたち/font/BestTime.png");	 // 画像「BEST TIME」
 		assert(bestTimeTextImage > 0);
-
 	*/
 
 	ladyTextImage = LoadGraph("data/image/XA1/xレディA1.png");	   //画像「レディ…」
@@ -78,7 +78,7 @@ PlayScene::PlayScene()
 	playTime = 0.0f;		// プレイ時間
 
 	height = 0.0f;			// 床分の高さ(10)を引く
-	bestHeight = 0.0f;
+	bestHeight = 0.0f;		// 死亡時のリザルトで表示
 
 	changeBGheight = 50 /3;
 }
@@ -96,6 +96,7 @@ PlayScene::~PlayScene()
 	DeleteGraph(ladyTextImage);		 // 画像「レディ」
 	DeleteGraph(goTextImage);		 // 画像「ゴー」
 
+	DeleteGraph(stageTextImage);	 // 画像 [固定表示文字を１枚の画像にまとめた]
 	DeleteGraph(nextTextImage);		 // 画像「NEXT」
 	DeleteGraph(modeChangeTextImage);// 画像「CHANGE:[C]KEY」
 	DeleteGraph(heightTextImage);	 // 画像「HEIGHT」
@@ -140,6 +141,16 @@ void PlayScene::Update()
 	
 	if (!p->finished && !p->goaled)
 	{
+		//高さ(height)
+		if ((s != nullptr) && (s->p != nullptr))
+		{
+			height = s->p->playerHeight / 30;
+		}
+		//最高到達点(bestHeight)
+		if(height > bestHeight)
+		{
+			bestHeight = height;
+		}
 		//タイマー
 		playTime += Time::DeltaTime();
 		//playTimeのカンスト(9999)
@@ -147,19 +158,14 @@ void PlayScene::Update()
 		{
 			playTime = 9999;
 		}
-
-		//高さ(height)
-		if ((s != nullptr) && (s->p != nullptr))
-		{
-			height = s->p->playerHeight / 30;
-		}
 	}
 
 	// プレイモード切り替え
 	if ( (KeyUtility::CheckTrigger(KEY_INPUT_C)) || (input.Buttons[XINPUT_BUTTON_Y]) )
 	{
 		// ボタンを押し込んだ時だけ入力を取る
-		if (!isButtonDown) {
+		if (!isButtonDown) 
+		{
 			PlaySoundMem(changeModeVoice, DX_PLAYTYPE_BACK);
 			//PlayModeクラスから関数を呼び出す
 			pm->changeMode();
@@ -167,7 +173,8 @@ void PlayScene::Update()
 
 		isButtonDown = true;
 	}
-	else {
+	else 
+	{
 		isButtonDown = false;
 	}
 
@@ -195,24 +202,32 @@ void PlayScene::Update()
 	{
 		gameBGImage = hBGImageIII;
 	}
-	
+	////たかさ、タイム、
 	//GOALかFINISHを呼び出し
 	if (p->goaled && g == nullptr)
 	{
 		g = FindGameObject<GoalText>();
+		//高さは50固定
+		// スコア
+		g->resultScore = p->gotCoin;
+		// プレイ時間（クリア時間）
 		g->resultTime = playTime;
-		g->resultHeight = bestHeight;
+
 		// ベストタイム確認 
 		CheckBestTime();
-		// 確認 
+		// ベストスコア確認 
 		CheckBestScore();
 		return;
 	}
 	if (p->finished && f == nullptr)
 	{
 		f = Instantiate<FinishText>();
-		f->resultTime = playTime;
+		// 最高到達点
 		f->resultHeight = bestHeight;
+		// スコア
+		f->resultScore = p->gotCoin;
+		// プレイ時間
+		f->resultTime = playTime;
 		return;
 	}
 
@@ -220,12 +235,6 @@ void PlayScene::Update()
 
 void PlayScene::Draw()
 {
-	/*
-	// 背景画像表示(本当は連番pngや配列でやりたい)
-	DrawGraph(0, -(Screen::HEIGHT * 0) - s->scroll, hBGImageI, TRUE);   //下から１番目
-	DrawGraph(0, -(Screen::HEIGHT * 1) - s->scroll, hBGImageII, TRUE);  //下から２番目
-	DrawGraph(0, -(Screen::HEIGHT * 2) - s->scroll, hBGImageIII, TRUE); //下から３番目
-	*/
 	// プレイエリア外のの背景
 	DrawGraph(0, 0, gameBGImage, TRUE); // 洞窟の背景
 
@@ -234,6 +243,8 @@ void PlayScene::Draw()
 	DrawGraph(30 * 8, 0, playModeBGImage, TRUE); // TETRA/BLOCK
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
+	DrawGraph(0, 0, stageTextImage, TRUE);    // 固定表示の文字
+
 	/*
 	//「レディ…」→「ゴー！」
 	DrawGraph(350, 250, ladyTextImage, TRUE); //「レディ…」
@@ -241,42 +252,33 @@ void PlayScene::Draw()
 	*/
 
 	//「NEXT」表示
-	DrawGraph(1025, 50, nextTextImage, TRUE);
+	//DrawGraph(1025, 50, nextTextImage, TRUE);
 
 	SetFontSize(25);
 	//高さ(playerHeight)
-	DrawGraph(1030, 400, heightTextImage, TRUE);
-	DrawFormatString(1030, 400, GetColor(255, 255, 255), "HEIGHT:%.0f/50", fabs(height));
+	//DrawGraph(1030, 400, heightTextImage, TRUE);
+	DrawFormatString(1170, 420, GetColor(255, 255, 255), "%.0f/50", fabs(height));
 	
 	//スコア(Coin?)
-	DrawGraph(1030, 500, scoreTextImage, TRUE);
-	DrawFormatString(1030, 500, GetColor(255, 255, 255), "SCORE:%d", p->gotCoin);
+	//DrawGraph(1030, 500, scoreTextImage, TRUE);
+	DrawFormatString(1160, 470, GetColor(255, 255, 255), "%d", p->gotCoin);
 
 	//タイム(playTime)
-	DrawGraph(1030, 600, timeTextImage, TRUE);
-	DrawFormatString(1030, 600, GetColor(255, 255, 255), "TIME:%4.2f", playTime);
+	//DrawGraph(1030, 600, timeTextImage, TRUE);
+	DrawFormatString(1135, 525, GetColor(255, 255, 255), "%4.2f", playTime);
 	
 	SetFontSize(20);
 	//ベストスコア(bestScore)
-	DrawGraph(1030, 530, bestScoreTextImage, TRUE);
-	DrawFormatString(1030, 530, GetColor(255, 255, 255), "BEST SCORE:%d", bestTime->GetBestScore() );
+	//DrawGraph(1030, 530, bestScoreTextImage, TRUE);
+	DrawFormatString(1155, 605, GetColor(255, 255, 255), "%0d", bestTime->GetBestScore() );
 	//ベストタイム(bestTime)
-	DrawGraph(1030, 630, bestTimeTextImage, TRUE);
-	DrawFormatString(1030, 630, GetColor(255, 255, 255), "BEST TIME:%4.2f", bestTime->GetBestTime() );
+	//DrawGraph(1030, 630, bestTimeTextImage, TRUE);
+	DrawFormatString(1135, 635, GetColor(255, 255, 255), "%4.2f", bestTime->GetBestTime() );
 
 	//プレイモード(TETRA/BLOCK)
 	DrawGraph(5, 530, playModeTextImage, TRUE);   // playModeTextImageに入れる画像を切り替える
 	//「CHANGE：[C] KEY」表示
-	DrawGraph(5, 600, modeChangeTextImage, TRUE); // modeChangeTextImageに入れる画像を切り替える
-}
-
-void PlayScene::CheckBestTime()
-{
-	// ベストタイムを更新する 
-	if (playTime < bestTime->GetBestTime())
-	{
-		bestTime->SetBestTime(playTime);
-	}
+	//DrawGraph(5, 600, modeChangeTextImage, TRUE);
 }
 
 // ベストスコアを更新
@@ -285,6 +287,17 @@ void PlayScene::CheckBestScore()
 	if (p->gotCoin > bestTime->GetBestScore())
 	{
 		bestTime->SetBestScore(p->gotCoin);
+		g->IsNewBestScore = true;
+	}
+}
+
+void PlayScene::CheckBestTime()
+{
+	// ベストタイムを更新する 
+	if (playTime < bestTime->GetBestTime())
+	{
+		bestTime->SetBestTime(playTime);
+		g->IsNewBestTime = true;
 	}
 }
 

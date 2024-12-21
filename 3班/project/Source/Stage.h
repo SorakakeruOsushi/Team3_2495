@@ -18,21 +18,19 @@ public:
 	void Draw() override;
 
 	int emptyImage;  // 画像 マス目
-	int blockImage;  // 画像 灰ブロック
+	int groundImage; // 画像 地面
+	int blockImage;  // 画像 既存ブロック
 	int goalImage;	 // 画像 ゴール(仮)
 	int wallImage;   // 画像 横の壁
-	int MinoImage[6];//ミノの画像
+	int MinoImage[6];// 画像 ミノ
 
-	
-
-	int IsWallRight(VECTOR2 pos);
-	int IsWallLeft(VECTOR2 pos);
-	int IsWallDown(VECTOR2 pos);
-	int IsWallUp(VECTOR2 pos);
-	bool IsGoal(VECTOR2 pos);	//ゴール判定
+	int IsWallRight(VECTOR2 pos);//判定 衝突判定(右)
+	int IsWallLeft(VECTOR2 pos); //判定 衝突判定(左)
+	int IsWallDown(VECTOR2 pos); //判定 衝突判定(下)
+	int IsWallUp(VECTOR2 pos);   //判定 衝突判定(上)
+	bool IsGoal(VECTOR2 pos);	 //判定 ゴール
 
 	void PutBlock(int x, int y, int id);
-
 	bool CheckBlock(int x, int y);
 
 	Player* p;

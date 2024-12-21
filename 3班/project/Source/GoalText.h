@@ -21,9 +21,19 @@ public:
 	int newRecordTextImage;    // 画像「新記録」
 	int goalVoice;			   // 音声 ゲームクリア
 
-	float timer; // 表示タイマー
-	float alpha; // 透過度
+	int heightTextImage;	// 画像「HEIGHT」
+	int scoreTextImage;		// 画像「SCORE」
+	int timeTextImage;		// 画像「TIME」
 
-	float resultTime;   // タイム結果
-	float resultHeight; // スコア結果　　名前直さなきゃ！
+	float timer; // 表示タイマー
+	float alpha; // 不透明度
+
+	float DrawKeyTimer;		// 表示タイマー「タイトルに戻る」
+	bool IsDraw;			// 描画
+
+	bool IsNewBestScore; // 最高スコア更新
+	bool IsNewBestTime;  // 最速タイム更新
+
+	int resultScore;  // スコア結果
+	float resultTime; // タイム結果
 };

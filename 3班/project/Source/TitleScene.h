@@ -23,5 +23,5 @@ public:
 	int pushKeyTextImage;   // 画像「PUSH ANY KEY」の文字画像
 
 	float DrawKeyTimer;		// タイマー 
-	bool IsDraw;				// 描画
+	bool IsDraw;			// 描画
 };

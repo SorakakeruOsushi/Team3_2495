@@ -14,12 +14,9 @@ const int HEIGHT = 51;		//ステージ 高(もっと高くなる?)50とか
 
 int map[HEIGHT][WIDTH];
 
-
 const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24)); 
 const int SIDE_SPACE = CHIP_SIZE * 8; //横余白
-const char* STAGE_DATA_PATH = "data/Stage/Stage%02d.csv";	//	ブロック配置情報のファイル名
-
-
+const char* STAGE_DATA_PATH = "data/Stage/Stage%02d.csv";	// ブロック配置情報のファイル名
 
 Stage::Stage()
 {
@@ -32,15 +29,14 @@ Stage::Stage()
 		}
 	}
 #endif
-
 	//ランダムなCSVファイルを読み込んでステージ生成する！(堀越先生ありがとう！)
 	int stageNo = 0;
-	stageNo = GetRand(9) + 1;
+	stageNo = GetRand(9) + 1; // 乱数 [01～10]のランダム
 
 	char stageFile[100];
 	sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
 
-	// std::ifstream ifs(stageFile);		  //Stage(01～10).CSV
+	//std::ifstream ifs(stageFile);			  //Stage(01～10).CSV
 	std::ifstream ifs("data/stage/Test.csv"); //テスト.CSV
 
 	std::string text;
@@ -61,19 +57,21 @@ Stage::Stage()
 
 	
 	// 画像 ミノ画像
-	MinoImage[2] = LoadGraph("data/image/Lmino_One.png");
-	MinoImage[3] = LoadGraph("data/image/Jmino_One.png");
-	MinoImage[4] = LoadGraph("data/image/Tmino_One.png");
-	MinoImage[5] = LoadGraph("data/image/Omino_One.png");
+	MinoImage[2] = LoadGraph("data/image/Lmino.png");
+	MinoImage[3] = LoadGraph("data/image/Jmino.png");
+	MinoImage[4] = LoadGraph("data/image/Tmino.png");
+	MinoImage[5] = LoadGraph("data/image/Omino.png");
 	for (int i = 2; i < 6; i++) {
  		assert(MinoImage[i] > 0);
 	}
 
 	emptyImage = LoadGraph("data/image/EmptyA1.png");	   // 画像 空っぽマス
 		assert(emptyImage > 0);
-	blockImage = LoadGraph("data/image/Ground.JPG");	   // 画像 草ブロック
+	groundImage = LoadGraph("data/image/Ground.JPG");	   // 画像 草ブロック
+		assert(groundImage > 0);
+	blockImage = LoadGraph("data/image/BlockA2.png");	   // 画像 既存ブロック
 		assert(blockImage > 0);
-	goalImage = LoadGraph("data/image/GoalLineShort.png"); // 画像 草ブロック
+	goalImage = LoadGraph("data/image/GoalLineShort.png"); // 画像 ゴールライン
 		assert(goalImage > 0);
 	wallImage = LoadGraph("data/image/WallA1Long.png");    // 画像 壁
 		assert(wallImage > 0);
@@ -107,9 +105,15 @@ Stage::Stage()
 Stage::~Stage()
 {
 	DeleteGraph(emptyImage);
+	DeleteGraph(groundImage);
 	DeleteGraph(blockImage);
 	DeleteGraph(goalImage);
 	DeleteGraph(wallImage);
+
+	DeleteGraph(MinoImage[2]);
+	DeleteGraph(MinoImage[3]);
+	DeleteGraph(MinoImage[4]);
+	DeleteGraph(MinoImage[5]);
 }
 
 void Stage::Draw()
@@ -128,33 +132,28 @@ void Stage::Draw()
 
 			if (cellBG)
 			{
-				if (map[j][i] == 0)	// マス目「EmptyA1.png」
+				if (map[j][i] == 0)	// マス目
 				{
 					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 30);
-					//四角を表示(左上,右下、色(R,G,B)、塗りつぶし)
 					DrawGraph(x, y - scroll, emptyImage, TRUE);
-					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
+					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 				}
 			}
 
-			/*
-			if (map[j][i] == 1)		
-			{
-				DrawGraph(x, y - scroll, blockImage, TRUE);
-			}
-			if (map[j][i] == 8)	
-			*/
-
 			int chip = map[j][i];
-			if (chip == 1)		     // グレーブロック「BlockA3.png」
+			if (chip == 1)		     // 地面ブロック
+			{
+				DrawGraph(x, y - scroll, groundImage, TRUE);
+			}
+			if (chip == 6)		     // 既存ブロック
 			{
 				DrawGraph(x, y - scroll, blockImage, TRUE);
 			}
-			else if (chip >= 2 && chip < 6) {
+			else if (chip >= 2 && chip < 6)
+			{
 				DrawGraph(x, y - scroll, MinoImage[chip], TRUE);
 			}
-			else if (map[j][i] == 8) // ゴール「GoalLineShort.png」
-
+			else if (chip == 8) // ゴールライン
 			{
 				DrawGraph(x, y - scroll, goalImage, TRUE);
 			}
@@ -162,23 +161,18 @@ void Stage::Draw()
 	}
 }
 
-//########################################################
-// 使うかもしれない
-//if (map[j][i] == 1)
-//if ( (map[j][i] == 1)|| (map[j][i] == 2) || (map[j][i] == 3) || (map[j][i] == 4) || (map[j][i] == 5) )
-
 //ブロックの当たり判定
-int Stage::IsWallRight(VECTOR2 pos)//posにはplayer座標が入る
+int Stage::IsWallRight(VECTOR2 pos) // posにはPlayer座標が入る
 {
-	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
 	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
-	for (int x = 1; x < 6; x++) {
+	for (int x = 1; x < 7; x++) // [1～6]
+	{
 		if (map[j][i] == x)
 		{
 			//めり込んだ分押し返す
 			//★(int)少数だけどintとして扱う
-			int push = ((int)pos.x - SIDE_SPACE) % CHIP_SIZE + 1;//0なら1 1なら2
+			int push = ((int)pos.x - SIDE_SPACE) % CHIP_SIZE + 1; //0なら1 1なら2
 			return push;
 		}
 	}
@@ -186,10 +180,10 @@ int Stage::IsWallRight(VECTOR2 pos)//posにはplayer座標が入る
 }
 int Stage::IsWallLeft(VECTOR2 pos)
 {
-	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
 	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
-	for (int x = 1; x < 6; x++) {
+	for (int x = 1; x < 7; x++) // [1～6]
+	{
 		if (map[j][i] == x)
 		{
 			//めり込んだ分押し返す
@@ -202,10 +196,10 @@ int Stage::IsWallLeft(VECTOR2 pos)
 }
 int Stage::IsWallDown(VECTOR2 pos)
 {
-	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
 	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
-	for (int x = 1; x < 6; x++) {
+	for (int x = 1; x < 7; x++) // [1～6]
+	{
 		if (map[j][i] == x)
 		{
 			//めり込んだ分押し返す
@@ -218,10 +212,10 @@ int Stage::IsWallDown(VECTOR2 pos)
 }
 int Stage::IsWallUp(VECTOR2 pos)
 {
-	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
 	int j = (pos.y - TOP_SPACE)  / CHIP_SIZE;
-	for (int x = 1; x < 6; x++) {
+	for (int x = 1; x < 7; x++) // [1～6]
+	{
 		if (map[j][i] == x)
 		{
 			//めり込んだ分押し返す
@@ -259,7 +253,7 @@ bool Stage::CheckBlock(int x, int y)//そこにマップチップがあるか
 	y = y - (TOP_SPACE - scroll) / CHIP_SIZE;
 	x = x - (SIDE_SPACE / CHIP_SIZE);
 	int id = map[y][x];
-	if (map[y][x]>=1&&map[y][x]<6)
+	if (map[y][x] >= 1 && map[y][x] < 7) // [1以上 かつ 7未満]
 		{
 			return true;
 			

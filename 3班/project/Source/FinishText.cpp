@@ -17,6 +17,13 @@ FinishText::FinishText()
 
 	timer = 0.0f;
 	alpha = 0.0f;
+
+	DrawKeyTimer = 0.0f;
+	IsDraw = false;
+
+	resultHeight =0.0f; // 到達高さ
+	resultScore = 0;	// スコア結果 
+	resultTime = 0.0f;	// タイム結果
 }
 
 FinishText::~FinishText()
@@ -37,6 +44,14 @@ void FinishText::Update()
 
 	if (timer >= 1.5f)
 	{
+		//「タイトルに戻る」表示切替
+		DrawKeyTimer += Time::DeltaTime();
+		if (DrawKeyTimer >= 0.5f)
+		{
+			IsDraw = !IsDraw;
+			DrawKeyTimer = 0.0f;
+		}
+
 		if ( (CheckHitKey(KEY_INPUT_SPACE)) || (input.Buttons[XINPUT_BUTTON_A]) || (input.Buttons[XINPUT_BUTTON_B]) )
 		{
 			SceneManager::ChangeScene("TITLE");
@@ -56,37 +71,6 @@ void FinishText::Update()
 
 void FinishText::Draw()
 {
-	/*
-	//「ゲームオーバー！」的な表示を行う"
-	SetFontSize(100);
-	DrawString(310, 200, "ざんね～ん", GetColor(255, 255, 127)); //(x,y,文字列,色)
-
-	
-	if (timer >= 0.3f) //１秒超えたらずっと表示
-	{
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha); //透過する
-	DrawBox(0, 0, 1280, 720, GetColor(0,0,0), TRUE);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
-
-	DrawString(310, 200, "ざんね～ん", GetColor(255, 255, 127));
-	}
-
-	SetFontSize(50);
-	if (timer >= 0.5f)
-	{
-		DrawFormatString(450, 350, GetColor(255, 255, 255), "SCORE:%3.0f", fabs(resultHeight));//スコアに変わる、高さは死のみ
-	}
-	if (timer >= 1.0f)
-	{
-		DrawFormatString(450, 450, GetColor(255, 255, 255), "TIME:%4.2f", resultTime);
-	}
-	// "スペースキーで終了"
-	if (timer >= 1.5f)
-	{
-		DrawString(300, 600, "スペースキーを押して終了 ", GetColor(255, 255, 255));
-	}
-	*/
-
 	//「FINISH!」表示
 	DrawGraph(340, 280, finishTextImage, TRUE);
 	// 暗転
@@ -102,30 +86,21 @@ void FinishText::Draw()
 	SetFontSize(30);
 	if (timer >= 0.5f)
 	{
+		// 到達高さ表示
+		DrawFormatString(500, 450, GetColor(255, 255, 255), "たかさ%3.0f", fabs(resultHeight));
 		// スコア表示
-		DrawFormatString(500, 450, GetColor(255, 255, 255), "SCORE:%3.0f", fabs(resultHeight));//スコアに変わる、高さは死のみ
+		DrawFormatString(500, 480, GetColor(255, 255, 255), "すこあ%3.0d", resultScore);
 	}
 	if (timer >= 1.0f)
 	{
 		// タイム表示
-		DrawFormatString(500, 500, GetColor(255, 255, 255), "TIME:%4.2f", resultTime);
+		DrawFormatString(500, 500, GetColor(255, 255, 255), "たいむ%4.2f", resultTime);
 	}
 
 	// "スペースキーで終了"
-	if (timer >= 1.5f)
+	if (IsDraw)
 	{
-		/* //ボックス
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255); //透過する
-		DrawBox(0, 600, bannerSlide, 650, GetColor(0, 0, 0), TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
-		*/
-		//SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-		//DrawRectGraph(0, 600, 0,0, bannerSlide,50, bannerImage, TRUE);
-		//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		if (timer >= 2.0f)
-		{
-			//「スペースキーを押して終了」表示
-			DrawGraph(450, 600, titleBackKeyTextImage, TRUE);
-		}
+		//「スペースキーを押して終了」表示
+		DrawGraph(450, 600, titleBackKeyTextImage, TRUE);
 	}
 }
