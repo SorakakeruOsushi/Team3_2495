@@ -9,10 +9,8 @@ Coin::Coin()
 	//コンストラクタで絵をロード
 	coinImage = LoadGraph("data/image/Coin.PNG");				 // 画像 コイン画像
 		assert(coinImage > 0);
-	/*
 	coinSE = LoadSoundMem("data/sound/効果音ラボ/ボヨン.mp3"); // SE コイン取得音
 		assert(coinSE > 0);
-	*/
 	
 	got = false;
 	CoinDraw = true;
@@ -26,7 +24,7 @@ Coin::Coin()
 Coin::~Coin()
 {
 	DeleteGraph(coinImage);
-	//DeleteSoundMem(coinSE);
+	DeleteSoundMem(coinSE);
 }
 
 void Coin::Update()
@@ -42,7 +40,9 @@ void Coin::Update()
 		destroyTimer += Time::DeltaTime();
 		if (destroyTimer >= destroyTimeLimit)
 		{
-			//取得
+			// 取得SE　なったりならなかったり
+			PlaySoundMem(coinSE, DX_PLAYTYPE_BACK);
+			// 取得
 			p->gotCoin += 1;
 			DestroyMe(); //死ぬしかないじゃない！
 		}

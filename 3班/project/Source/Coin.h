@@ -19,7 +19,7 @@ public:
 
 	VECTOR2 position;
 
-	bool got;		 //魔理沙は大変なコインを盗んでいきました
+	bool got;	   // コインが取られた
 
 	bool CoinDraw;
 	float destroyTimer;     //コイン表示タイマー

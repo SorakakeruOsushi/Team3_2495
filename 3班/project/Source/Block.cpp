@@ -291,11 +291,19 @@ Block::~Block()
 
 void Block::Update()
 {
-	if (p->finished || p->goaled)
+	if (!pm->IsGameStart)		 // ゲーム開始前
 	{
 		return;
 	}
-	else if (pm->playMode == 0)
+	if (p->finished || p->goaled)// ゲーム終了
+	{
+		return;
+	}
+	else if (pm->IsGamePause)	 // ゲーム中断
+	{
+		return;
+	}
+	else if (pm->playMode == 0)	 // テトラモード
 	{
 		return;
 	}

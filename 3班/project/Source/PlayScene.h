@@ -23,13 +23,6 @@ public:
 	int goTextImage;   // 画像「ゴー！」
 
 	int stageTextImage;     // 画像 [固定表示文字を１枚の画像にまとめた]
-	int nextTextImage;		// 画像「NEXT」
-	int modeChangeTextImage;// 画像「CHANGE:[C]KEY」
-	int heightTextImage;	// 画像「HEIGHT」
-	int scoreTextImage;		// 画像「SCORE」
-	int timeTextImage;		// 画像「TIME」
-	int bestScoreTextImage;	// 画像「BEST SCORE」
-	int bestTimeTextImage;	// 画像「BEST TIME」
 
 	int playModeTextImage;  // 画像 (現在のプレイモード)
 	int tetraModeTextImage; // 画像「TETRA」
@@ -44,8 +37,12 @@ public:
 		int hBGImageII;   // 画像 背景2
 		int hBGImageIII;  // 画像 背景3
 
-	int titleBackVoice;		// 音声 [T]タイトルに戻るとき
-	int changeModeVoice;	// 音声 [C]プレイモード変更
+	int pauseImage; //画像 ポーズ画面
+
+	int titleBackVoice;	 // 音声 [T]タイトルに戻るとき
+	//int changeModeVoice; // 音声 [C]プレイモード変更
+	//int pauseSE; // SE [TAB]ポーズ画面
+	//int startSE; // SE 
 
 	float playTime;	  //プレイ時間
 	float height;	  // 高さ
