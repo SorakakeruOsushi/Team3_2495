@@ -14,8 +14,8 @@ public:
 	Stage* s;
 	Player* p;
 
-	int coinImage; // 画像 コイン画像
-	int coinSE;    // SE コイン取得音
+	int coinImage; // 画像 コイン
+	int coinSound; // 音 コイン取得
 
 	VECTOR2 position;
 

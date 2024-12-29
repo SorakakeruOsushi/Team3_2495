@@ -29,6 +29,7 @@ PlayScene::PlayScene()
 		assert(ladyTextImage > 0);
 	goTextImage = LoadGraph("data/image/XA1/xゴーA1.png");		   //画像「ゴー！」
 		assert(goTextImage > 0);
+	ladyGoTextImage = ladyTextImage;		// LadyGoのデフォルトは「Lady」
 	
 	tetraModeTextImage = LoadGraph("data/image/font/TETRA.png"); // 画像「TETRA」
 		assert(tetraModeTextImage > 0);
@@ -52,20 +53,36 @@ PlayScene::PlayScene()
 	// 画像 ポーズ画面
 	pauseImage = LoadGraph("data/image/xPause.png"); // 画像 ポーズ画面
 		assert(pauseImage > 0);
+	//「RESET!」
+	//resetTextImage = LoadGraph("data/image/XA1/xRESET.png"); // 画像「RESET」
+	//	assert(resetTextImage > 0);
 
 	// 音声読み込み
-	//titleBackVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音声 [T]タイトルに戻る
-	//	assert(titleBackVoice > 0);
+	titleBackSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [T]タイトルに戻る
+		assert(titleBackSound > 0);
+	tetraModeSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [C]テトラモード
+		assert(tetraModeSound > 0);
+	blockModeSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [C]ブロックモード
+		assert(blockModeSound > 0);
+	startSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 ゲーム開始
+		assert(startSound > 0);
+	pauseSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [Tab]ポーズ
+		assert(pauseSound > 0);
+	//resetSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [0]リセット
+	//	assert(resetSound > 0);
 
 	g = nullptr;
 	f = nullptr;
 
 	playTime = 0.0f;		// プレイ時間
 
+	//IsReset = false;
+	startCountDown = 5.0f;
+
 	height = 0.0f;			// 床分の高さ(10)を引く
 	bestHeight = 0.0f;		// 死亡時のリザルトで表示
 
-	changeBGheight = 50 /3;
+	changeBGheight = 50 / 3;
 }
 
 PlayScene::~PlayScene()
@@ -84,9 +101,17 @@ PlayScene::~PlayScene()
 	DeleteGraph(goTextImage);		 // 画像「ゴー」
 
 	DeleteGraph(pauseImage);		 // 画像 ポーズ画面
+	//DeleteGraph(resetTextImage);	 // 画像「RESET」
 
-	//DeleteSoundMem(titleBackVoice);  // 音声「CHANGE:[C]KEY」
+	DeleteSoundMem(titleBackSound); // 音「CHANGE:[C]KEY」
+	DeleteSoundMem(tetraModeSound); // 音 [C]テトラモード変更時
+	DeleteSoundMem(blockModeSound); // 音 [C]ブロックモード変更時
+	DeleteSoundMem(startSound);		// 音 ゲーム開始
+	DeleteSoundMem(pauseSound);		// 音 [Tab]ポーズ
+	//DeleteSoundMem(resetSound);		// 音 [0]リセット
 }
+
+
 
 void PlayScene::Update()
 {
@@ -97,44 +122,73 @@ void PlayScene::Update()
 	if (CheckHitKey(KEY_INPUT_T))
 	{
 		// サウンドが終了するまで待つ 
-		PlaySoundMem(titleBackVoice, DX_PLAYTYPE_NORMAL);
+		PlaySoundMem(titleBackSound, DX_PLAYTYPE_NORMAL);
 		SceneManager::ChangeScene("TITLE");
 	}
-	//[0]リスタート
-	if (KeyUtility::CheckTrigger(KEY_INPUT_0))
+
+	//ゲーム開始
+	if (KeyUtility::CheckTrigger(KEY_INPUT_2));
 	{
-		//１フレームだけ"RESTARTシーン"に行き、"PLAYシーン"に戻ってくる
-		SceneManager::ChangeScene("RESTART");
+		//PlaySoundMem(startSound, DX_PLAYTYPE_BACK);
+		pm->IsGameStart = true;
 	}
 
-	//[2]kariStart!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	if (KeyUtility::CheckTrigger(KEY_INPUT_2))
-	{
-		pm->gameStart();
-	}
 
 	if (!pm->IsGameStart)
 	{
 		return;
 	}
+	//[0]リスタート
+	if (KeyUtility::CheckTrigger(KEY_INPUT_0))
+	{
+		//IsReset = true;
+		//PlaySoundMem(resetSound, DX_PLAYTYPE_BACK); // SE再生
+		//１フレームだけ"RESTARTシーン"に行き、"PLAYシーン"に戻ってくる
+		SceneManager::ChangeScene("RESTART");
+	}
 	//[Tab]ポーズ&操作ヘルプ
-	if ((KeyUtility::CheckTrigger(KEY_INPUT_TAB)) || (input.Buttons[XINPUT_BUTTON_START]))
+	if (!pm->IsGamePause) // ポーズ中じゃない
 	{
-		// ボタンを押し込んだ時だけ入力を取る
-		if (!isButtonDown)
+		if ((KeyUtility::CheckTrigger(KEY_INPUT_TAB)) || (input.Buttons[XINPUT_BUTTON_START]))
 		{
-			//PlayModeクラスから関数を呼び出す
-			pm->IsGamePause = !pm->IsGamePause; // ゲーム中断
+			// ボタンを押し込んだ時だけ入力を取る
+			if (!isButtonDown)
+			{
+				PlaySoundMem(pauseSound, DX_PLAYTYPE_BACK);
+				pm->IsGamePause = true; // ゲーム中断
+			}
+			isButtonDown = true;
 		}
-		isButtonDown = true;
+		else
+		{
+			isButtonDown = false;
+		}
+		if (pm->IsGamePause)
+		{
+			return;
+		}
 	}
-	else
+	 else // ポーズ中
 	{
-		isButtonDown = false;
-	}
-	if(pm->IsGamePause)
-	{
-		return;
+		// [Tab] ／ [START]または[A]
+		if ( (KeyUtility::CheckTrigger(KEY_INPUT_TAB)) || (input.Buttons[XINPUT_BUTTON_START]) || (input.Buttons[XINPUT_BUTTON_A]))
+		{
+			// ボタンを押し込んだ時だけ入力を取る
+			if (!isButtonDown)
+			{
+				//PlaySoundMem(pauseSound, DX_PLAYTYPE_BACK); // 違う音?
+				pm->IsGamePause = false; // ゲーム再開
+			}
+			isButtonDown = true;
+		}
+		else
+		{
+			isButtonDown = false;
+		}
+		if (pm->IsGamePause)
+		{
+			return;
+		}
 	}
 
 	//[1]セル表示切り替え
@@ -148,7 +202,6 @@ void PlayScene::Update()
 		// ボタンを押し込んだ時だけ入力を取る
 		if (!isButtonDown)
 		{
-			//PlayModeクラスから関数を呼び出す
 			pm->changeMode();
 		}
 		isButtonDown = true;
@@ -160,11 +213,13 @@ void PlayScene::Update()
 
 	if (pm->playMode == 0) // テトラモード
 	{
+		//PlaySoundMem(tetraModeSound, DX_PLAYTYPE_BACK);
 		playModeTextImage = tetraModeTextImage;
 		playModeBGImage = tetraModeBGImage;
 	}
 	else 				   // ブロックモード
 	{
+		//PlaySoundMem(blockModeSound, DX_PLAYTYPE_BACK);
 		playModeTextImage = blockModeTextImage;
 		playModeBGImage = blockModeBGImage;
 	}
@@ -246,14 +301,13 @@ void PlayScene::Draw()
 
 	DrawGraph(0, 0, stageTextImage, TRUE);    // 固定表示の文字
 
-	/*
 	//「レディ…」→「ゴー！」
-	DrawGraph(350, 250, ladyTextImage, TRUE); //「レディ…」
-	DrawGraph(430, 230, goTextImage, TRUE);   //「ゴー！」
-	*/
+	DrawGraph(350, 250, ladyGoTextImage, TRUE); //「レディ…」「ゴー！」
+	
 
 	SetFontSize(25);
 	//高さ(playerHeight)
+
 	DrawFormatString(1170, 420, GetColor(255, 255, 255), "%.0f/50", fabs(height));
 	
 	//スコア(Coin?)
@@ -271,7 +325,14 @@ void PlayScene::Draw()
 	//プレイモード(TETRA/BLOCK)
 	DrawGraph(5, 530, playModeTextImage, TRUE);   // playModeTextImageに入れる画像を切り替える
 
-	//ポーズ画面
+	//「RESET!」表示
+	//if (IsReset) 
+	{
+		//DrawGraph(30 * 8.5, 200, resetTextImage, TRUE);
+	}
+
+
+	//ポーズ画面　(表示順バグ)
 	if (pm->IsGamePause)
 	{
 		// 画面を暗くする
@@ -282,7 +343,8 @@ void PlayScene::Draw()
 		DrawGraph(0, 0, pauseImage, TRUE);
 	}
 
-	SetFontSize(50);
+	SetFontSize(100);
+	//DrawFormatString(300, 300, GetColor(255, 255, 255), "%0.0f", startCountDown);
 	DrawString(300, 300, "テスト中、[2]でゲーム開始", GetColor(255, 255, 0), TRUE);
 }
 

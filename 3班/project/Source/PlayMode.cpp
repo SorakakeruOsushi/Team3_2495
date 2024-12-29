@@ -1,4 +1,5 @@
 #include "PlayMode.h"
+#include <cassert>
 
 PlayMode::PlayMode()
 {
@@ -16,11 +17,5 @@ void PlayMode::gameStart()
 {
 	IsGameStart = true;			   // ゲーム開始
 }
-
-void PlayMode::gamePause()
-{
-	IsGamePause = !IsGamePause;    // ゲーム中断
-}
-
 
 

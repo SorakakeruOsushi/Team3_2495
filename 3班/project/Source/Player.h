@@ -13,8 +13,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	int hImage; // 画像 プレイヤー
-	int jumpSE; // SE ジャンプ音
+	int playerImage; // 画像 プレイヤー
+	int jumpSound;   // 音 ジャンプ
 
 	XINPUT_STATE input; //PAD操作用変数
 	
@@ -26,16 +26,16 @@ public:
 	float playerHeight;
 	float prePlayerY;
 
-	float speed;		//速度
+	float speed;		// 速度
 
-	float velocity;		//力と方向
-	bool prevJumpKey;	//前のジャンプキー
-	bool onGround;		//接地判定
+	float velocity;		// 力と方向
+	bool prevJumpKey;	// 前のジャンプキー
+	bool onGround;		// 接地判定
 
-	int gotCoin;		//コイン取得数
+	int gotCoin;		// コイン取得数
 
-	bool finished;		//死んだ！
-	bool goaled;		//ゴール
+	bool finished;		// 死んだ！
+	bool goaled;		// ゴール
 
 	bool IsWalkLeft;
 	bool IsWalkRight;

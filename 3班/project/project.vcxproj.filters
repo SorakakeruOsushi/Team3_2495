@@ -132,13 +132,7 @@
     <ClInclude Include="Source\Stage.h" />
     <ClInclude Include="Source\Vector2.h" />
     <ClInclude Include="Source\FinishText.h" />
-    <ClInclude Include="Source\stage1.h">
-      <Filter>TitleScene\PlayScene</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GoalText.h" />
-    <ClInclude Include="Source\stageXtest.h">
-      <Filter>TitleScene\PlayScene</Filter>
-    </ClInclude>
     <ClInclude Include="Library\Utility.h">
       <Filter>Library</Filter>
     </ClInclude>

@@ -16,7 +16,8 @@ public:
 	int finishTextImage;	   // 画像「FINISH!」
 	int gameOverTextImage;	   // 画像「GAME OVER!」
 	int titleBackKeyTextImage; // 画像「スペースキーを押して終了」
-	int gameOverVoice;		   // 音声 ゲームオーバー
+	int gameOverSound;		   // 音 ゲームオーバー
+	int titleBackSound;		   // 音 タイトルに戻る
 
 	int heightTextImage;	// 画像「HEIGHT」
 	int scoreTextImage;		// 画像「SCORE」
