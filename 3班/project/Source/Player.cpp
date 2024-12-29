@@ -11,20 +11,19 @@ const float V0 = -sqrtf(2.0f * Gravity * JumpHight); //放物線(ジャンプ)の式
 
 Player::Player()
 {
-	// Playerは縦２x横１マスの大きさ
-	hImage = LoadGraph("data/image/TETRAall.png"); // 画像 プレイヤー
-	//hImage = LoadGraph("data/image/TETRAsmall.png"); // 画像 小さいプレイヤー
-		assert(hImage > 0); 
-	jumpSE = LoadSoundMem("data/sound/効果音ラボ/ジャンプ.mp3");  // SE プレイヤージャンプ
-		assert(jumpSE > 0);
+	playerImage = LoadGraph("data/image/TETRAall.png"); // 画像 プレイヤー
+	//hImage = LoadGraph("data/image/TETRAsmall.png");  // 画像 小さいプレイヤー
+		assert(playerImage > 0); 
+	jumpSound = LoadSoundMem("data/sound/効果音ラボ/ジャンプ.mp3");  // 音 ジャンプ
+		assert(jumpSound > 0);
 
 	pm = FindGameObject<PlayMode>();
 		assert(pm != nullptr);
 	s = FindGameObject<Stage>();
 		assert(pm != nullptr);
 
-	position.x = 0;
-	position.y = 0;
+	position.x = 0.0f;
+	position.y = 0.0f;
 
 	playerHeight = -10.0f; //床分の高さ(10)分引く
 	prePlayerY = 0;
@@ -51,14 +50,21 @@ Player::Player()
 
 Player::~Player()
 {
-	DeleteGraph(hImage);
-	DeleteSoundMem(jumpSE);
+	DeleteGraph(playerImage);
+	DeleteSoundMem(jumpSound);
 }
 
 void Player::Update()
 {
 	if(!pm->IsGameStart)		 // ゲーム開始前
 	{
+		/*
+		// 重力
+		position.y += velocity; //座標には速度を足す
+		velocity += Gravity;	//下向きの力　速度には重力を足す
+		onGround = false;
+		*/
+
 		return;
 	}
 	else if (finished || goaled) // ゲーム終了
@@ -188,7 +194,7 @@ void Player::Update()
 			{
 				//2マス分飛ぶ velocity:速度
 				velocity = V0; //"初速"
-				PlaySoundMem(jumpSE, DX_PLAYTYPE_BACK); // ジャンプ音の再生
+				PlaySoundMem(jumpSound, DX_PLAYTYPE_BACK); // ジャンプ音の再生
 			}
 		}
 		prevJumpKey = true;
@@ -309,9 +315,6 @@ void Player::Update()
 		finished = true;
 	}
 
-	
-
-
 	//ゴールした
 	if (!goaled && s->IsGoal(position + VECTOR2(22.5, 35))) //ゴールは左上でなく中心で（右に22.5,下に35ずれる）
 	{
@@ -325,6 +328,6 @@ void Player::Update()
 
 void Player::Draw()
 {
-	DrawRectGraph(position.x, position.y - s->scroll, patternX*45, patternY*70, 45, 70, hImage, TRUE);
+	DrawRectGraph(position.x, position.y - s->scroll, patternX*45, patternY*70, 45, 70, playerImage, TRUE);
 	//DrawRectGraph(position.x, position.y - s->scroll, patternX * 30, patternY * 47, 30, 47, hImage, TRUE);
 }

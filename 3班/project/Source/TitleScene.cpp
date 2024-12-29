@@ -5,14 +5,17 @@
 
 TitleScene::TitleScene()
 {
-	titleImage = LoadGraph("data/image/Title.JPG"); // 画像 タイトル画面
+	titleImage = LoadGraph("data/image/Title.JPG");			  // 画像 タイトル画面
 		assert(titleImage > 0);
-	titleLogoImage = LoadGraph("data/image/ロゴ_透過.png"); // 画像 タイトルロゴ
+	titleLogoImage = LoadGraph("data/image/ロゴ_透過.png");   // 画像 タイトルロゴ
 		assert(titleLogoImage > 0);
-	titleBGImage = LoadGraph("data/image/Back1.png"); // 画像 タイトル画面背景
+	titleBGImage = LoadGraph("data/image/Back1.png");		  // 画像 タイトル画面背景
 		assert(titleBGImage > 0);
 	pushKeyTextImage = LoadGraph("data/image/font/Push.png"); //「PUSH ANY KEY」
 		assert(pushKeyTextImage > 0);
+
+	startSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [T]タイトルに戻る
+		assert(startSound > 0);
 	
 	DrawKeyTimer = 0.0f;  // タイマー 
 	IsDraw = true;
@@ -24,6 +27,8 @@ TitleScene::~TitleScene()
 	DeleteGraph(titleLogoImage);
 	DeleteGraph(titleBGImage);
 	DeleteGraph(pushKeyTextImage);
+
+	DeleteSoundMem(startSound);
 }
 
 void TitleScene::Update()
@@ -44,7 +49,7 @@ void TitleScene::Update()
 	if ( (KeyUtility::CheckTriggerAll(DX_CHECKINPUT_KEY)) || (input.Buttons[XINPUT_BUTTON_B]))
 	{
 		// サウンドが終了するまで待つ 
-		//PlaySoundFile(  , DX_PLAYTYPE_NORMAL);
+		PlaySoundMem(startSound, DX_PLAYTYPE_NORMAL);
 		SceneManager::ChangeScene("PLAY");
 	}
 	if (KeyUtility::CheckTrigger(KEY_INPUT_ESCAPE))
@@ -70,8 +75,8 @@ void TitleScene::Draw()
 		DrawGraph(270, 500, pushKeyTextImage, TRUE);
 	}
 
-	SetFontSize(25);
-	DrawString(585, 615, "ＨＥＬＰ", GetColor(255, 255, 255));
+	//SetFontSize(25);
+	//DrawString(585, 615, "ＨＥＬＰ", GetColor(255, 255, 255));
 
 	//調整用センタードット
 	//DrawString(1280/2, 720/2, ".", GetColor(255, 0, 0), TRUE);

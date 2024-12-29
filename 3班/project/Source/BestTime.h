@@ -16,7 +16,6 @@ public:
 	void SetBestTime(float playTime) { bestTime = playTime; }
 	// ベストスコア
 	int GetBestScore() { return bestScore; }
-	void SetBestScore(int gotCoin) {
-		bestScore = gotCoin; }
+	void SetBestScore(int gotCoin) { bestScore = gotCoin; }
 };
 

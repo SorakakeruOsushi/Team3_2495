@@ -19,6 +19,7 @@ public:
 	XINPUT_STATE input; // PAD操作用変数
 	bool isButtonDown;	// プレイモード切り替えで、ボタンの押し込んだ時の入力を取るのに使います
 
+	int ladyGoTextImage;
 	int ladyTextImage; // 画像「レディ…」
 	int goTextImage;   // 画像「ゴー！」
 
@@ -37,16 +38,22 @@ public:
 		int hBGImageII;   // 画像 背景2
 		int hBGImageIII;  // 画像 背景3
 
-	int pauseImage; //画像 ポーズ画面
+	int pauseImage;		// 画像 ポーズ画面
+	//int resetTextImage; // 画像「RESET」
 
-	int titleBackVoice;	 // 音声 [T]タイトルに戻るとき
-	//int changeModeVoice; // 音声 [C]プレイモード変更
-	//int pauseSE; // SE [TAB]ポーズ画面
-	//int startSE; // SE 
+	int titleBackSound; // 音 [T]タイトルに戻るとき
+	int tetraModeSound; // 音 [C]テトラモード変更時
+	int blockModeSound; // 音 [C]ブロックモード変更時
+	int pauseSound;	    // 音 [TAB]ポーズ画面
+	int startSound;		// 音 ゲーム開始
+	//int resetSound;		// 音 [0]リセット音
 
 	float playTime;	  //プレイ時間
 	float height;	  // 高さ
 	float bestHeight; // 最高の高さ
+
+	//bool IsReset;
+	float startCountDown;
 
 	Stage* s;			// マップ
 	Player* p;			// プレイヤー

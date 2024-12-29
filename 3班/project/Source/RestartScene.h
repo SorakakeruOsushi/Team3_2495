@@ -9,8 +9,6 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	//int jumpSE; // SE リセット音
-
-	int resetTextImage; // 画像「RESET!」の文字画像
+	//int resetTextImage; // 画像「RESET!」
 };
 
