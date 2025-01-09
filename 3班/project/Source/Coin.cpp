@@ -12,6 +12,8 @@ Coin::Coin()
 	coinSound = LoadSoundMem("data/sound/効果音ラボ/ボヨン.mp3"); // SE コイン取得音
 		assert(coinSound > 0);
 	
+	SetDrawOrder(6);
+
 	got = false;
 	CoinDraw = true;
 
@@ -54,7 +56,7 @@ void Coin::Update()
    	VECTOR2 playerPos = p->position;	  //playerPosにplayerのpositionを入れる
 
 	//当たり判定："playerPos"と"position"が当たったら
-	if (CircleHit(position, playerPos, 30))
+	if (CircleHit(position, playerPos + VECTOR2(7.5f, 0), 30) || CircleHit(position, playerPos + VECTOR2(7.5f, 35), 30))
 	{
 		got = true;	      //取られた
 		v = -2.5;//跳ねる力(上方向なので「-」符号)
