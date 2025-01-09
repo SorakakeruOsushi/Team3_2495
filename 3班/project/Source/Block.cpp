@@ -316,6 +316,10 @@ void Block::Update()
 		counter += Time::DeltaTime() * quickCount;
 		//Sが押されていたらquickCount倍早くcountが進む＝早く落ちる
 	}
+	/*else if (CheckHitKey(KEY_INPUT_W)) {
+		counter += (Time::DeltaTime() * quickCount) * 10000;
+		//クイックドロップのようなもの（仮）
+	}*/
 	else {
 		counter += Time::DeltaTime();//押されていなければそのまま
 	}
@@ -460,7 +464,7 @@ void Block::Update()
 	if (position.x >= WIDTH - 5 + 12) {
 		position.x = WIDTH - 5 + 11;
 	}
-	if (CheckHitKey(KEY_INPUT_X)) {//ブロックを設置
+	/*if (CheckHitKey(KEY_INPUT_X)) {//ブロックを設置
 		if (not putBlock) {
 			BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
 			for (int y = 0; y < 3; y++) {
@@ -481,7 +485,7 @@ void Block::Update()
 	}
 	else {
 		putBlock = false;
-	}
+	}*/
 	
 }
 
