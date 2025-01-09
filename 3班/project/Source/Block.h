@@ -2,11 +2,13 @@
 #include "../Library/GameObject.h"
 #include "Vector2.h"
 #include "PlayMode.h"
+#include "Stage.h"
 
 
 class Block :
 	public GameObject
-{
+{private:
+	Stage* s;
 public:
 	Block();
 	~Block();
@@ -20,6 +22,10 @@ public:
 		int y;
 	};
 	IVECTOR2 position; // 座標は、ブロックのマスで持っておく
+
+	VECTOR2 nowPosition;
+
+	void SetPosition(int x,int y);
 
 	int blockSize; // ブロックサイズはintで
 
@@ -40,11 +46,20 @@ public:
 	float timer; // timeという名前は使っているので、timerにしました
 	float counter;
 	float quickCount;//Sを押している時にcounterを増やす倍率
+	float pressTimerL=20;
+	float pressTimerR = 20;
+	float pressTimerRT = 20;
+	float pressTimerLT = 20;
+	float TurnWaitTimer = 2;
 
 	bool isMovedLeft;//右に移動したか
 	bool isMovedRight;//左に移動したか
 	bool isTurn;//回転したか
+	bool putBlock;//Xで置く用　仮
 
 	PlayMode* pm;
+	Player* p;
+
+	XINPUT_STATE input; //PAD操作用変数
 };
 

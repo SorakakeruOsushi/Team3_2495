@@ -4,12 +4,13 @@
 
 RestartScene::RestartScene()
 {
-	resetTextImage = LoadGraph("data/image/XA1/xRESET.png");
-		assert(resetTextImage > 0);
+	//uRESET!v
+	//resetTextImage = LoadGraph("data/image/XA1/xRESET.png"); 
+	//	assert(resetTextImage > 0);
 }
 RestartScene::~RestartScene()
 {
-	DeleteGraph(resetTextImage);
+	//DeleteGraph(resetTextImage);
 }
 void RestartScene::Update()
 {
@@ -19,7 +20,6 @@ void RestartScene::Update()
 
 void RestartScene::Draw()
 {
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-	DrawGraph(30*8.5,200, resetTextImage, TRUE);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	// [RESET!]•\Ž¦
+	//DrawGraph(30 * 8.5, 200, resetTextImage, TRUE);
 }

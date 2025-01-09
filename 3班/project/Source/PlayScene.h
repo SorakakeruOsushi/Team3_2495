@@ -17,25 +17,43 @@ public:
 	void Draw() override;
 
 	XINPUT_STATE input; // PAD操作用変数
+	bool isButtonDown;	// プレイモード切り替えで、ボタンの押し込んだ時の入力を取るのに使います
 
-	int nextTextImage;		// 画像「NEXT」の文字画像
-	int modeChangeTextImage;// 画像「CHANGE:[C]KEY」の文字画像
+	int ladyGoTextImage;
+	int ladyTextImage; // 画像「レディ…」
+	int goTextImage;   // 画像「ゴー！」
 
-	int playModeTextImage;  // 画像「(現在のプレイモード)」の文字画像
-	int playModeBGImage;	// 画像 「(現在のプレイモード)」プレイエリア背景画像
+	int stageTextImage;     // 画像 [固定表示文字を１枚の画像にまとめた]
 
-	int hBGImageI;    // 画像 背景1
-	int hBGImageII;   // 画像 背景2
-	int hBGImageIII;  // 画像 背景3
+	int playModeTextImage;  // 画像 (現在のプレイモード)
+	int tetraModeTextImage; // 画像「TETRA」
+	int blockModeTextImage; // 画像「BLOCK」
+	int playModeBGImage;    // 画像 (現在のプレイモード)プレイエリア背景画像
+	int tetraModeBGImage;   // 画像 TETRAモードのプレイエリア背景画像
+	int blockModeBGImage;   // 画像 BLOCKモードのプレイエリア背景画像
 
-	int titleBackVoice;		// 音声 [T]タイトルに戻るとき
-	int changeModeVoice;	// 音声 [C]プレイモード変更
-	int gameBGM;			// 音楽 BGM
+	int gameBGImage; // 画像 ゲーム背景
+	int changeBGheight;
+		int hBGImageI;    // 画像 背景1
+		int hBGImageII;   // 画像 背景2
+		int hBGImageIII;  // 画像 背景3
 
-	float playTime;		//プレイ時間
+	int pauseImage;		// 画像 ポーズ画面
+	//int resetTextImage; // 画像「RESET」
 
-	float height;	  //高さ
-	float bestHeight; //最高の高さ()
+	int titleBackSound; // 音 [T]タイトルに戻るとき
+	int tetraModeSound; // 音 [C]テトラモード変更時
+	int blockModeSound; // 音 [C]ブロックモード変更時
+	int pauseSound;	    // 音 [TAB]ポーズ画面
+	int startSound;		// 音 ゲーム開始
+	//int resetSound;		// 音 [0]リセット音
+
+	float playTime;	  //プレイ時間
+	float height;	  // 高さ
+	float bestHeight; // 最高の高さ
+
+	//bool IsReset;
+	float startCountDown;
 
 	Stage* s;			// マップ
 	Player* p;			// プレイヤー
@@ -44,5 +62,6 @@ public:
 	BestTime* bestTime; // 最速クリアタイム更新
 	PlayMode* pm;		// 操作モード切り替え(TETRA/BLOCK)
 
-	void CheckBestTime(); // 最高得点の更新確認
+	void CheckBestTime();  // ベストタイムの更新確認
+	void CheckBestScore(); // ベストスコアの更新確認
 };

@@ -2,30 +2,28 @@
 #include <cassert>
 #include "Screen.h"
 #include "GoalText.h"
+#include "Stage.h"
 
-const float Gravity = 0.2f;							 //重力
-const float JumpHight = 30 * 2.5f;						 //ジャンプの高さ
+const float Gravity = 0.3f;							 //重力
+const float JumpHight = 30 * 2.5f;				     //ジャンプの高さ
 //			v0 = -  √   2   *   g     *    S
 const float V0 = -sqrtf(2.0f * Gravity * JumpHight); //放物線(ジャンプ)の式
 
 Player::Player()
 {
-	// Playerは縦２x横１マスの大きさ
-	hImage = LoadGraph("data/image/TETRAall.png");
-		assert(hImage > 0);
-	// Jumpサウンドデータを読み込む 
-	jumpSE = LoadSoundMem("data/sound/効果音ラボ/ジャンプ.mp3");  // プレイヤーJumpサウンド
-		assert(jumpSE > 0);
-
-		//pm = Instantiate<PlayMode>();
+	playerImage = LoadGraph("data/image/TETRAall.png"); // 画像 プレイヤー
+	//hImage = LoadGraph("data/image/TETRAsmall.png");  // 画像 小さいプレイヤー
+		assert(playerImage > 0); 
+	jumpSound = LoadSoundMem("data/sound/効果音ラボ/ジャンプ.mp3");  // 音 ジャンプ
+		assert(jumpSound > 0);
 
 	pm = FindGameObject<PlayMode>();
 		assert(pm != nullptr);
-
 	s = FindGameObject<Stage>();
+		assert(pm != nullptr);
 
-	position.x = 0;
-	position.y = 0;
+	position.x = 0.0f;
+	position.y = 0.0f;
 
 	playerHeight = -10.0f; //床分の高さ(10)分引く
 	prePlayerY = 0;
@@ -46,21 +44,38 @@ Player::Player()
 	goaled = false;
 
 	velocity = 0.0f;
+
+	gotCoin = 0;
 }
 
 Player::~Player()
 {
-	DeleteGraph(hImage);
-	DeleteSoundMem(jumpSE);
+	DeleteGraph(playerImage);
+	DeleteSoundMem(jumpSound);
 }
 
 void Player::Update()
 {
-	if (finished || goaled)
+	if(!pm->IsGameStart)		 // ゲーム開始前
+	{
+		/*
+		// 重力
+		position.y += velocity; //座標には速度を足す
+		velocity += Gravity;	//下向きの力　速度には重力を足す
+		onGround = false;
+		*/
+
+		return;
+	}
+	else if (finished || goaled) // ゲーム終了
 	{
 		return;
 	}
-	else if (pm->playMode == 1)
+	else if(pm->IsGamePause)	 // ゲーム中断
+	{
+		return;
+	}
+	else if (pm->playMode == 1)	 // ブロックモード
 	{
 		return;
 	}
@@ -72,15 +87,15 @@ void Player::Update()
 	prePlayerY = position.y;
 
 	
-	//パッド用関数(毎フレーム呼び出す)
+	// パッド用関数(毎フレーム呼び出す)
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
-	//左右移動
+	// 左右移動
 	if ( (CheckHitKey(KEY_INPUT_A)) || (CheckHitKey(KEY_INPUT_LEFT)) || (input.Buttons[XINPUT_BUTTON_DPAD_LEFT]) ) //左(A・←・PAD←)
 	{
 		IsWalkLeft = true;
 		position.x -= speed;
-
+		
 		//左に壁があるか調べる
 		int push = s->IsWallLeft(position + VECTOR2(0, 0));
 		position.x += push;
@@ -91,13 +106,21 @@ void Player::Update()
 		push = s->IsWallLeft(position + VECTOR2(0, 69));
 		position.x += push;
 
+		//ミニマム(展開)
+		/*
+		int push = s->IsWallLeft(position + VECTOR2(0, 0));
+		position.x += push;
+		push = s->IsWallLeft(position + VECTOR2(0, 23));
+		position.x += push;
+		push = s->IsWallLeft(position + VECTOR2(0, 46));
+		position.x += push;
+		*/
 	}
 	else if ((CheckHitKey(KEY_INPUT_D)) || (CheckHitKey(KEY_INPUT_RIGHT)) || (input.Buttons[XINPUT_BUTTON_DPAD_RIGHT]) ) //右(D・→・PAD→)
 	{
 		IsWalkRight = true;
 		position.x += speed;
-
-
+		
 		//右に壁があるか調べる
 		int push = s->IsWallRight(position + VECTOR2(44, 0));
 		position.x -= push;
@@ -107,9 +130,19 @@ void Player::Update()
 		position.x -= push;
 		push = s->IsWallRight(position + VECTOR2(44, 69));
 		position.x -= push;
+
+		//ミニマム(展開)
+		/*
+		int push = s->IsWallRight(position + VECTOR2(29, 0));
+		position.x -= push;
+		push = s->IsWallRight(position + VECTOR2(29, 23));
+		position.x -= push;
+		push = s->IsWallRight(position + VECTOR2(29, 46));
+		position.x -= push;
+		*/
 	}
 
-	//歩行アニメーション
+	// 歩行アニメーション
 	if (IsWalkLeft)
 	{
 		patternY = 0;
@@ -142,9 +175,9 @@ void Player::Update()
 	}
 	else
 	{
-		//立ち止まる
+		// 立ち止まる
 		patternX = 0;
-		//正面を向く
+		// 正面を向く
 		timer += Time::DeltaTime();
 		if (timer >= 1.5f)
 		{
@@ -152,7 +185,7 @@ void Player::Update()
 		}
 	}
 
-	//ジャンプ
+	// ジャンプ
 	if (CheckHitKey(KEY_INPUT_SPACE) || (input.Buttons[XINPUT_BUTTON_A]) || (input.Buttons[XINPUT_BUTTON_B]) )
 	{
 		if (prevJumpKey == false)
@@ -161,7 +194,7 @@ void Player::Update()
 			{
 				//2マス分飛ぶ velocity:速度
 				velocity = V0; //"初速"
-				PlaySoundMem(jumpSE, DX_PLAYTYPE_BACK);
+				PlaySoundMem(jumpSound, DX_PLAYTYPE_BACK); // ジャンプ音の再生
 			}
 		}
 		prevJumpKey = true;
@@ -171,13 +204,13 @@ void Player::Update()
 		prevJumpKey = false;
 	}
 
-	//重力
+	// 重力
 	position.y += velocity; //座標には速度を足す
 	velocity += Gravity;	//下向きの力　速度には重力を足す
 	onGround = false;
 
 
-	//下に壁があるか調べる
+	// 下に壁があるか調べる
 	if (velocity >= 0)// velocity:速度
 	{
 		int push = s->IsWallDown(position + VECTOR2(0, 70)); //一個下を見るので70
@@ -201,8 +234,26 @@ void Player::Update()
 			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
 			onGround = true;		//接地してる
 		}
+
+		//ミニマム(展開)
+		/*
+			int push = s->IsWallDown(position + VECTOR2(0, 47));
+			if (push > 0)	//地面に触れたので
+			{
+				velocity = 0;			//地面に触ったら速度を0に
+				position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
+				onGround = true;		//接地してる
+			}
+			push = s->IsWallDown(position + VECTOR2(29, 47));
+			if (push > 0)	//地面に触れたので
+			{
+				velocity = 0;			//地面に触ったら速度を0に
+				position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
+				onGround = true;		//接地してる
+			}
+		*/
 	}
-	//上に壁があるか調べる
+	// 上に壁があるか調べる
 	else
 	{
 		int push = s->IsWallUp(position + VECTOR2(0, 0));
@@ -223,6 +274,23 @@ void Player::Update()
 			velocity = 0.0f;
 			position.y += push;
 		}
+
+		//ミニマム(展開)
+		/*
+			int push = s->IsWallUp(position + VECTOR2(0, 0));
+			if (push > 0)
+			{
+				velocity = 0.0f;
+				position.y += push;
+			}
+			push = s->IsWallUp(position + VECTOR2(29, 0));
+			if (push > 0)
+			{
+				velocity = 0.0f;
+				position.y += push;
+			}
+		}
+		*/
 	}
 	
 	//プレイヤーをプレイエリアに閉じ込める
@@ -248,7 +316,7 @@ void Player::Update()
 	}
 
 	//ゴールした
-	if (!goaled && s->IsGoal(position + VECTOR2(22.5, 35))) //ゴールは左上でなく中心で（右に20,下に20ずれる）
+	if (!goaled && s->IsGoal(position + VECTOR2(22.5, 35))) //ゴールは左上でなく中心で（右に22.5,下に35ずれる）
 	{
 		Instantiate<GoalText>();
 		goaled = true;
@@ -260,6 +328,6 @@ void Player::Update()
 
 void Player::Draw()
 {
-	Stage* s = FindGameObject<Stage>();
-	DrawRectGraph(position.x, position.y - s->scroll, patternX*45, patternY*70, 45, 70, hImage, TRUE);
+	DrawRectGraph(position.x, position.y - s->scroll, patternX*45, patternY*70, 45, 70, playerImage, TRUE);
+	//DrawRectGraph(position.x, position.y - s->scroll, patternX * 30, patternY * 47, 30, 47, hImage, TRUE);
 }

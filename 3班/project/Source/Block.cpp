@@ -240,9 +240,17 @@ BlockPos GetBlockPos(Block::ShapeType type, int rot) {
 
 Block::Block()
 {
+
+	s = FindGameObject<Stage>();
+	assert(s != nullptr);
+	p = FindGameObject<Player>();
+	assert(p != nullptr);
+
 	isMovedLeft = false;
 	isMovedRight = false;
 	isTurn = false;
+
+	putBlock = false;
 
 	position.x =WIDTH-5;
 	position.y =0;
@@ -259,22 +267,21 @@ Block::Block()
 	nowBlock.rotation = 0;
 	nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
 	nextBlock.rotation = 0;
-	for (int i = 0; i < ShapeType::SHAPE_MAX; i++) {
+	for (int i = 2; i < 6; i++) {
 		hImage[i] = -1;
 	}
-	hImage[2] = LoadGraph("data/image/Lmino_One.png");
-	hImage[3] = LoadGraph("data/image/Jmino_One.png");
-	hImage[4] = LoadGraph("data/image/Tmino_One.png");
-	hImage[5] = LoadGraph("data/image/Omino_One.png");
+	hImage[2] = LoadGraph("data/image/Lmino.PNG");
+	hImage[3] = LoadGraph("data/image/Jmino.PNG");
+	hImage[4] = LoadGraph("data/image/Tmino.PNG");
+	hImage[5] = LoadGraph("data/image/Omino.PNG");
 
 	pm = FindGameObject<PlayMode>();
 	assert(pm != nullptr);
-
 }
 
 Block::~Block()
 {
-	for (int i = 0; i < ShapeType::SHAPE_MAX; i++) {
+	for (int i = 2; i < 6; i++) {
 		if (hImage[i] > 0) {
 			DeleteGraph(hImage[i]);
 		}
@@ -282,17 +289,27 @@ Block::~Block()
 }
 
 
-
 void Block::Update()
 {
-	/*if (finished || goaled)
+	if (!pm->IsGameStart)		 // ゲーム開始前
 	{
 		return;
 	}
-	else*/ if (pm->playMode == 0)
+	if (p->finished || p->goaled)// ゲーム終了
 	{
 		return;
 	}
+	else if (pm->IsGamePause)	 // ゲーム中断
+	{
+		return;
+	}
+	else if (pm->playMode == 0)	 // テトラモード
+	{
+		return;
+	}
+
+	//パッド用関数(毎フレーム呼び出す)
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
 	//ブロックを落とす
 	if (CheckHitKey(KEY_INPUT_S)) {
@@ -302,50 +319,170 @@ void Block::Update()
 	else {
 		counter += Time::DeltaTime();//押されていなければそのまま
 	}
-	if (counter >= timer) {
-		if (position.y >= 20) { // 本当は、既にあるブロックの上に乗ったら
-			nowBlock = nextBlock;
-			position.x = WIDTH-5;
-			position.y = 0;
-			nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
-			nextBlock.rotation = 0;
+	if (counter >= timer) {//地面についたら置く
+		BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (s->CheckBlock(position.x + x, (position.y + y) + 1)) { // ミノの下に障害物があれば
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						for (int y = 0; y < 3; y++) {
+							for (int x = 0; x < 3; x++) {
+								int id = block.blockPos[y][x];
+								if (id > 0) {
+									s->PutBlock(position.x + x, position.y + y, id);//ミノを配置する
+								}
+							}
+						}
+						nowBlock = nextBlock;
+						position.x = WIDTH - 5;
+						position.y = 0;
+						nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+						nextBlock.rotation = 0;
+						return;
+					}
+				}
+			}
 		}
-		else {
 			position.y++;
-		}
 		counter = 0.0f;
 	}
-	//左に移動
-	if (CheckHitKey(KEY_INPUT_A)) {
+	//左に移動(A・←・PAD←)
+	if (CheckHitKey(KEY_INPUT_A) || (CheckHitKey(KEY_INPUT_LEFT))
+		|| (input.Buttons[XINPUT_BUTTON_DPAD_LEFT])) {
 		if (isMovedLeft == false) {
 			position.x--;
 			isMovedLeft = true;
+			pressTimerL = 20;//pressTimerを20Fに設定
+		}
+		pressTimerL--;
+		if (pressTimerL <= 0 && isMovedLeft == true) {//pressTimerが0以下かつ長押し中
+			position.x--;
+			pressTimerL = 3;//pressTimerを3Fに設定(3F毎に繰り返す)
+		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (s->CheckBlock(position.x + x, position.y + y)) { 
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						position.x += 1;
+					}
+				}
+			}
 		}
 	}
 	else {
 		isMovedLeft = false;
 	}
-	//右に移動
-	if (CheckHitKey(KEY_INPUT_D)) {
+	//右に移動(D・→・PAD→)
+	if (CheckHitKey(KEY_INPUT_D) || (CheckHitKey(KEY_INPUT_RIGHT))
+		|| (input.Buttons[XINPUT_BUTTON_DPAD_RIGHT])) {
 		if (isMovedRight == false) {
 			position.x++;
 			isMovedRight = true;
+			pressTimerR = 20;//pressTimerを20Fに設定
+		}
+		pressTimerR--;
+		if (pressTimerR <= 0 && isMovedRight) {//pressTimerが0以下かつ長押し中
+			position.x++;
+			pressTimerR = 3;//pressTimerを3Fに設定(3F毎に繰り返す)
+		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (s->CheckBlock(position.x + x, position.y+y)) {
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						position.x -= 1;
+					}
+				}
+			}
 		}
 	}
 	else {
 		isMovedRight = false;
 	}
-	// 回転
-	if (CheckHitKey(KEY_INPUT_SPACE)) {
+	// 回転(スペース、RBボタン)
+	if (CheckHitKey(KEY_INPUT_SPACE) ||
+		input.Buttons[XINPUT_BUTTON_RIGHT_SHOULDER]) {
 		if (not isTurn) {
 			nowBlock.rotation = (nowBlock.rotation + 1) % 4; // ４回転で一周
-			isTurn = true; 
+			isTurn = true;
+			
+		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (s->CheckBlock(position.x + x, position.y + y)) { 
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						position.y -= 1;
+					}
+				}
+			}
+		}
+	}
+	//左回転(左右のShift、LBボタン)
+ else if (CheckHitKey(KEY_INPUT_RSHIFT) || CheckHitKey(KEY_INPUT_LSHIFT)
+		|| input.Buttons[XINPUT_BUTTON_LEFT_SHOULDER]) {
+		if (not isTurn) {
+			nowBlock.rotation -= 1;
+			if (nowBlock.rotation <= -1) {
+				nowBlock.rotation = 3;
+			}
+			isTurn = true;
+		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (s->CheckBlock(position.x + x, position.y + y)) { // ミノの下に障害物があれば
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						position.y -= 1;
+					}
+				}
+			}
 		}
 	}
 	else {
 		isTurn = false;
 	}
-
+	if (position.x <=(WIDTH - 5)-12)
+	{
+		position.x = WIDTH - 5-12;
+	}
+	if (position.x >= WIDTH - 5 + 12) {
+		position.x = WIDTH - 5 + 11;
+	}
+	if (CheckHitKey(KEY_INPUT_X)) {//ブロックを設置
+		if (not putBlock) {
+			BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+			for (int y = 0; y < 3; y++) {
+				for (int x = 0; x < 3; x++) {
+					int id = block.blockPos[y][x];
+					if (id > 0) {
+						s->PutBlock(position.x + x, position.y + y, id);
+					}
+				}
+			}
+			nowBlock = nextBlock;
+			position.x = WIDTH - 5;
+			position.y = 0;
+			nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+			nextBlock.rotation = 0;
+			putBlock = true;
+		}
+	}
+	else {
+		putBlock = false;
+	}
+	
 }
 
 void Block::Draw()
@@ -355,7 +492,9 @@ void Block::Draw()
 		for (int x = 0; x < 3; x++) {
 			int id = block.blockPos[y][x];
 			if (id > 0) {
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
 				DrawGraph((position.x + x) * blockSize, (position.y + y) * blockSize, hImage[id], TRUE);
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 		}
 	}
@@ -370,3 +509,10 @@ void Block::Draw()
 		}
 	}
 }
+
+void Block::SetPosition(int x,int y)
+{
+			nowPosition.x =x;
+			nowPosition.y =y;
+}
+

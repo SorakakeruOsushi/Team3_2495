@@ -15,7 +15,7 @@
       <Filter>TitleScene</Filter>
     </ClCompile>
     <ClCompile Include="Source\PlayScene.cpp">
-      <Filter>PlayScene</Filter>
+      <Filter>TitleScene\PlayScene</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
       <Filter>ImGui</Filter>
@@ -62,6 +62,10 @@
     <ClCompile Include="Source\BestTime.cpp" />
     <ClCompile Include="Source\PlayMode.cpp" />
     <ClCompile Include="Source\RestartScene.cpp" />
+    <ClCompile Include="Source\Coin.cpp" />
+    <ClCompile Include="Source\csvReader.cpp">
+      <Filter>TitleScene\PlayScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -82,7 +86,7 @@
       <Filter>TitleScene</Filter>
     </ClInclude>
     <ClInclude Include="Source\PlayScene.h">
-      <Filter>PlayScene</Filter>
+      <Filter>TitleScene\PlayScene</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
       <Filter>ImGui</Filter>
@@ -128,19 +132,17 @@
     <ClInclude Include="Source\Stage.h" />
     <ClInclude Include="Source\Vector2.h" />
     <ClInclude Include="Source\FinishText.h" />
-    <ClInclude Include="Source\stage1.h">
-      <Filter>PlayScene</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GoalText.h" />
-    <ClInclude Include="Source\stageXtest.h">
-      <Filter>PlayScene</Filter>
-    </ClInclude>
     <ClInclude Include="Library\Utility.h">
       <Filter>Library</Filter>
     </ClInclude>
     <ClInclude Include="Source\BestTime.h" />
     <ClInclude Include="Source\PlayMode.h" />
     <ClInclude Include="Source\RestartScene.h" />
+    <ClInclude Include="Source\Coin.h" />
+    <ClInclude Include="Source\csvReader.h">
+      <Filter>TitleScene\PlayScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">
@@ -152,11 +154,11 @@
     <Filter Include="TitleScene">
       <UniqueIdentifier>{a52f9c67-9c6c-4376-8f4c-07a10ecbc3db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PlayScene">
-      <UniqueIdentifier>{8123ada4-16d1-40da-a8f3-3f9e93aafb30}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ImGui">
       <UniqueIdentifier>{a717257b-67b3-4bfa-834c-1e34032b33b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TitleScene\PlayScene">
+      <UniqueIdentifier>{8123ada4-16d1-40da-a8f3-3f9e93aafb30}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -4,31 +4,49 @@
 
 FinishText::FinishText()
 {
-	finishTextImage = LoadGraph("data/image/XA1/xFINISH.png");
+	finishTextImage = LoadGraph("data/image/font/Finish.png");						  // 画像「FINISH」
 		assert(finishTextImage > 0);
-	gameOverTextImage = LoadGraph("data/image/XA1/xGAME_OVER.png");
+	gameOverTextImage = LoadGraph("data/image/font/GameOver.png");					  // 画像「GAME OVER」
 		assert(gameOverTextImage > 0);
-	bannerImage = LoadGraph("data/image/XA1/xバナー1.png");
-		assert(bannerImage > 0);
-	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png");
+	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png");// 画像「SPACEで終了」
 		assert(titleBackKeyTextImage > 0);
 
-	gameOverVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「ひゃーっ！」.mp3");
-		assert(gameOverVoice > 0);
-	PlaySoundMem(gameOverVoice, DX_PLAYTYPE_BACK); // 悲鳴ボイス
+	heightTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/Hight.png"); // 画像「HEIGHT」
+		assert(heightTextImage > 0);
+	scoreTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/Score.png");  // 画像「SCORE」
+		assert(scoreTextImage > 0);
+	timeTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/Time.png");    // 画像「TIME」
+		assert(timeTextImage > 0);
+
+	titleBackSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3"); // 音 タイトルに戻る
+		assert(titleBackSound > 0);
+	gameOverSound = LoadSoundMem("data/sound/効果音ラボ/voice/「ひゃーっ！」.mp3");	 // 音「(悲鳴)」
+		assert(gameOverSound > 0);
+	PlaySoundMem(gameOverSound, DX_PLAYTYPE_BACK); // 悲鳴ボイス再生
 
 	timer = 0.0f;
 	alpha = 0.0f;
-	bannerSlide = -1280.0f;
+
+	DrawKeyTimer = 0.0f;
+	IsDraw = false;
+
+	resultHeight =0.0f; // 到達高さ
+	resultScore = 0;	// スコア結果 
+	resultTime = 0.0f;	// タイム結果
 }
 
 FinishText::~FinishText()
 {
 	DeleteGraph(finishTextImage);
 	DeleteGraph(gameOverTextImage);
-	DeleteGraph(bannerImage);
 	DeleteGraph(titleBackKeyTextImage);
-	DeleteSoundMem(gameOverVoice);
+
+	DeleteGraph(heightTextImage);
+	DeleteGraph(scoreTextImage);
+	DeleteGraph(timeTextImage);
+
+	DeleteSoundMem(titleBackSound);
+	DeleteSoundMem(gameOverSound);
 }
 
 void FinishText::Update()
@@ -41,8 +59,18 @@ void FinishText::Update()
 
 	if (timer >= 1.5f)
 	{
+		//「タイトルに戻る」表示切替
+		DrawKeyTimer += Time::DeltaTime();
+		if (DrawKeyTimer >= 0.5f)
+		{
+			IsDraw = !IsDraw;
+			DrawKeyTimer = 0.0f;
+		}
+
 		if ( (CheckHitKey(KEY_INPUT_SPACE)) || (input.Buttons[XINPUT_BUTTON_A]) || (input.Buttons[XINPUT_BUTTON_B]) )
 		{
+			// サウンドが終了するまで待つ 
+			PlaySoundMem(titleBackSound, DX_PLAYTYPE_NORMAL);
 			SceneManager::ChangeScene("TITLE");
 		}
 	}
@@ -51,94 +79,54 @@ void FinishText::Update()
 	if (timer >= 0.3f)
 	{
 		alpha += 3.0f;
-		if (alpha >= 125)
+		if (alpha >= 170)
 		{
-			alpha = 125;
-		}
-	}
-	//帯スライド
-	if (timer >= 1.5f)
-	{
-		bannerSlide +=30;
-		if (bannerSlide >= 1280.0f)
-		{
-			bannerSlide = 1280.0f;
+			alpha = 170;
 		}
 	}
 }
 
 void FinishText::Draw()
 {
-	/*
-	//「ゲームオーバー！」的な表示を行う"
-	SetFontSize(100);
-	DrawString(310, 200, "ざんね～ん", GetColor(255, 255, 127)); //(x,y,文字列,色)
-
-	
-	if (timer >= 0.3f) //１秒超えたらずっと表示
-	{
-		//(x,y,色,文字列,変わる文字列)   「%d」を置き換える
-		//「%6d」 ：６桁用意する　（if文でカンストさせればオーバーしない）
-		//「%06d」：６桁用意する　空白を０で埋める
-		//「%06d%%」：「ｎ％」表示出来る
-
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha); //透過する
-	DrawBox(0, 0, 1280, 720, GetColor(0,0,0), TRUE);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
-
-	DrawString(310, 200, "ざんね～ん", GetColor(255, 255, 127));
-	}
-
-	SetFontSize(50);
-	if (timer >= 0.5f)
-	{
-		DrawFormatString(450, 350, GetColor(255, 255, 255), "SCORE:%3.0f", fabs(resultHeight));//スコアに変わる、高さは死のみ
-	}
-	if (timer >= 1.0f)
-	{
-		DrawFormatString(450, 450, GetColor(255, 255, 255), "TIME:%4.2f", resultTime);
-	}
-	// "スペースキーで終了"
-	if (timer >= 1.5f)
-	{
-		DrawString(300, 600, "スペースキーを押して終了 ", GetColor(255, 255, 255));
-	}
-	*/
-
 	//「FINISH!」表示
 	DrawGraph(340, 280, finishTextImage, TRUE);
 	// 暗転
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha); //透過する
 	DrawBox(0, 0, 1280, 720, GetColor(0, 0, 0), TRUE);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);   //透過しない
 
 	//「GAME OVER!」表示
 	if (timer >= 0.3f) 
 	{
-		DrawGraph(255, 260, gameOverTextImage, TRUE);
+		DrawGraph(215, 100, gameOverTextImage, TRUE);
 	}
-	SetFontSize(30);
+	SetFontSize(80);
 	if (timer >= 0.5f)
 	{
+		// 到達高さ表示
+		DrawGraph(326, 300, heightTextImage, TRUE);
+		DrawFormatString(615, 300, GetColor(255, 255, 255), "%3.0f", fabs(resultHeight));
+	}
+	if (timer >= 0.75f)
+	{
 		// スコア表示
-		DrawFormatString(500, 450, GetColor(255, 255, 255), "SCORE:%3.0f", fabs(resultHeight));//スコアに変わる、高さは死のみ
+		DrawGraph(340, 400, scoreTextImage, TRUE);
+		DrawFormatString(615, 400, GetColor(255, 255, 255), "%3.0d", resultScore);
 	}
 	if (timer >= 1.0f)
 	{
 		// タイム表示
-		DrawFormatString(500, 500, GetColor(255, 255, 255), "TIME:%4.2f", resultTime);
+		DrawGraph(421, 500, timeTextImage, TRUE);
+		DrawFormatString(615, 500, GetColor(255, 255, 255), "%6.2f", resultTime);
 	}
 
 	// "スペースキーで終了"
-	if (timer >= 1.5f)
+	if (IsDraw)
 	{
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-		DrawRectGraph(0, 600, 0,0, bannerSlide,50, bannerImage, TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		if (timer >= 2.0f)
-		{
-			//「スペースキーを押して終了」表示
-			DrawGraph(450, 600, titleBackKeyTextImage, TRUE);
-		}
+		//「スペースキーを押して終了」表示
+		DrawGraph(450, 600, titleBackKeyTextImage, TRUE);
+		SetFontSize(25);
+		DrawString(450, 650, "test[0]でリトライ", GetColor(255, 0, 0), TRUE);
 	}
+
 }

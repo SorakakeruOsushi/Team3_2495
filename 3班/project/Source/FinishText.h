@@ -13,16 +13,24 @@ public:
 
 	XINPUT_STATE input; //PAD操作用変数
 
-	int finishTextImage;	   // 画像「FINISH!」の文字画像
-	int gameOverTextImage;	   // 画像「GAME OVER!」の文字画像
-	int titleBackKeyTextImage; // 画像「スペースキーを押して終了」の文字画像
-	int bannerImage;		   // 画像 バナー
-	int gameOverVoice;		   // 音声 ゲームオーバー
+	int finishTextImage;	   // 画像「FINISH!」
+	int gameOverTextImage;	   // 画像「GAME OVER!」
+	int titleBackKeyTextImage; // 画像「スペースキーを押して終了」
+	int gameOverSound;		   // 音 ゲームオーバー
+	int titleBackSound;		   // 音 タイトルに戻る
 
-	float timer;
-	float alpha;
-	float bannerSlide;
+	int heightTextImage;	// 画像「HEIGHT」
+	int scoreTextImage;		// 画像「SCORE」
+	int timeTextImage;		// 画像「TIME」
 
+	float timer; // 表示タイマー
+	float alpha; // 不透明度
+
+	float DrawKeyTimer;		// 表示タイマー「タイトルに戻る」
+	bool IsDraw;			// 描画
+
+	float resultHeight; // 到達高さ
+	int resultScore;	// スコア結果 
 	float resultTime;	// タイム結果
-	float resultHeight; // スコア結果
+
 };

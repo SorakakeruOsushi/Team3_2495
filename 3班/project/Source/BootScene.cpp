@@ -1,8 +1,11 @@
 #include "BootScene.h"
 #include "../Library/SceneManager.h"
+#include "BestTime.h"
 
 BootScene::BootScene()
 {
+	BestTime* b = Instantiate<BestTime>();
+	b->DontDestroyOnLoad();
 }
 
 BootScene::~BootScene()

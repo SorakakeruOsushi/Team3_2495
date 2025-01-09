@@ -4,26 +4,42 @@
 
 GoalText::GoalText()
 {
-	goalBGImage = LoadGraph("data/image/goalBGX.png");
+	goalBGImage = LoadGraph("data/image/Goal.JPG");						  // 画像 ゴール背景画像
 		assert(goalBGImage > 0);
-	finishTextImage = LoadGraph("data/image/XA1/xFINISH.png");
+	finishTextImage = LoadGraph("data/image/font/Finish.png");		      // 画像「FINISH」
 		assert(finishTextImage > 0);
-	gameClearTextImage = LoadGraph("data/image/XA1/xGAME_CLEAR.png");
+	gameClearTextImage = LoadGraph("data/image/font/Clear.png");	      // 画像「GAME CLEAR」
 		assert(gameClearTextImage > 0);
-	thanksTextImage = LoadGraph("data/image/XA1/xThankYouForPlaying.png");
-		assert(thanksTextImage > 0);
-	bannerImage = LoadGraph("data/image/XA1/xバナー1.png");
-		assert(bannerImage > 0);
-	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png");
+	newRecordTextImage = LoadGraph("data/image/font/NewRecord.png");	  // 画像「NEW RECORD!」
+		assert(newRecordTextImage > 0);
+	
+	heightTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/Hight.png"); // 画像「HEIGHT」
+		assert(heightTextImage > 0);
+	scoreTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/Score.png");  // 画像「SCORE」
+		assert(scoreTextImage > 0);
+	timeTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/Time.png");    // 画像「TIME」
+		assert(timeTextImage > 0);
+
+	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png"); // 画像「TITLEに戻る」
 		assert(titleBackKeyTextImage > 0);
 
-	goalVoice = LoadSoundMem("data/sound/効果音ラボ/voice/「ぱんぱかぱーん！」.mp3");
-		assert(goalVoice > 0);
-	PlaySoundMem(goalVoice, DX_PLAYTYPE_BACK); // ゴールボイス
+	titleBackSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");
+		assert(titleBackSound > 0);
+	goalSound = LoadSoundMem("data/sound/効果音ラボ/voice/「ぱんぱかぱーん！」.mp3");
+		assert(goalSound > 0);
+	PlaySoundMem(goalSound, DX_PLAYTYPE_BACK); // ゴールボイス再生
 
 	timer = 0.0f;
 	alpha = 0.0f;
-	bannerSlide = -1280.0f;
+
+	DrawKeyTimer = 0.0f;
+	IsDraw = false;
+
+	IsNewBestScore = false;
+	IsNewBestTime = false;
+
+	resultScore = 0;   // スコア結果
+	resultTime = 0.0f; // タイム結果
 }
 
 GoalText::~GoalText()
@@ -31,10 +47,15 @@ GoalText::~GoalText()
 	DeleteGraph(goalBGImage);
 	DeleteGraph(finishTextImage);
 	DeleteGraph(gameClearTextImage);
-	DeleteGraph(bannerImage);
+	DeleteGraph(newRecordTextImage);
 	DeleteGraph(titleBackKeyTextImage);
-	DeleteGraph(thanksTextImage);
-	DeleteSoundMem(goalVoice);
+
+	DeleteGraph(heightTextImage);
+	DeleteGraph(scoreTextImage);
+	DeleteGraph(timeTextImage);
+
+	DeleteSoundMem(titleBackSound);
+	DeleteSoundMem(goalSound);
 }
 
 void GoalText::Update()
@@ -45,72 +66,37 @@ void GoalText::Update()
 	//Time::DeltaTime();：秒で測れるためモニター性能に左右されない
 	timer += Time::DeltaTime();
 
-	if (timer >= 5.5f)
+	if (timer >= 7.0f)
 	{
+		//「タイトルに戻る」表示切替
+		DrawKeyTimer += Time::DeltaTime();
+		if (DrawKeyTimer >= 0.5f)
+		{
+			IsDraw = !IsDraw;
+			DrawKeyTimer = 0.0f;
+		}
+
 		if ((CheckHitKey(KEY_INPUT_SPACE)) || (input.Buttons[XINPUT_BUTTON_A]) || (input.Buttons[XINPUT_BUTTON_B]))
 		{
+			// サウンドが終了するまで待つ 
+			PlaySoundMem(titleBackSound, DX_PLAYTYPE_NORMAL);
 			SceneManager::ChangeScene("TITLE");
 		}
 	}
 
 	//alpha値 増加
-	if (timer >= 0.3f)
+	if (timer >= 0.5f)
 	{
-		alpha += 1.0f;
+		alpha += 2.5f;
 		if (alpha >= 255)
 		{
 			alpha = 255;
-		}
-	}
-	//帯スライド
-	if (timer >= 5.0f)
-	{
-		bannerSlide += 30;
-		if (bannerSlide >= 1280.0f)
-		{
-			bannerSlide = 1280.0f;
 		}
 	}
 }
 
 void GoalText::Draw()
 {
-	/*
-	//「ゴール！」的な表示を行う"
-	SetFontSize(100);
-	DrawString(310, 200, "おめでとう", GetColor(255, 255, 127)); //(x,y,文字列,色)
-
-	if (timer >= 0.3f)
-	{
-		//(x,y,色,文字列,変わる文字列)   「%d」を置き換える
-		//「%6d」 ：６桁用意する　（if文でカンストさせればオーバーしない）
-		//「%06d」：６桁用意する　空白を０で埋める
-		//「%06d%%」：「ｎ％」表示出来る
-
-		// リザルト画面背景
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha); //	アルファブレンディング
-		DrawGraph(0, 0, goalBGImage, TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);	 //透過しない
-
-		DrawString(310, 200, "おめでとう", GetColor(255, 255, 127)); //(x,y,文字列,色)
-	}
-
-	SetFontSize(50);
-	if (timer >= 4.5f)
-	{
-		DrawFormatString(500, 350, GetColor(255, 255, 255), "SCORE:%3.0f", fabs(resultHeight));//スコアに変わる、高さは死のみ
-	}
-	if (timer >= 5.0f)
-	{
-		DrawFormatString(500, 450, GetColor(255, 255, 255), "TIME:%4.2f", resultTime);
-	}
-	// "スペースキーで終了"
-	if (timer >= 5.5f)
-	{
-		DrawString(300, 600, "スペースキーを押して終了 ", GetColor(255, 255, 255));
-	}
-	*/
-
 	//「FINISH!」表示
 	DrawGraph(340, 280, finishTextImage, TRUE);
 	// ゴール画像 表示
@@ -119,42 +105,64 @@ void GoalText::Draw()
 		// リザルト画面背景
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha); //	アルファブレンディング
 		DrawGraph(0, 0, goalBGImage, TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);	 //透過しない
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);	 // 透過しない
+	}
+
+	if (timer >= 3.5f)
+	{
+		// 暗転
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50); // 透過する
+		DrawBox(0, 0, 1280, 720, GetColor(0, 0, 0), TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);   // 透過しない
 	}
 
 	//「GAME CLEAR!」表示
-	if (timer >= 3.0f)
-	{
-		DrawGraph(255, 160, gameClearTextImage, TRUE);
-	}
-	SetFontSize(30);
 	if (timer >= 4.0f)
 	{
-		// スコア表示
-		DrawFormatString(500, 350, GetColor(255, 255, 255), "SCORE:%3.0f", fabs(resultHeight));//スコアに変わる、高さは死のみ
+		DrawGraph(200, 100, gameClearTextImage, TRUE);
 	}
-	if (timer >= 4.5f)
+	SetFontSize(80);
+	if (timer >= 5.0f)
+	{
+		// 高さ(固定表示)
+		DrawGraph(326, 300, heightTextImage, TRUE);
+		DrawString(615, 300, " 50/50", GetColor(255, 255, 255)); // ハリボテ
+	}
+	if (timer >= 5.5f)
+	{
+		// スコア表示
+		DrawGraph(340, 400, scoreTextImage, TRUE);
+		DrawFormatString(615, 400, GetColor(255, 255, 255), "%3.0d", resultScore);
+		if (IsNewBestScore)
+		{
+			DrawGraph(800, 400, newRecordTextImage, TRUE);
+		}
+
+	}
+	if (timer >= 6.0f)
 	{
 		// タイム表示
-		DrawFormatString(500, 400, GetColor(255, 255, 255), "TIME:%4.2f", resultTime);
+		DrawGraph(421, 500, timeTextImage, TRUE);
+		DrawFormatString(615, 500, GetColor(255, 255, 255), "%6.2f", resultTime);
+		if (IsNewBestTime)
+		{
+			DrawGraph(800, 500, newRecordTextImage, TRUE);
+		}
 	}
 
-	if (timer >= 4.8f)
+	if (timer >= 6.3f)
 	{
 		//「Thank You For Playing!」表示
-		DrawGraph(275, 500, thanksTextImage, TRUE);
+		//DrawGraph(275, 500, thanksTextImage, TRUE);
 	}
 
 	// "スペースキーで終了"
-	if (timer >= 5.0f)
+	if (IsDraw)
 	{
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-		DrawRectGraph(0, 600, 0, 0, bannerSlide, 50, bannerImage, TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		if (timer >= 5.5f)
-		{
-			//「スペースキーを押して終了」表示
-			DrawGraph(450, 600, titleBackKeyTextImage, TRUE);
-		}
+		//「スペースキーを押して終了」表示
+		DrawGraph(450, 600, titleBackKeyTextImage, TRUE);
 	}
+
+	//調整用センタードット
+	DrawString(1280/2, 720/2, ".", GetColor(255, 0, 0), TRUE);
 }
