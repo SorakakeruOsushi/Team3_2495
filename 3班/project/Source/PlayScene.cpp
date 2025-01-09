@@ -41,7 +41,7 @@ PlayScene::PlayScene()
 		assert(tetraModeBGImage > 0);
 	blockModeBGImage = LoadGraph("data/image/XA1/xプレイモードぶろっく.jpg"); // 画像 BLOCKモードのプレイエリア背景画像
 		assert(blockModeBGImage > 0);
-	playModeBGImage = tetraModeBGImage;		// プレイモードのデフォルトは「TETRA」
+	//playModeBGImage = tetraModeBGImage;		// プレイモードのデフォルトは「TETRA」
 	// 画像 背景1,2,3
 	hBGImageI = LoadGraph("data/image/Back1.png");
 		assert(hBGImageI > 0);
@@ -127,7 +127,7 @@ void PlayScene::Update()
 	}
 
 	//ゲーム開始
-	if (KeyUtility::CheckTrigger(KEY_INPUT_2));
+	if (KeyUtility::CheckTrigger(KEY_INPUT_2))
 	{
 		//PlaySoundMem(startSound, DX_PLAYTYPE_BACK);
 		pm->IsGameStart = true;
@@ -145,50 +145,6 @@ void PlayScene::Update()
 		//PlaySoundMem(resetSound, DX_PLAYTYPE_BACK); // SE再生
 		//１フレームだけ"RESTARTシーン"に行き、"PLAYシーン"に戻ってくる
 		SceneManager::ChangeScene("RESTART");
-	}
-	//[Tab]ポーズ&操作ヘルプ
-	if (!pm->IsGamePause) // ポーズ中じゃない
-	{
-		if ((KeyUtility::CheckTrigger(KEY_INPUT_TAB)) || (input.Buttons[XINPUT_BUTTON_START]))
-		{
-			// ボタンを押し込んだ時だけ入力を取る
-			if (!isButtonDown)
-			{
-				PlaySoundMem(pauseSound, DX_PLAYTYPE_BACK);
-				pm->IsGamePause = true; // ゲーム中断
-			}
-			isButtonDown = true;
-		}
-		else
-		{
-			isButtonDown = false;
-		}
-		if (pm->IsGamePause)
-		{
-			return;
-		}
-	}
-	 else // ポーズ中
-	{
-		// [Tab] ／ [START]または[A]
-		if ( (KeyUtility::CheckTrigger(KEY_INPUT_TAB)) || (input.Buttons[XINPUT_BUTTON_START]) || (input.Buttons[XINPUT_BUTTON_A]))
-		{
-			// ボタンを押し込んだ時だけ入力を取る
-			if (!isButtonDown)
-			{
-				//PlaySoundMem(pauseSound, DX_PLAYTYPE_BACK); // 違う音?
-				pm->IsGamePause = false; // ゲーム再開
-			}
-			isButtonDown = true;
-		}
-		else
-		{
-			isButtonDown = false;
-		}
-		if (pm->IsGamePause)
-		{
-			return;
-		}
 	}
 
 	//[1]セル表示切り替え
@@ -215,7 +171,7 @@ void PlayScene::Update()
 	{
 		//PlaySoundMem(tetraModeSound, DX_PLAYTYPE_BACK);
 		playModeTextImage = tetraModeTextImage;
-		playModeBGImage = tetraModeBGImage;
+		playModeBGImage = NULL;
 	}
 	else 				   // ブロックモード
 	{
@@ -302,7 +258,7 @@ void PlayScene::Draw()
 	DrawGraph(0, 0, stageTextImage, TRUE);    // 固定表示の文字
 
 	//「レディ…」→「ゴー！」
-	DrawGraph(350, 250, ladyGoTextImage, TRUE); //「レディ…」「ゴー！」
+	////DrawGraph(350, 250, ladyGoTextImage, TRUE); //「レディ…」「ゴー！」
 	
 
 	SetFontSize(25);
@@ -329,18 +285,6 @@ void PlayScene::Draw()
 	//if (IsReset) 
 	{
 		//DrawGraph(30 * 8.5, 200, resetTextImage, TRUE);
-	}
-
-
-	//ポーズ画面　(表示順バグ)
-	if (pm->IsGamePause)
-	{
-		// 画面を暗くする
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200); //透過する
-		DrawBox(0, 0, 1280, 720, GetColor(0, 0, 0), TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); //透過しない
-		// ポーズ画面
-		DrawGraph(0, 0, pauseImage, TRUE);
 	}
 
 	SetFontSize(100);

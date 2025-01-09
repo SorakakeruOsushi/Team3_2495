@@ -52,20 +52,21 @@ Stage::Stage()
 	MinoImage[3] = LoadGraph("data/image/Jmino.PNG");
 	MinoImage[4] = LoadGraph("data/image/Tmino.PNG");
 	MinoImage[5] = LoadGraph("data/image/Omino.PNG");
-	for (int i = 2; i < 6; i++) {
+	for (int i = 2; i < 6; i++)
+	{
 		assert(MinoImage[i] > 0);
 	}
 
 	emptyImage = LoadGraph("data/image/EmptyA1.png");	   // 画像 空っぽマス
-	assert(emptyImage > 0);
+		assert(emptyImage > 0);
 	groundImage = LoadGraph("data/image/Ground.JPG");	   // 画像 草ブロック
-	assert(groundImage > 0);
+		assert(groundImage > 0);
 	blockImage = LoadGraph("data/image/BlockA2.png");	   // 画像 既存ブロック
-	assert(blockImage > 0);
+		assert(blockImage > 0);
 	goalImage = LoadGraph("data/image/GoalLineShort.png"); // 画像 ゴールライン
-	assert(goalImage > 0);
+		assert(goalImage > 0);
 	wallImage = LoadGraph("data/image/WallA1Long.png");    // 画像 壁
-	assert(wallImage > 0);
+		assert(wallImage > 0);
 
 	//9を探して、Playerを置く
 	for (int j = 0; j < HEIGHT; j++)    //「j」縦
@@ -88,7 +89,6 @@ Stage::Stage()
 	}
 	scroll = 0;
 	cellBG = true;
-
 
 	b = FindGameObject<Block>();
 }
