@@ -71,13 +71,9 @@ void TitleScene::Draw()
 	SetFontSize(50);
 	if (IsDraw)
 	{
-		// DrawString(340, 500, "‚o‚t‚r‚g ‚`‚m‚x ‚j‚d‚x", GetColor(255, 255, 255), TRUE);
-		DrawGraph(270, 500, pushKeyTextImage, TRUE);
+		DrawGraph(330, 500, pushKeyTextImage, TRUE);
 	}
 
-	//SetFontSize(25);
-	//DrawString(585, 615, "‚g‚d‚k‚o", GetColor(255, 255, 255));
-
 	//’²®—pƒZƒ“ƒ^[ƒhƒbƒg
-	//DrawString(1280/2, 720/2, ".", GetColor(255, 0, 0), TRUE);
+	DrawString(1280/2, 720/2, ".", GetColor(255, 0, 0), TRUE);
 }

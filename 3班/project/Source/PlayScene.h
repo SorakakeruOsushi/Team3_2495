@@ -19,9 +19,9 @@ public:
 	XINPUT_STATE input; // PAD操作用変数
 	bool isButtonDown;	// プレイモード切り替えで、ボタンの押し込んだ時の入力を取るのに使います
 
-	int ladyGoTextImage;
-	int ladyTextImage; // 画像「レディ…」
-	int goTextImage;   // 画像「ゴー！」
+	int readyGoTextImage;
+	int readyTextImage; // 画像「レディ…」
+	int goTextImage;    // 画像「ゴー！」
 
 	int stageTextImage;     // 画像 [固定表示文字を１枚の画像にまとめた]
 

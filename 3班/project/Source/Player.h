@@ -34,6 +34,8 @@ public:
 	bool prevJumpKey;	// 前のジャンプキー
 	bool onGround;		// 接地判定
 
+	bool inGround;		// ブロックの中にいる
+
 	int gotCoin;		// コイン取得数
 
 	bool finished;		// 死んだ！

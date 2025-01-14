@@ -5,7 +5,7 @@
 #include "Stage.h"
 
 const float Gravity = 0.3f;							 //重力
-const float JumpHight = 30 * 2.5f;				     //ジャンプの高さ
+const float JumpHight = 30 * 3.0f;				     //ジャンプの高さ
 //			v0 = -  √   2   *   g     *    S
 const float V0 = -sqrtf(2.0f * Gravity * JumpHight); //放物線(ジャンプ)の式
 
@@ -40,6 +40,8 @@ Player::Player()
 	prevJumpKey = false;
 	onGround = false;
 
+	inGround = false;
+
 	finished = false;
 	goaled = false;
 
@@ -47,7 +49,7 @@ Player::Player()
 	//
 	gotCoin = 0;
 	//プレイヤー透明度
-	alpha = 100;
+	alpha = 0;
 }
 
 Player::~Player()
@@ -81,10 +83,53 @@ void Player::Update()
 
 	// プレイヤーY軸を入れる
 	prePlayerY = position.y;
-
 	
 	// パッド用関数(毎フレーム呼び出す)
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
+
+		int push = s->IsWallDown(position + VECTOR2(0, 34)); //一個下を見るので70
+		if (push > 0)	//地面に触れたので
+		{
+			velocity = 0;			//地面に触ったら速度を0に
+			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
+			onGround = true;		//接地してる
+		}
+		push = s->IsWallDown(position + VECTOR2(22, 34));	 //一個下を見る一個下を見るので70
+		if (push > 0)	//地面に触れたので
+		{
+			velocity = 0;			//地面に触ったら速度を0に
+			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
+			onGround = true;		//接地してる
+		}
+		push = s->IsWallDown(position + VECTOR2(44, 34));	 //一個下を見る一個下を見るので70
+		if (push > 0)	//地面に触れたので
+		{
+			velocity = 0;			//地面に触ったら速度を0に
+			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
+			onGround = true;		//接地してる
+		}
+
+		push = s->IsWallDown(position + VECTOR2(0, 69)); //一個下を見るので70
+		if (push > 0)	//地面に触れたので
+		{
+			velocity = 0;			//地面に触ったら速度を0に
+			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
+			onGround = true;		//接地してる
+		}
+		push = s->IsWallDown(position + VECTOR2(22, 69));	 //一個下を見る一個下を見るので70
+		if (push > 0)	//地面に触れたので
+		{
+			velocity = 0;			//地面に触ったら速度を0に
+			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
+			onGround = true;		//接地してる
+		}
+		push = s->IsWallDown(position + VECTOR2(44, 69));	 //一個下を見る一個下を見るので70
+		if (push > 0)	//地面に触れたので
+		{
+			velocity = 0;			//地面に触ったら速度を0に
+			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
+			onGround = true;		//接地してる
+		}
 
 	// 左右移動
 	if ( (CheckHitKey(KEY_INPUT_A)) || (CheckHitKey(KEY_INPUT_LEFT)) || (input.Buttons[XINPUT_BUTTON_DPAD_LEFT]) ) //左(A・←・PAD←)
@@ -181,6 +226,7 @@ void Player::Update()
 		}
 	}
 
+	
 	// ジャンプ
 	if (CheckHitKey(KEY_INPUT_SPACE) || (input.Buttons[XINPUT_BUTTON_A]) || (input.Buttons[XINPUT_BUTTON_B]) )
 	{
@@ -290,7 +336,7 @@ void Player::Update()
 	}
 	
 	//プレイヤーをプレイエリアに閉じ込める
-	if (position.x <= CHIP_SIZE*8)
+	if (position.x <= CHIP_SIZE * 8)
 	{
 		position.x = CHIP_SIZE * 8;
 	}

@@ -4,6 +4,7 @@
 #include "Vector2.h"
 #include "Screen.h"
 #include "Coin.h"
+#include "PlayMode.h"
 //include "Block.h"
 
 class Block;
@@ -36,6 +37,7 @@ public:
 	Player* p;
 	Coin* c;
 	Block* b;
+	PlayMode* pm;
 
 	int scroll;		//画面のスクロール
 	bool cellBG;	//背景のマス目の表示

@@ -35,8 +35,8 @@ Stage::Stage()
 	sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
 
 
-	//CsvReader* csv = new CsvReader(stageFile);			    //Stage(01～05).CSVをランダム表示
-	CsvReader* csv = new CsvReader("data/stage/Test.csv"); //決まったCSVファイルを表示
+	CsvReader* csv = new CsvReader(stageFile);			    //Stage(01～05).CSVをランダム表示
+	//CsvReader* csv = new CsvReader("data/stage/Test.csv"); //決まったCSVファイルを表示
 
 	for (int y = 0; y < HEIGHT; y++) 
 	{
@@ -91,6 +91,7 @@ Stage::Stage()
 	cellBG = true;
 
 	b = FindGameObject<Block>();
+	pm = FindGameObject<PlayMode>();
 }
 
 Stage::~Stage()
@@ -121,11 +122,11 @@ void Stage::Draw()
 		{
 			int x = i * CHIP_SIZE + SIDE_SPACE;
 
-			if (cellBG)
+			if (pm->playMode == 1)
 			{
 				if (map[j][i] == 0)	// マス目
 				{
-					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 30);
+					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
 					DrawGraph(x, y - scroll, emptyImage, TRUE);
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 				}
