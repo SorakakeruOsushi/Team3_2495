@@ -24,10 +24,12 @@ PlayScene::PlayScene()
 	// 画像読み込み
 	stageTextImage = LoadGraph("data/image/font/StageFont.png"); // 画像 [固定表示文字を１枚の画像にまとめた]
 		assert(stageTextImage > 0);
+	resetTextImage = LoadGraph("data/image/font/Reset.png");	 // 画像「RESET[0]KEY」
+		assert(resetTextImage > 0);
 
-	readyTextImage = LoadGraph("data/image/XA1/xレディA1.png");	   //画像「レディ…」
+	readyTextImage = LoadGraph("data/image/font/READY.png");	   //画像「レディ…」
 		assert(readyTextImage > 0);
-	goTextImage = LoadGraph("data/image/XA1/xゴーA1.png");		   //画像「ゴー！」
+	goTextImage = LoadGraph("data/image/font/GO.png");		   //画像「ゴー！」
 		assert(goTextImage > 0);
 	readyGoTextImage = readyTextImage;		// LadyGoのデフォルトは「Lady」
 	
@@ -256,14 +258,15 @@ void PlayScene::Draw()
 
 	//固定表示文字画像
 	DrawGraph(0, 0, stageTextImage, TRUE);    // 固定表示の文字
+	//固定表示文字画像
+	DrawGraph(0, 0, resetTextImage, TRUE);    //「RESET[0]KEY」
 
 	//「レディ…」→「ゴー！」
-	DrawGraph(260, 200, readyGoTextImage, TRUE); //「レディ…」「ゴー！」
+	DrawGraph(0, 0, readyGoTextImage, TRUE); //「レディ…」「ゴー！」
 	
 
 	SetFontSize(25);
 	//高さ(playerHeight)
-
 	DrawFormatString(1170, 420, GetColor(255, 255, 255), "%.0f/50", fabs(height));
 	
 	//スコア(Coin?)
@@ -279,8 +282,9 @@ void PlayScene::Draw()
 	DrawFormatString(1135, 635, GetColor(255, 255, 255), "%4.2f", bestTime->GetBestTime() );
 
 	//プレイモード(TETRA/BLOCK)
-	DrawGraph(5, 530, playModeTextImage, TRUE);   // playModeTextImageに入れる画像を切り替える
+	DrawGraph(0, 0, playModeTextImage, TRUE);   // playModeTextImageに入れる画像を切り替える
 
+	/////////////////////////////////
 	SetFontSize(50);
 	DrawFormatString(600, 100, GetColor(255, 255, 255), "%0.0f", startCountDown);
 

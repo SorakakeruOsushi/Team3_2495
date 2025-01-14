@@ -19,11 +19,12 @@ public:
 	XINPUT_STATE input; // PAD操作用変数
 	bool isButtonDown;	// プレイモード切り替えで、ボタンの押し込んだ時の入力を取るのに使います
 
-	int readyGoTextImage;
-	int readyTextImage; // 画像「レディ…」
-	int goTextImage;    // 画像「ゴー！」
+	int readyGoTextImage; // 
+	int readyTextImage;   // 画像「レディ…」
+	int goTextImage;      // 画像「ゴー！」
 
 	int stageTextImage;     // 画像 [固定表示文字を１枚の画像にまとめた]
+	int resetTextImage;		// 画像「RESET[0]KEY」
 
 	int playModeTextImage;  // 画像 (現在のプレイモード)
 	int tetraModeTextImage; // 画像「TETRA」
@@ -49,7 +50,6 @@ public:
 	float height;	  // 高さ
 	float bestHeight; // 最高の高さ
 
-	//bool IsReset;
 	float startCountDown;
 
 	Stage* s;			// マップ

@@ -4,11 +4,11 @@
 
 FinishText::FinishText()
 {
-	finishTextImage = LoadGraph("data/image/font/Finish.png");						  // 画像「FINISH」
+	finishTextImage = LoadGraph("data/image/font/Finish.png");		   // 画像「FINISH」
 		assert(finishTextImage > 0);
-	gameOverTextImage = LoadGraph("data/image/font/GameOver.png");					  // 画像「GAME OVER」
+	gameOverTextImage = LoadGraph("data/image/font/GameOver.png");	   // 画像「GAME OVER」
 		assert(gameOverTextImage > 0);
-	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png");// 画像「SPACEで終了」
+	titleBackKeyTextImage = LoadGraph("data/image/font/PushSpace.png");// 画像「SPACEで終了」
 		assert(titleBackKeyTextImage > 0);
 
 	heightTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/Hight.png"); // 画像「HEIGHT」
@@ -89,7 +89,7 @@ void FinishText::Update()
 void FinishText::Draw()
 {
 	//「FINISH!」表示
-	DrawGraph(340, 280, finishTextImage, TRUE);
+	DrawGraph(0, 0, finishTextImage, TRUE);
 	// 暗転
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha); //透過する
 	DrawBox(0, 0, 1280, 720, GetColor(0, 0, 0), TRUE);
@@ -98,7 +98,7 @@ void FinishText::Draw()
 	//「GAME OVER!」表示
 	if (timer >= 0.3f) 
 	{
-		DrawGraph(215, 100, gameOverTextImage, TRUE);
+		DrawGraph(0, 0, gameOverTextImage, TRUE);
 	}
 	SetFontSize(80);
 	if (timer >= 0.5f)

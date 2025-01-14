@@ -11,7 +11,7 @@ TitleScene::TitleScene()
 		assert(titleLogoImage > 0);
 	titleBGImage = LoadGraph("data/image/背景/Back1.png");	  // 画像 タイトル画面背景
 		assert(titleBGImage > 0);
-	pushKeyTextImage = LoadGraph("data/image/font/Push.png"); //「PUSH ANY KEY」
+	pushKeyTextImage = LoadGraph("data/image/font/PushKey.png"); //「PUSH ANY KEY」
 		assert(pushKeyTextImage > 0);
 
 	startSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [T]タイトルに戻る
@@ -48,6 +48,7 @@ void TitleScene::Update()
 	// キー入力なら何でもOK(１回だけ入力)
 	if ( (KeyUtility::CheckTriggerAll(DX_CHECKINPUT_KEY)) || (input.Buttons[XINPUT_BUTTON_B]))
 	{
+		IsDraw = true;
 		// サウンドが終了するまで待つ 
 		PlaySoundMem(startSound, DX_PLAYTYPE_NORMAL);
 		SceneManager::ChangeScene("PLAY");
@@ -71,7 +72,7 @@ void TitleScene::Draw()
 	SetFontSize(50);
 	if (IsDraw)
 	{
-		DrawGraph(330, 500, pushKeyTextImage, TRUE);
+		DrawGraph(0, 0, pushKeyTextImage, TRUE);
 	}
 
 	//調整用センタードット

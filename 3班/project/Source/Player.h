@@ -14,6 +14,9 @@ public:
 	void Draw() override;
 
 	int playerImage; // 画像 プレイヤー
+	int playerIdolImage; // 画像 IDOLプレイヤー
+	int playerAnimImage; // 画像 ANIMプレイヤー
+
 	int jumpSound;   // 音 ジャンプ
 
 	XINPUT_STATE input; //PAD操作用変数

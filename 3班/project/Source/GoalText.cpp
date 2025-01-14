@@ -20,7 +20,7 @@ GoalText::GoalText()
 	timeTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/Time.png");    // 画像「TIME」
 		assert(timeTextImage > 0);
 
-	titleBackKeyTextImage = LoadGraph("data/image/XA1/xスペースキーを押して終了.png"); // 画像「TITLEに戻る」
+	titleBackKeyTextImage = LoadGraph("data/image/font/PushSpace.png"); // 画像「TITLEに戻る」
 		assert(titleBackKeyTextImage > 0);
 
 	titleBackSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");
@@ -98,7 +98,7 @@ void GoalText::Update()
 void GoalText::Draw()
 {
 	//「FINISH!」表示
-	DrawGraph(340, 280, finishTextImage, TRUE);
+	DrawGraph(0, 0, finishTextImage, TRUE);
 	// ゴール画像 表示
 	if (timer >= 0.3f)
 	{
@@ -119,7 +119,7 @@ void GoalText::Draw()
 	//「GAME CLEAR!」表示
 	if (timer >= 4.0f)
 	{
-		DrawGraph(200, 100, gameClearTextImage, TRUE);
+		DrawGraph(0, 0, gameClearTextImage, TRUE);
 	}
 	SetFontSize(80);
 	if (timer >= 5.0f)
@@ -135,7 +135,7 @@ void GoalText::Draw()
 		DrawFormatString(615, 400, GetColor(255, 255, 255), "%3.0d", resultScore);
 		if (IsNewBestScore)
 		{
-			DrawGraph(800, 400, newRecordTextImage, TRUE);
+			DrawGraph(900, 400, newRecordTextImage, TRUE);
 		}
 
 	}
@@ -146,23 +146,17 @@ void GoalText::Draw()
 		DrawFormatString(615, 500, GetColor(255, 255, 255), "%6.2f", resultTime);
 		if (IsNewBestTime)
 		{
-			DrawGraph(800, 500, newRecordTextImage, TRUE);
+			DrawGraph(900, 500, newRecordTextImage, TRUE);
 		}
-	}
-
-	if (timer >= 6.3f)
-	{
-		//「Thank You For Playing!」表示
-		//DrawGraph(275, 500, thanksTextImage, TRUE);
 	}
 
 	// "スペースキーで終了"
 	if (IsDraw)
 	{
 		//「スペースキーを押して終了」表示
-		DrawGraph(450, 600, titleBackKeyTextImage, TRUE);
+		DrawGraph(0, 0, titleBackKeyTextImage, TRUE);
 	}
 
 	//調整用センタードット
-	DrawString(1280/2, 720/2, ".", GetColor(255, 0, 0), TRUE);
+	//DrawString(1280/2, 720/2, ".", GetColor(255, 0, 0), TRUE);
 }
