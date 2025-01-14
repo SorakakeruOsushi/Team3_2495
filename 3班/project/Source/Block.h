@@ -42,6 +42,7 @@ public:
 	};
 	BlockSet nextBlock; // nextのブロック
 	BlockSet nowBlock;  // 今のブロック
+	bool sameMino;//ブロックが違うか
 
 	float timer; // timeという名前は使っているので、timerにしました
 	float counter;

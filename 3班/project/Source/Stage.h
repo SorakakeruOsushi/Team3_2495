@@ -40,5 +40,7 @@ public:
 	int scroll;		//画面のスクロール
 	bool cellBG;	//背景のマス目の表示
 
+	int MinoLock;
+
 	std::vector<std::string> split(const std::string& text, char delim);
 };
