@@ -12,7 +12,7 @@ const int HEIGHT = 51;		//ステージ 高
 int map[HEIGHT][WIDTH];
 
 const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24));
-const int SIDE_SPACE = CHIP_SIZE * 8;				//横余白
+const int SIDE_SPACE = CHIP_SIZE * 8;	//横余白
 const char* STAGE_DATA_PATH = "data/Stage/Stage%02d.csv";	// ブロック配置情報のファイル名
 
 Stage::Stage()
@@ -35,8 +35,8 @@ Stage::Stage()
 	sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
 
 
-	//CsvReader* csv = new CsvReader(stageFile);			    //Stage(01～05).CSVをランダム表示
-	CsvReader* csv = new CsvReader("data/stage/Test.csv"); //決まったCSVファイルを表示
+	CsvReader* csv = new CsvReader(stageFile);			    //Stage(01～05).CSVをランダム表示
+	//CsvReader* csv = new CsvReader("data/stage/Test.csv"); //決まったCSVファイルを表示
 
 	for (int y = 0; y < HEIGHT; y++) 
 	{
@@ -91,6 +91,7 @@ Stage::Stage()
 	cellBG = true;
 
 	b = FindGameObject<Block>();
+	pm = FindGameObject<PlayMode>();
 }
 
 Stage::~Stage()
@@ -121,11 +122,11 @@ void Stage::Draw()
 		{
 			int x = i * CHIP_SIZE + SIDE_SPACE;
 
-			if (cellBG)
+			if (pm->playMode == 1)
 			{
 				if (map[j][i] == 0)	// マス目
 				{
-					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 30);
+					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
 					DrawGraph(x, y - scroll, emptyImage, TRUE);
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 				}

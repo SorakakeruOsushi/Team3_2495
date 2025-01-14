@@ -25,11 +25,11 @@ PlayScene::PlayScene()
 	stageTextImage = LoadGraph("data/image/font/StageFont.png"); // 画像 [固定表示文字を１枚の画像にまとめた]
 		assert(stageTextImage > 0);
 
-	ladyTextImage = LoadGraph("data/image/XA1/xレディA1.png");	   //画像「レディ…」
-		assert(ladyTextImage > 0);
+	readyTextImage = LoadGraph("data/image/XA1/xレディA1.png");	   //画像「レディ…」
+		assert(readyTextImage > 0);
 	goTextImage = LoadGraph("data/image/XA1/xゴーA1.png");		   //画像「ゴー！」
 		assert(goTextImage > 0);
-	ladyGoTextImage = ladyTextImage;		// LadyGoのデフォルトは「Lady」
+	readyGoTextImage = readyTextImage;		// LadyGoのデフォルトは「Lady」
 	
 	tetraModeTextImage = LoadGraph("data/image/font/TETRA.png"); // 画像「TETRA」
 		assert(tetraModeTextImage > 0);
@@ -37,26 +37,19 @@ PlayScene::PlayScene()
 		assert(blockModeTextImage > 0);
 	playModeTextImage = tetraModeTextImage;	// プレイモードのデフォルトは「TETRA」
 
-	tetraModeBGImage = LoadGraph("data/image/XA1/xプレイモードてとら.jpg");   // 画像 TETRAモードのプレイエリア背景画像
-		assert(tetraModeBGImage > 0);
 	blockModeBGImage = LoadGraph("data/image/XA1/xプレイモードぶろっく.jpg"); // 画像 BLOCKモードのプレイエリア背景画像
 		assert(blockModeBGImage > 0);
-	//playModeBGImage = tetraModeBGImage;		// プレイモードのデフォルトは「TETRA」
+	playModeBGImage = NULL;	// プレイモードのデフォルトは「TETRA」
+
 	// 画像 背景1,2,3
-	hBGImageI = LoadGraph("data/image/Back1.png");
+	hBGImageI = LoadGraph("data/image/背景/Back13.png");
 		assert(hBGImageI > 0);
-	hBGImageII = LoadGraph("data/image/Back2.png");
+	hBGImageII = LoadGraph("data/image/背景/Back14.png");
 		assert(hBGImageII > 0);
-	hBGImageIII = LoadGraph("data/image/Back3.png");
+	hBGImageIII = LoadGraph("data/image/背景/Back15.png");
 		assert(hBGImageIII > 0);
 	gameBGImage = hBGImageI; // デフォルトの背景画像
-	// 画像 ポーズ画面
-	pauseImage = LoadGraph("data/image/xPause.png"); // 画像 ポーズ画面
-		assert(pauseImage > 0);
-	//「RESET!」
-	//resetTextImage = LoadGraph("data/image/XA1/xRESET.png"); // 画像「RESET」
-	//	assert(resetTextImage > 0);
-
+	
 	// 音声読み込み
 	titleBackSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [T]タイトルに戻る
 		assert(titleBackSound > 0);
@@ -77,7 +70,7 @@ PlayScene::PlayScene()
 	playTime = 0.0f;		// プレイ時間
 
 	//IsReset = false;
-	startCountDown = 5.0f;
+	startCountDown = 5.0f;///////
 
 	height = 0.0f;			// 床分の高さ(10)を引く
 	bestHeight = 0.0f;		// 死亡時のリザルトで表示
@@ -97,11 +90,8 @@ PlayScene::~PlayScene()
 	DeleteGraph(blockModeTextImage); // 画像「BLOCK」
 	DeleteGraph(tetraModeBGImage);   // 画像 TETRAモード背景
 	DeleteGraph(blockModeBGImage);   // 画像 BLOCKモード背景
-	DeleteGraph(ladyTextImage);		 // 画像「レディ」
+	DeleteGraph(readyTextImage);	 // 画像「レディ」
 	DeleteGraph(goTextImage);		 // 画像「ゴー」
-
-	DeleteGraph(pauseImage);		 // 画像 ポーズ画面
-	//DeleteGraph(resetTextImage);	 // 画像「RESET」
 
 	DeleteSoundMem(titleBackSound); // 音「CHANGE:[C]KEY」
 	DeleteSoundMem(tetraModeSound); // 音 [C]テトラモード変更時
@@ -126,9 +116,20 @@ void PlayScene::Update()
 		SceneManager::ChangeScene("TITLE");
 	}
 
+	startCountDown -= Time::DeltaTime();
+	
 	//ゲーム開始
-	if (KeyUtility::CheckTrigger(KEY_INPUT_2))
+	if ((startCountDown <= 1.0f) && (startCountDown > 0.75f))
 	{
+		readyGoTextImage = NULL;
+	}
+	if ( (startCountDown <= 0.75f) && (startCountDown > 0.0f) )
+	{
+		readyGoTextImage = goTextImage;
+	}
+	if (startCountDown <= 0.0f)
+	{
+		readyGoTextImage = NULL;
 		//PlaySoundMem(startSound, DX_PLAYTYPE_BACK);
 		pm->IsGameStart = true;
 	}
@@ -141,17 +142,11 @@ void PlayScene::Update()
 	//[0]リスタート
 	if (KeyUtility::CheckTrigger(KEY_INPUT_0))
 	{
-		//IsReset = true;
 		//PlaySoundMem(resetSound, DX_PLAYTYPE_BACK); // SE再生
 		//１フレームだけ"RESTARTシーン"に行き、"PLAYシーン"に戻ってくる
 		SceneManager::ChangeScene("RESTART");
 	}
 
-	//[1]セル表示切り替え
-	if (KeyUtility::CheckTrigger(KEY_INPUT_1))
-	{
-		s->cellBG = !s->cellBG;
-	}
 	//[C]プレイモード切り替え
 	if ((KeyUtility::CheckTrigger(KEY_INPUT_C)) || (input.Buttons[XINPUT_BUTTON_Y]))
 	{
@@ -201,6 +196,10 @@ void PlayScene::Update()
 			playTime = 9999;
 		}
 	}
+
+
+
+
 
 	//背景の表示切り替え
 	if ( (height >= changeBGheight * 0) && (height < changeBGheight * 1) )
@@ -255,10 +254,11 @@ void PlayScene::Draw()
 	DrawGraph(30 * 8, 0, playModeBGImage, TRUE); // TETRA/BLOCK
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
+	//固定表示文字画像
 	DrawGraph(0, 0, stageTextImage, TRUE);    // 固定表示の文字
 
 	//「レディ…」→「ゴー！」
-	////DrawGraph(350, 250, ladyGoTextImage, TRUE); //「レディ…」「ゴー！」
+	DrawGraph(260, 200, readyGoTextImage, TRUE); //「レディ…」「ゴー！」
 	
 
 	SetFontSize(25);
@@ -281,15 +281,9 @@ void PlayScene::Draw()
 	//プレイモード(TETRA/BLOCK)
 	DrawGraph(5, 530, playModeTextImage, TRUE);   // playModeTextImageに入れる画像を切り替える
 
-	//「RESET!」表示
-	//if (IsReset) 
-	{
-		//DrawGraph(30 * 8.5, 200, resetTextImage, TRUE);
-	}
+	SetFontSize(50);
+	DrawFormatString(600, 100, GetColor(255, 255, 255), "%0.0f", startCountDown);
 
-	SetFontSize(100);
-	//DrawFormatString(300, 300, GetColor(255, 255, 255), "%0.0f", startCountDown);
-	DrawString(300, 300, "テスト中、[2]でゲーム開始", GetColor(255, 255, 0), TRUE);
 }
 
 // ベストスコアを更新

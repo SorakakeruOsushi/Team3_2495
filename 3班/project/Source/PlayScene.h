@@ -19,9 +19,9 @@ public:
 	XINPUT_STATE input; // PAD操作用変数
 	bool isButtonDown;	// プレイモード切り替えで、ボタンの押し込んだ時の入力を取るのに使います
 
-	int ladyGoTextImage;
-	int ladyTextImage; // 画像「レディ…」
-	int goTextImage;   // 画像「ゴー！」
+	int readyGoTextImage;
+	int readyTextImage; // 画像「レディ…」
+	int goTextImage;    // 画像「ゴー！」
 
 	int stageTextImage;     // 画像 [固定表示文字を１枚の画像にまとめた]
 
@@ -37,9 +37,6 @@ public:
 		int hBGImageI;    // 画像 背景1
 		int hBGImageII;   // 画像 背景2
 		int hBGImageIII;  // 画像 背景3
-
-	int pauseImage;		// 画像 ポーズ画面
-	//int resetTextImage; // 画像「RESET」
 
 	int titleBackSound; // 音 [T]タイトルに戻るとき
 	int tetraModeSound; // 音 [C]テトラモード変更時
