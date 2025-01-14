@@ -44,8 +44,10 @@ Player::Player()
 	goaled = false;
 
 	velocity = 0.0f;
-
+	//
 	gotCoin = 0;
+	//プレイヤー透明度
+	alpha = 100;
 }
 
 Player::~Player()
@@ -58,26 +60,20 @@ void Player::Update()
 {
 	if(!pm->IsGameStart)		 // ゲーム開始前
 	{
-		/*
-		// 重力
-		position.y += velocity; //座標には速度を足す
-		velocity += Gravity;	//下向きの力　速度には重力を足す
-		onGround = false;
-		*/
-
 		return;
 	}
 	else if (finished || goaled) // ゲーム終了
 	{
 		return;
 	}
-	else if(pm->IsGamePause)	 // ゲーム中断
-	{
-		return;
-	}
 	else if (pm->playMode == 1)	 // ブロックモード
 	{
+		alpha = 100;
 		return;
+	}
+	else if (pm->playMode == 0)	 // テトラモード
+	{
+		alpha = 255;
 	}
 
 	IsWalkLeft = false;
@@ -328,6 +324,8 @@ void Player::Update()
 
 void Player::Draw()
 {
-	DrawRectGraph(position.x, position.y - s->scroll, patternX*45, patternY*70, 45, 70, playerImage, TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+	DrawRectGraph(position.x, position.y - s->scroll, patternX * 45, patternY * 70, 45, 70, playerImage, TRUE);
 	//DrawRectGraph(position.x, position.y - s->scroll, patternX * 30, patternY * 47, 30, 47, hImage, TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

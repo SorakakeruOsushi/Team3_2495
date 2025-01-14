@@ -23,6 +23,8 @@ public:
 
 	VECTOR2 position;
 
+	int alpha;
+
 	float playerHeight;
 	float prePlayerY;
 
