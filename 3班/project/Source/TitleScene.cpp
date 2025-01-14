@@ -9,7 +9,7 @@ TitleScene::TitleScene()
 		assert(titleImage > 0);
 	titleLogoImage = LoadGraph("data/image/ロゴ_透過.png");   // 画像 タイトルロゴ
 		assert(titleLogoImage > 0);
-	titleBGImage = LoadGraph("data/image/Back1.png");		  // 画像 タイトル画面背景
+	titleBGImage = LoadGraph("data/image/背景/Back1.png");	  // 画像 タイトル画面背景
 		assert(titleBGImage > 0);
 	pushKeyTextImage = LoadGraph("data/image/font/Push.png"); //「PUSH ANY KEY」
 		assert(pushKeyTextImage > 0);
@@ -75,5 +75,5 @@ void TitleScene::Draw()
 	}
 
 	//調整用センタードット
-	DrawString(1280/2, 720/2, ".", GetColor(255, 0, 0), TRUE);
+	//DrawString(1280/2, 720/2, ".", GetColor(255, 0, 0), TRUE);
 }

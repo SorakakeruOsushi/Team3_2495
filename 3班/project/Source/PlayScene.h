@@ -38,9 +38,6 @@ public:
 		int hBGImageII;   // 画像 背景2
 		int hBGImageIII;  // 画像 背景3
 
-	int pauseImage;		// 画像 ポーズ画面
-	//int resetTextImage; // 画像「RESET」
-
 	int titleBackSound; // 音 [T]タイトルに戻るとき
 	int tetraModeSound; // 音 [C]テトラモード変更時
 	int blockModeSound; // 音 [C]ブロックモード変更時

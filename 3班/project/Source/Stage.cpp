@@ -12,7 +12,7 @@ const int HEIGHT = 51;		//ステージ 高
 int map[HEIGHT][WIDTH];
 
 const int TOP_SPACE = -(CHIP_SIZE * (HEIGHT - 24));
-const int SIDE_SPACE = CHIP_SIZE * 8;				//横余白
+const int SIDE_SPACE = CHIP_SIZE * 8;	//横余白
 const char* STAGE_DATA_PATH = "data/Stage/Stage%02d.csv";	// ブロック配置情報のファイル名
 
 Stage::Stage()

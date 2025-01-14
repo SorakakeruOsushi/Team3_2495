@@ -37,26 +37,19 @@ PlayScene::PlayScene()
 		assert(blockModeTextImage > 0);
 	playModeTextImage = tetraModeTextImage;	// プレイモードのデフォルトは「TETRA」
 
-	tetraModeBGImage = LoadGraph("data/image/XA1/xプレイモードてとら.jpg");   // 画像 TETRAモードのプレイエリア背景画像
-		assert(tetraModeBGImage > 0);
 	blockModeBGImage = LoadGraph("data/image/XA1/xプレイモードぶろっく.jpg"); // 画像 BLOCKモードのプレイエリア背景画像
 		assert(blockModeBGImage > 0);
-	//playModeBGImage = tetraModeBGImage;		// プレイモードのデフォルトは「TETRA」
+	playModeBGImage = NULL;	// プレイモードのデフォルトは「TETRA」
+
 	// 画像 背景1,2,3
-	hBGImageI = LoadGraph("data/image/Back1.png");
+	hBGImageI = LoadGraph("data/image/背景/Back13.png");
 		assert(hBGImageI > 0);
-	hBGImageII = LoadGraph("data/image/Back2.png");
+	hBGImageII = LoadGraph("data/image/背景/Back14.png");
 		assert(hBGImageII > 0);
-	hBGImageIII = LoadGraph("data/image/Back3.png");
+	hBGImageIII = LoadGraph("data/image/背景/Back15.png");
 		assert(hBGImageIII > 0);
 	gameBGImage = hBGImageI; // デフォルトの背景画像
-	// 画像 ポーズ画面
-	pauseImage = LoadGraph("data/image/xPause.png"); // 画像 ポーズ画面
-		assert(pauseImage > 0);
-	//「RESET!」
-	//resetTextImage = LoadGraph("data/image/XA1/xRESET.png"); // 画像「RESET」
-	//	assert(resetTextImage > 0);
-
+	
 	// 音声読み込み
 	titleBackSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [T]タイトルに戻る
 		assert(titleBackSound > 0);
@@ -97,11 +90,8 @@ PlayScene::~PlayScene()
 	DeleteGraph(blockModeTextImage); // 画像「BLOCK」
 	DeleteGraph(tetraModeBGImage);   // 画像 TETRAモード背景
 	DeleteGraph(blockModeBGImage);   // 画像 BLOCKモード背景
-	DeleteGraph(readyTextImage);		 // 画像「レディ」
+	DeleteGraph(readyTextImage);	 // 画像「レディ」
 	DeleteGraph(goTextImage);		 // 画像「ゴー」
-
-	DeleteGraph(pauseImage);		 // 画像 ポーズ画面
-	//DeleteGraph(resetTextImage);	 // 画像「RESET」
 
 	DeleteSoundMem(titleBackSound); // 音「CHANGE:[C]KEY」
 	DeleteSoundMem(tetraModeSound); // 音 [C]テトラモード変更時
@@ -206,6 +196,10 @@ void PlayScene::Update()
 			playTime = 9999;
 		}
 	}
+
+
+
+
 
 	//背景の表示切り替え
 	if ( (height >= changeBGheight * 0) && (height < changeBGheight * 1) )
