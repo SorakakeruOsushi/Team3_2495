@@ -240,7 +240,7 @@ BlockPos GetBlockPos(Block::ShapeType type, int rot) {
 
 Block::Block()
 {
-
+	sameMino = true;
 	s = FindGameObject<Stage>();
 	assert(s != nullptr);
 	p = FindGameObject<Player>();
@@ -265,7 +265,16 @@ Block::Block()
 
 	nowBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
 	nowBlock.rotation = 0;
-	nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+	while (sameMino) {
+		nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+		if (nextBlock.shape == nowBlock.shape) {//nowBlockとnextBlockの形が同じとき
+			sameMino = true;//繰り返す
+		}
+		else {
+			sameMino = false;
+		}
+	}
+	sameMino = true;
 	nextBlock.rotation = 0;
 	for (int i = 2; i < 6; i++) {
 		hImage[i] = -1;
@@ -334,12 +343,38 @@ void Block::Update()
 						nowBlock = nextBlock;
 						position.x = WIDTH - 5;
 						position.y = 0;
-						nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
-						nextBlock.rotation = 0;
+						while (sameMino) {
+							nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+							if (nextBlock.shape == nowBlock.shape) {//nowBlockとnextBlockの形が同じとき
+								sameMino = true;//繰り返す
+							}
+							else {
+								sameMino = false;
+							}
+						}
+						sameMino = true;
+							nextBlock.rotation = 0;
 						return;
 					}
 				}
 			}
+		}
+		if (position.y > 24) {//画面外に3ブロック分出たら現在のブロックを消去
+			nowBlock = nextBlock;
+			position.x = WIDTH - 5;
+			position.y = 0;
+			while (sameMino) {
+				nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+				if (nextBlock.shape == nowBlock.shape) {//nowBlockとnextBlockの形が同じとき
+					sameMino = true;//繰り返す
+				}
+				else {
+					sameMino = false;
+				}
+			}
+			sameMino = true;
+			nextBlock.rotation = 0;
+			return;
 		}
 			position.y++;
 		counter = 0.0f;
@@ -365,6 +400,17 @@ void Block::Update()
 					if (s->CheckBlock(position.x + x, position.y + y)) { 
 						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
 						position.x += 1;
+					}
+				}
+			}
+		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (position.x+x-1 <= WIDTH - 5 - 13) { // 左の壁にかぶったら
+						position.x +=1;
 					}
 				}
 			}
@@ -398,6 +444,18 @@ void Block::Update()
 				}
 			}
 		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (position.x+x+1 >= WIDTH - 5 + 14) { // 右の壁にかぶったら
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						position.x -=1;
+					}
+				}
+			}
+		}
 	}
 	else {
 		isMovedRight = false;
@@ -422,9 +480,34 @@ void Block::Update()
 				}
 			}
 		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (id > 0) {
+						if (position.x + x - 1 <= WIDTH - 5 - 13) { // 左の壁にかぶったら
+							position.x += 1;
+						}
+					}
+				}
+			}
+		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (position.x + x + 1 >= WIDTH - 5 + 14) { // 右の壁にかぶったら
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						position.x -= 1;
+					}
+				}
+			}
+		}
 	}
 	//左回転(左右のShift、LBボタン)
- else if (CheckHitKey(KEY_INPUT_RSHIFT) || CheckHitKey(KEY_INPUT_LSHIFT)
+	else if (CheckHitKey(KEY_INPUT_RSHIFT) || CheckHitKey(KEY_INPUT_LSHIFT)
 		|| input.Buttons[XINPUT_BUTTON_LEFT_SHOULDER]) {
 		if (not isTurn) {
 			nowBlock.rotation -= 1;
@@ -445,17 +528,34 @@ void Block::Update()
 				}
 			}
 		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (position.x + x - 1 <= WIDTH - 5 - 13) { // 左の壁にかぶったら
+						position.x += 1;
+					}
+				}
+			}
+		}
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+				int id = block.blockPos[y][x];
+				if (id > 0) {
+					if (position.x + x + 1 >= WIDTH - 5 + 14) { // 右の壁にかぶったら
+						BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
+						position.x -= 1;
+					}
+				}
+			}
+		}
 	}
 	else {
 		isTurn = false;
 	}
-	if (position.x <=(WIDTH - 5)-12)
-	{
-		position.x = WIDTH - 5-12;
-	}
-	if (position.x >= WIDTH - 5 + 12) {
-		position.x = WIDTH - 5 + 11;
-	}
+	
 	if (CheckHitKey(KEY_INPUT_X)) {//ブロックを設置
 		if (not putBlock) {
 			BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
@@ -470,8 +570,16 @@ void Block::Update()
 			nowBlock = nextBlock;
 			position.x = WIDTH - 5;
 			position.y = 0;
-			nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
-			nextBlock.rotation = 0;
+			while (sameMino) {
+				nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+				if (nextBlock.shape == nowBlock.shape) {//nowBlockとnextBlockの形が同じとき
+					sameMino = true;//繰り返す
+				}
+				else {
+					sameMino = false;
+				}
+			}
+			sameMino = true;
 			putBlock = true;
 		}
 	}
