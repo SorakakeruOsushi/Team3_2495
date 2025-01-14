@@ -17,9 +17,9 @@ const char* STAGE_DATA_PATH = "data/Stage/Stage%02d.csv";	// ƒuƒƒbƒN”z’uî•ñ‚Ìƒ
 
 Stage::Stage()
 {
-#if false
 	for (int y = 0; y < HEIGHT; y++)
 	{
+#if false
 		for (int x = 0; x < WIDTH; x++)
 		{
 			map[y][x] = orgmap[y][x];
@@ -36,7 +36,7 @@ Stage::Stage()
 
 
 	//CsvReader* csv = new CsvReader(stageFile);			    //Stage(01`05).CSV‚ğƒ‰ƒ“ƒ_ƒ€•\¦
-	CsvReader* csv = new CsvReader("data/stage/Test.csv"); //Œˆ‚Ü‚Á‚½CSVƒtƒ@ƒCƒ‹‚ğ•\¦
+	CsvReader* csv = new CsvReader("data/stage/Stage03.csv"); //Œˆ‚Ü‚Á‚½CSVƒtƒ@ƒCƒ‹‚ğ•\¦
 
 	for (int y = 0; y < HEIGHT; y++) 
 	{
