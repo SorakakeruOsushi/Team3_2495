@@ -243,9 +243,25 @@ bool Stage::CheckBlock(int x, int y)//そこにマップチップがあるか
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
 	y = y - (TOP_SPACE - scroll) / CHIP_SIZE;
+	if (y < 0) {
+		return false;
+	}
 	x = x - (SIDE_SPACE / CHIP_SIZE);
 	int id = map[y][x];
 	if (map[y][x] >= 1 && map[y][x] < 7) // [1以上 かつ 7未満]
+	{
+		return true;
+
+	}
+	else { return false; }
+}
+
+bool Stage::CheckOnGoal(int x, int y)
+{
+	y = y - (TOP_SPACE - scroll) / CHIP_SIZE;
+	x = x - (SIDE_SPACE / CHIP_SIZE);
+	int id = map[y][x];
+	if (map[y][x] ==8) // [8=ゴールの時]
 	{
 		return true;
 

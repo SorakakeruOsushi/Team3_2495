@@ -335,8 +335,27 @@ void Block::Update()
 						for (int y = 0; y < 3; y++) {
 							for (int x = 0; x < 3; x++) {
 								int id = block.blockPos[y][x];
-								if (id > 0) {
-									s->PutBlock(position.x + x, position.y + y, id);//ミノを配置する
+								if (s->CheckOnGoal(position.x + x, position.y + y)) {
+									nowBlock = nextBlock;
+									position.x = WIDTH - 5;
+									position.y = 0;
+									while (sameMino) {
+										nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+										if (nextBlock.shape == nowBlock.shape) {//nowBlockとnextBlockの形が同じとき
+											sameMino = true;//繰り返す
+										}
+										else {
+											sameMino = false;
+										}
+									}
+									sameMino = true;
+									nextBlock.rotation = 0;
+									return;
+								}
+								else{
+									if (id > 0) {
+										s->PutBlock(position.x + x, position.y + y, id);//ミノを配置する
+									}
 								}
 							}
 						}

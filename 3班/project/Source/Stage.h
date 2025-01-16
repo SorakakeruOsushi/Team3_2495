@@ -33,6 +33,7 @@ public:
 
 	void PutBlock(int x, int y, int id);
 	bool CheckBlock(int x, int y);
+	bool CheckOnGoal(int x, int y);
 
 	Player* p;
 	Coin* c;
