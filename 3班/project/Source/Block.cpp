@@ -317,7 +317,8 @@ void Block::Update()
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
 	//ブロックを落とす
-	if (CheckHitKey(KEY_INPUT_S)) {
+	if (CheckHitKey(KEY_INPUT_S)||CheckHitKey(KEY_INPUT_DOWN)
+		|| (input.Buttons[XINPUT_BUTTON_DPAD_LEFT])) {
 		counter += Time::DeltaTime() * quickCount;
 		//Sが押されていたらquickCount倍早くcountが進む＝早く落ちる
 	}
