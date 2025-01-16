@@ -246,6 +246,12 @@ Block::Block()
 	p = FindGameObject<Player>();
 	assert(p != nullptr);
 
+	TurnSound=LoadSoundMem("data/sound/GameSE/ブロック回転１.mp3");//回転音
+	assert(TurnSound > 0);
+	PutSound= LoadSoundMem("data/sound/GameSE/ブロック設置４.mp3");//設置音
+	assert(PutSound > 0);
+
+
 	isMovedLeft = false;
 	isMovedRight = false;
 	isTurn = false;
@@ -317,7 +323,8 @@ void Block::Update()
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
 	//ブロックを落とす
-	if (CheckHitKey(KEY_INPUT_S)) {
+	if (CheckHitKey(KEY_INPUT_S)||CheckHitKey(KEY_INPUT_DOWN)
+		|| (input.Buttons[XINPUT_BUTTON_DPAD_LEFT])) {
 		counter += Time::DeltaTime() * quickCount;
 		//Sが押されていたらquickCount倍早くcountが進む＝早く落ちる
 	}
@@ -335,8 +342,28 @@ void Block::Update()
 						for (int y = 0; y < 3; y++) {
 							for (int x = 0; x < 3; x++) {
 								int id = block.blockPos[y][x];
-								if (id > 0) {
-									s->PutBlock(position.x + x, position.y + y, id);//ミノを配置する
+								if (s->CheckOnGoal(position.x + x, position.y + y)) {//ゴールとミノがかぶっていたら消滅
+									nowBlock = nextBlock;
+									position.x = WIDTH - 5;
+									position.y = 0;
+									while (sameMino) {
+										nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+										if (nextBlock.shape == nowBlock.shape) {//nowBlockとnextBlockの形が同じとき
+											sameMino = true;//繰り返す
+										}
+										else {
+											sameMino = false;
+										}
+									}
+									sameMino = true;
+									nextBlock.rotation = 0;
+									return;
+								}
+								else{
+									if (id > 0) {
+										s->PutBlock(position.x + x, position.y + y, id);//ミノを配置する
+										PlaySoundMem(PutSound, DX_PLAYTYPE_BACK); // 設置音の再生
+									}
 								}
 							}
 						}
@@ -465,6 +492,7 @@ void Block::Update()
 		input.Buttons[XINPUT_BUTTON_RIGHT_SHOULDER]) {
 		if (not isTurn) {
 			nowBlock.rotation = (nowBlock.rotation + 1) % 4; // ４回転で一周
+			PlaySoundMem(TurnSound, DX_PLAYTYPE_BACK); // 回転音の再生
 			isTurn = true;
 			
 		}
@@ -514,6 +542,7 @@ void Block::Update()
 			if (nowBlock.rotation <= -1) {
 				nowBlock.rotation = 3;
 			}
+			PlaySoundMem(TurnSound, DX_PLAYTYPE_BACK); // ジャンプ音の再生
 			isTurn = true;
 		}
 		for (int y = 0; y < 3; y++) {
@@ -556,37 +585,6 @@ void Block::Update()
 		isTurn = false;
 	}
 	
-	if (CheckHitKey(KEY_INPUT_X)) {//ブロックを設置
-		if (not putBlock) {
-			BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
-			for (int y = 0; y < 3; y++) {
-				for (int x = 0; x < 3; x++) {
-					int id = block.blockPos[y][x];
-					if (id > 0) {
-						s->PutBlock(position.x + x, position.y + y, id);
-					}
-				}
-			}
-			nowBlock = nextBlock;
-			position.x = WIDTH - 5;
-			position.y = 0;
-			while (sameMino) {
-				nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
-				if (nextBlock.shape == nowBlock.shape) {//nowBlockとnextBlockの形が同じとき
-					sameMino = true;//繰り返す
-				}
-				else {
-					sameMino = false;
-				}
-			}
-			sameMino = true;
-			putBlock = true;
-		}
-	}
-	else {
-		putBlock = false;
-	}
-	
 }
 
 void Block::Draw()
@@ -596,7 +594,7 @@ void Block::Draw()
 		for (int x = 0; x < 3; x++) {
 			int id = block.blockPos[y][x];
 			if (id > 0) {
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
 				DrawGraph((position.x + x) * blockSize, (position.y + y) * blockSize, hImage[id], TRUE);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
