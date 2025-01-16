@@ -58,6 +58,9 @@ public:
 	bool isTurn;//‰ñ“]‚µ‚½‚©
 	bool putBlock;//X‚Å’u‚­—p@‰¼
 
+	int TurnSound;
+	int PutSound;
+
 	PlayMode* pm;
 	Player* p;
 

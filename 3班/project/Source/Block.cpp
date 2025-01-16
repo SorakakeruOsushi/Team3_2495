@@ -246,6 +246,10 @@ Block::Block()
 	p = FindGameObject<Player>();
 	assert(p != nullptr);
 
+	TurnSound;//
+	PutSound;//
+
+
 	isMovedLeft = false;
 	isMovedRight = false;
 	isTurn = false;

@@ -48,10 +48,10 @@ Stage::Stage()
 	delete csv;
 
 	// ‰æ‘œ ƒ~ƒm‰æ‘œ
-	MinoImage[2] = LoadGraph("data/image/Lmino.PNG");
-	MinoImage[3] = LoadGraph("data/image/Jmino.PNG");
-	MinoImage[4] = LoadGraph("data/image/Tmino.PNG");
-	MinoImage[5] = LoadGraph("data/image/Omino.PNG");
+	MinoImage[2] = LoadGraph("data/image/Lmino_One.PNG");
+	MinoImage[3] = LoadGraph("data/image/Jmino_One.PNG");
+	MinoImage[4] = LoadGraph("data/image/Tmino_One.PNG");
+	MinoImage[5] = LoadGraph("data/image/Omino_One.PNG");
 	for (int i = 2; i < 6; i++)
 	{
 		assert(MinoImage[i] > 0);
