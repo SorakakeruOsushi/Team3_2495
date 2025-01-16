@@ -608,7 +608,7 @@ void Block::Draw()
 		for (int x = 0; x < 3; x++) {
 			int id = block.blockPos[y][x];
 			if (id > 0) {
-				DrawGraph(1065 + x * blockSize, 120 + y * blockSize, hImage[id], TRUE);
+				DrawGraph(1070 + x * blockSize, 110 + y * blockSize, hImage[id], TRUE);
 			}
 		}
 	}
