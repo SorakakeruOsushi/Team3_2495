@@ -18,6 +18,7 @@ public:
 	int playerAnimImage; // 画像 ANIMプレイヤー
 
 	int jumpSound;   // 音 ジャンプ
+	int fallSound;	 // 音 画面外へ
 
 	XINPUT_STATE input; //PAD操作用変数
 	
@@ -37,8 +38,6 @@ public:
 	bool prevJumpKey;	// 前のジャンプキー
 	bool onGround;		// 接地判定
 
-	bool inGround;		// ブロックの中にいる
-
 	int gotCoin;		// コイン取得数
 
 	bool finished;		// 死んだ！
@@ -49,4 +48,6 @@ public:
 	int patternX;
 	int patternY;
 	float timer;
+	int collisionDown; // プレイヤーの当たり判定の位置を足元に合わせる
+	int outOfScreen;   // プレイヤーがどの程度画面の外に出たらゲームオーバーになるか
 };

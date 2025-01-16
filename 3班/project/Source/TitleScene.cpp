@@ -14,7 +14,7 @@ TitleScene::TitleScene()
 	pushKeyTextImage = LoadGraph("data/image/font/PushKey.png"); //「PUSH ANY KEY」
 		assert(pushKeyTextImage > 0);
 
-	startSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [T]タイトルに戻る
+	startSound = LoadSoundMem("data/sound/GameSE/決定ボタンを押す24.mp3"); // 音 [ANY]ゲーム画面へ
 		assert(startSound > 0);
 	
 	DrawKeyTimer = 0.0f;  // タイマー 

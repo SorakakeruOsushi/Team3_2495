@@ -44,47 +44,35 @@ PlayScene::PlayScene()
 	playModeBGImage = NULL;	// プレイモードのデフォルトは「TETRA」
 
 	// 画像 背景1,2,3
-	hBGImageI = LoadGraph("data/image/背景/Back13.png");
-		assert(hBGImageI > 0);
-	hBGImageII = LoadGraph("data/image/背景/Back14.png");
-		assert(hBGImageII > 0);
-	hBGImageIII = LoadGraph("data/image/背景/Back15.png");
-		assert(hBGImageIII > 0);
-	gameBGImage = hBGImageI; // デフォルトの背景画像
+	gameBGImage = LoadGraph("data/image/背景/LongBack.jpeg");
+		assert(gameBGImage > 0);
 	
 	// 音声読み込み
-	titleBackSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [T]タイトルに戻る
+	titleBackSound = LoadSoundMem("data/sound/GameSE/スタートボタン４.mp3");	 // 音 [T]タイトルに戻る
 		assert(titleBackSound > 0);
-	tetraModeSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [C]テトラモード
-		assert(tetraModeSound > 0);
-	blockModeSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [C]ブロックモード
-		assert(blockModeSound > 0);
-	startSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 ゲーム開始
+	startSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3"); // 音 ゲーム開始
 		assert(startSound > 0);
-	pauseSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [Tab]ポーズ
-		assert(pauseSound > 0);
-	//resetSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");   // 音 [0]リセット
-	//	assert(resetSound > 0);
+	resetSound = LoadSoundMem("data/sound/GameSE/リセット音.mp3");				 // 音 [0]リセット
+		assert(resetSound > 0);
+	modeChangeSound = LoadSoundMem("data/sound/GameSE/ボタン１.mp3");			 // 音 [C]モード変更
+		assert(modeChangeSound > 0);
 
 	g = nullptr;
 	f = nullptr;
 
 	playTime = 0.0f;		// プレイ時間
 
-	//IsReset = false;
-	startCountDown = 5.0f;///////
+	startCountDown = 5.0f;
 
 	height = 0.0f;			// 床分の高さ(10)を引く
 	bestHeight = 0.0f;		// 死亡時のリザルトで表示
 
-	changeBGheight = 50 / 3;
+	//changeBGheight = 50 / 3;
 }
 
 PlayScene::~PlayScene()
 {
-	DeleteGraph(hBGImageI);			 // 画像 プレイシーン 背景1
-	DeleteGraph(hBGImageII);		 // 画像 プレイシーン 背景2
-	DeleteGraph(hBGImageIII);		 // 画像 プレイシーン 背景3
+	DeleteGraph(gameBGImage);		 // 画像 プレイシーン背景
 
 	DeleteGraph(stageTextImage);	 // 画像 [固定表示文字を１枚の画像にまとめた]
 
@@ -96,11 +84,9 @@ PlayScene::~PlayScene()
 	DeleteGraph(goTextImage);		 // 画像「ゴー」
 
 	DeleteSoundMem(titleBackSound); // 音「CHANGE:[C]KEY」
-	DeleteSoundMem(tetraModeSound); // 音 [C]テトラモード変更時
-	DeleteSoundMem(blockModeSound); // 音 [C]ブロックモード変更時
 	DeleteSoundMem(startSound);		// 音 ゲーム開始
-	DeleteSoundMem(pauseSound);		// 音 [Tab]ポーズ
-	//DeleteSoundMem(resetSound);		// 音 [0]リセット
+	DeleteSoundMem(resetSound);		// 音 [0]リセット
+	DeleteSoundMem(modeChangeSound);// 音 [C]モード変更時
 }
 
 
@@ -132,7 +118,7 @@ void PlayScene::Update()
 	if (startCountDown <= 0.0f)
 	{
 		readyGoTextImage = NULL;
-		//PlaySoundMem(startSound, DX_PLAYTYPE_BACK);
+		PlaySoundMem(startSound, DX_PLAYTYPE_BACK);
 		pm->IsGameStart = true;
 	}
 
@@ -144,7 +130,7 @@ void PlayScene::Update()
 	//[0]リスタート
 	if (KeyUtility::CheckTrigger(KEY_INPUT_0))
 	{
-		//PlaySoundMem(resetSound, DX_PLAYTYPE_BACK); // SE再生
+		PlaySoundMem(resetSound, DX_PLAYTYPE_BACK); // リセットSE再生
 		//１フレームだけ"RESTARTシーン"に行き、"PLAYシーン"に戻ってくる
 		SceneManager::ChangeScene("RESTART");
 	}
@@ -155,6 +141,7 @@ void PlayScene::Update()
 		// ボタンを押し込んだ時だけ入力を取る
 		if (!isButtonDown)
 		{
+			PlaySoundMem(modeChangeSound, DX_PLAYTYPE_BACK);
 			pm->changeMode();
 		}
 		isButtonDown = true;
@@ -166,13 +153,11 @@ void PlayScene::Update()
 
 	if (pm->playMode == 0) // テトラモード
 	{
-		//PlaySoundMem(tetraModeSound, DX_PLAYTYPE_BACK);
 		playModeTextImage = tetraModeTextImage;
 		playModeBGImage = NULL;
 	}
 	else 				   // ブロックモード
 	{
-		//PlaySoundMem(blockModeSound, DX_PLAYTYPE_BACK);
 		playModeTextImage = blockModeTextImage;
 		playModeBGImage = blockModeBGImage;
 	}
@@ -199,10 +184,7 @@ void PlayScene::Update()
 		}
 	}
 
-
-
-
-
+	/*
 	//背景の表示切り替え
 	if ( (height >= changeBGheight * 0) && (height < changeBGheight * 1) )
 	{
@@ -216,6 +198,8 @@ void PlayScene::Update()
 	{
 		gameBGImage = hBGImageIII;
 	}
+	*/
+
 	//GOALかFINISHでリザルトを確定
 	if (p->goaled && g == nullptr)
 	{
@@ -248,8 +232,10 @@ void PlayScene::Update()
 
 void PlayScene::Draw()
 {
-	// プレイエリア外のの背景
-	DrawGraph(0, 0, gameBGImage, TRUE); // 洞窟の背景
+	// 変化背景
+	//DrawGraph(0, 0, gameBGImage, TRUE); // 洞窟の背景
+	// 固定背景
+	DrawGraph(0, -1440 - s->scroll, gameBGImage, TRUE);
 
 	// プレイモード背景
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);

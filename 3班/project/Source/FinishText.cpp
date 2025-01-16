@@ -20,7 +20,7 @@ FinishText::FinishText()
 
 	titleBackSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3"); // 音 タイトルに戻る
 		assert(titleBackSound > 0);
-	gameOverSound = LoadSoundMem("data/sound/効果音ラボ/voice/「ひゃーっ！」.mp3");	 // 音「(悲鳴)」
+	gameOverSound = LoadSoundMem("data/sound/GameSE/ゲームオーバー２.mp3");	 // 音 ゲームオーバーSE
 		assert(gameOverSound > 0);
 	PlaySoundMem(gameOverSound, DX_PLAYTYPE_BACK); // 悲鳴ボイス再生
 

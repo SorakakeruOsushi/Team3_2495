@@ -34,17 +34,15 @@ public:
 	int blockModeBGImage;   // 画像 BLOCKモードのプレイエリア背景画像
 
 	int gameBGImage; // 画像 ゲーム背景
-	int changeBGheight;
-		int hBGImageI;    // 画像 背景1
-		int hBGImageII;   // 画像 背景2
-		int hBGImageIII;  // 画像 背景3
+	//int changeBGheight;
+	//	int hBGImageI;    // 画像 背景1
+	//	int hBGImageII;   // 画像 背景2
+	//	int hBGImageIII;  // 画像 背景3
 
 	int titleBackSound; // 音 [T]タイトルに戻るとき
-	int tetraModeSound; // 音 [C]テトラモード変更時
-	int blockModeSound; // 音 [C]ブロックモード変更時
-	int pauseSound;	    // 音 [TAB]ポーズ画面
 	int startSound;		// 音 ゲーム開始
-	//int resetSound;		// 音 [0]リセット音
+	int resetSound;		// 音 [0]リセット音
+	int modeChangeSound;// 音 [C]モード変更時
 
 	float playTime;	  //プレイ時間
 	float height;	  // 高さ
