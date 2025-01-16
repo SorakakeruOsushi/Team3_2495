@@ -50,8 +50,8 @@ PlayScene::PlayScene()
 	// 音声読み込み
 	titleBackSound = LoadSoundMem("data/sound/GameSE/スタートボタン４.mp3");	 // 音 [T]タイトルに戻る
 		assert(titleBackSound > 0);
-	startSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3"); // 音 ゲーム開始
-		assert(startSound > 0);
+	//startSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3"); // 音 ゲーム開始
+	//	assert(startSound > 0);
 	resetSound = LoadSoundMem("data/sound/GameSE/リセット音.mp3");				 // 音 [0]リセット
 		assert(resetSound > 0);
 	modeChangeSound = LoadSoundMem("data/sound/GameSE/ボタン１.mp3");			 // 音 [C]モード変更
@@ -130,7 +130,7 @@ void PlayScene::Update()
 	//[0]リスタート
 	if (KeyUtility::CheckTrigger(KEY_INPUT_0))
 	{
-		PlaySoundMem(resetSound, DX_PLAYTYPE_BACK); // リセットSE再生
+		PlaySoundMem(resetSound, DX_PLAYTYPE_NORMAL); // リセットSE再生
 		//１フレームだけ"RESTARTシーン"に行き、"PLAYシーン"に戻ってくる
 		SceneManager::ChangeScene("RESTART");
 	}

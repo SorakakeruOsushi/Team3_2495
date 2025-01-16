@@ -18,11 +18,11 @@ FinishText::FinishText()
 	timeTextImage = LoadGraph("data/image/font/一画面に統合する前のフォントたち/Time.png");    // 画像「TIME」
 		assert(timeTextImage > 0);
 
-	titleBackSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3"); // 音 タイトルに戻る
+	titleBackSound = LoadSoundMem("data/sound/GameSE/ボタン１.mp3");		// 音 タイトルに戻る
 		assert(titleBackSound > 0);
-	gameOverSound = LoadSoundMem("data/sound/GameSE/ゲームオーバー２.mp3");	 // 音 ゲームオーバーSE
+	gameOverSound = LoadSoundMem("data/sound/GameSE/ゲームオーバー２.mp3"); // 音 ゲームオーバーSE
 		assert(gameOverSound > 0);
-	PlaySoundMem(gameOverSound, DX_PLAYTYPE_BACK); // 悲鳴ボイス再生
+	PlaySoundMem(gameOverSound, DX_PLAYTYPE_BACK); // ゲームオーバーSE再生
 
 	timer = 0.0f;
 	alpha = 0.0f;
@@ -54,7 +54,6 @@ void FinishText::Update()
 	//パッド用関数(毎フレーム呼び出す)
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
-	//Time::DeltaTime();：秒で測れるためモニター性能に左右されない
 	timer += Time::DeltaTime();
 
 	if (timer >= 1.5f)
@@ -128,5 +127,4 @@ void FinishText::Draw()
 		SetFontSize(25);
 		DrawString(450, 650, "test[0]でリトライ", GetColor(255, 0, 0), TRUE);
 	}
-
 }

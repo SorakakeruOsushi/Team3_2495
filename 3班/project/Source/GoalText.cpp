@@ -23,7 +23,7 @@ GoalText::GoalText()
 	titleBackKeyTextImage = LoadGraph("data/image/font/PushSpace.png"); // 画像「TITLEに戻る」
 		assert(titleBackKeyTextImage > 0);
 
-	titleBackSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3");
+	titleBackSound = LoadSoundMem("data/sound/GameSE/ボタン１.mp3");
 		assert(titleBackSound > 0);
 	goalSound = LoadSoundMem("data/sound/効果音ラボ/voice/「ぱんぱかぱーん！」.mp3");
 		assert(goalSound > 0);
