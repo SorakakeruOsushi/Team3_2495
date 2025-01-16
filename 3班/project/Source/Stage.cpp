@@ -17,81 +17,72 @@ const char* STAGE_DATA_PATH = "data/Stage/Stage%02d.csv";	// ƒuƒƒbƒN”z’uî•ñ‚Ìƒ
 
 Stage::Stage()
 {
-	for (int y = 0; y < HEIGHT; y++)
-	{
-#if false
-		for (int x = 0; x < WIDTH; x++)
+	
+		//ƒ‰ƒ“ƒ_ƒ€‚ÈCSVƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚ÅƒXƒe[ƒW¶¬‚·‚éI(–x‰zæ¶‚ ‚è‚ª‚Æ‚¤I)
+		int stageNo = 0;
+		stageNo = GetRand(4) + 1; // —” [01`05]‚Ìƒ‰ƒ“ƒ_ƒ€
+
+		char stageFile[100];
+		sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
+
+
+		//CsvReader* csv = new CsvReader(stageFile);			    //Stage(01`05).CSV‚ğƒ‰ƒ“ƒ_ƒ€•\¦
+		CsvReader* csv = new CsvReader("data/stage/Stage03.csv"); //Œˆ‚Ü‚Á‚½CSVƒtƒ@ƒCƒ‹‚ğ•\¦
+
+		for (int y = 0; y < HEIGHT; y++)
 		{
-			map[y][x] = orgmap[y][x];
+			for (int x = 0; x < WIDTH; x++)
+			{
+				map[y][x] = csv->GetInt(y, x);
+			}
 		}
-	}
-#endif
+		delete csv;
 
-	//ƒ‰ƒ“ƒ_ƒ€‚ÈCSVƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚ÅƒXƒe[ƒW¶¬‚·‚éI(–x‰zæ¶‚ ‚è‚ª‚Æ‚¤I)
-	int stageNo = 0;
-	stageNo = GetRand(4) + 1; // —” [01`05]‚Ìƒ‰ƒ“ƒ_ƒ€
-
-	char stageFile[100];
-	sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
-
-
-	//CsvReader* csv = new CsvReader(stageFile);			    //Stage(01`05).CSV‚ğƒ‰ƒ“ƒ_ƒ€•\¦
-	CsvReader* csv = new CsvReader("data/stage/Stage03.csv"); //Œˆ‚Ü‚Á‚½CSVƒtƒ@ƒCƒ‹‚ğ•\¦
-
-	for (int y = 0; y < HEIGHT; y++) 
-	{
-		for (int x = 0; x < WIDTH; x++) 
+		// ‰æ‘œ ƒ~ƒm‰æ‘œ
+		MinoImage[2] = LoadGraph("data/image/Lmino_One.PNG");
+		MinoImage[3] = LoadGraph("data/image/Jmino_One.PNG");
+		MinoImage[4] = LoadGraph("data/image/Tmino_One.PNG");
+		MinoImage[5] = LoadGraph("data/image/Omino_One.PNG");
+		for (int i = 2; i < 6; i++)
 		{
-			map[y][x] = csv->GetInt(y, x);
+			assert(MinoImage[i] > 0);
 		}
-	}
-	delete csv;
 
-	// ‰æ‘œ ƒ~ƒm‰æ‘œ
-	MinoImage[2] = LoadGraph("data/image/Lmino_One.PNG");
-	MinoImage[3] = LoadGraph("data/image/Jmino_One.PNG");
-	MinoImage[4] = LoadGraph("data/image/Tmino_One.PNG");
-	MinoImage[5] = LoadGraph("data/image/Omino_One.PNG");
-	for (int i = 2; i < 6; i++)
-	{
-		assert(MinoImage[i] > 0);
-	}
-
-	emptyImage = LoadGraph("data/image/EmptyA1.png");	   // ‰æ‘œ ‹ó‚Á‚Ûƒ}ƒX
+		emptyImage = LoadGraph("data/image/EmptyA1.png");	   // ‰æ‘œ ‹ó‚Á‚Ûƒ}ƒX
 		assert(emptyImage > 0);
-	groundImage = LoadGraph("data/image/Ground.JPG");	   // ‰æ‘œ ‘ƒuƒƒbƒN
+		groundImage = LoadGraph("data/image/Ground.JPG");	   // ‰æ‘œ ‘ƒuƒƒbƒN
 		assert(groundImage > 0);
-	blockImage = LoadGraph("data/image/BlockA2.png");	   // ‰æ‘œ Šù‘¶ƒuƒƒbƒN
+		blockImage = LoadGraph("data/image/BlockA2.png");	   // ‰æ‘œ Šù‘¶ƒuƒƒbƒN
 		assert(blockImage > 0);
-	goalImage = LoadGraph("data/image/GoalLineShort.png"); // ‰æ‘œ ƒS[ƒ‹ƒ‰ƒCƒ“
+		goalImage = LoadGraph("data/image/GoalLineShort.png"); // ‰æ‘œ ƒS[ƒ‹ƒ‰ƒCƒ“
 		assert(goalImage > 0);
-	wallImage = LoadGraph("data/image/WallA1Long.png");    // ‰æ‘œ •Ç
+		wallImage = LoadGraph("data/image/WallA1Long.png");    // ‰æ‘œ •Ç
 		assert(wallImage > 0);
 
-	//9‚ğ’T‚µ‚ÄAPlayer‚ğ’u‚­
-	for (int j = 0; j < HEIGHT; j++)    //ujvc
-	{
-		for (int i = 0; i < WIDTH; i++) //uiv‰¡
+		//9‚ğ’T‚µ‚ÄAPlayer‚ğ’u‚­
+		for (int j = 0; j < HEIGHT; j++)    //ujvc
 		{
-			if (map[j][i] == 9) //ƒvƒŒƒCƒ„[¶¬
+			for (int i = 0; i < WIDTH; i++) //uiv‰¡
 			{
-				p = Instantiate<Player>();
-				p->position.x = CHIP_SIZE * i + SIDE_SPACE;
-				p->position.y = CHIP_SIZE * j + TOP_SPACE;
-			}
-			if (map[j][i] == 7) //ƒRƒCƒ“¶¬
-			{
-				c = Instantiate<Coin>();
-				c->position.x = CHIP_SIZE * i + SIDE_SPACE;
-				c->position.y = CHIP_SIZE * j + TOP_SPACE;
+				if (map[j][i] == 9) //ƒvƒŒƒCƒ„[¶¬
+				{
+					p = Instantiate<Player>();
+					p->position.x = CHIP_SIZE * i + SIDE_SPACE;
+					p->position.y = CHIP_SIZE * j + TOP_SPACE;
+				}
+				if (map[j][i] == 7) //ƒRƒCƒ“¶¬
+				{
+					c = Instantiate<Coin>();
+					c->position.x = CHIP_SIZE * i + SIDE_SPACE;
+					c->position.y = CHIP_SIZE * j + TOP_SPACE;
+				}
 			}
 		}
-	}
-	scroll = 0;
-	cellBG = true;
+		scroll = 0;
+		cellBG = true;
 
-	b = FindGameObject<Block>();
-	pm = FindGameObject<PlayMode>();
+		b = FindGameObject<Block>();
+		pm = FindGameObject<PlayMode>();
 }
 
 Stage::~Stage()
