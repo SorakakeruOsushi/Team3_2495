@@ -616,7 +616,7 @@ void Block::Draw()
 		for (int x = 0; x < 3; x++) {
 			int id = block.blockPos[y][x];
 			if (id > 0) {
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
 				DrawGraph((position.x + x) * blockSize, (position.y + y) * blockSize, hImage[id], TRUE);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
