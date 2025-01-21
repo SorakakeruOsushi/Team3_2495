@@ -70,7 +70,8 @@ void FinishText::Update()
 		{
 			// サウンドが終了するまで待つ 
 			PlaySoundMem(titleBackSound, DX_PLAYTYPE_NORMAL);
-			SceneManager::ChangeScene("TITLE");
+			//１フレームだけ"RESTARTシーン"に行き、"PLAYシーン"に戻ってくる
+			SceneManager::ChangeScene("RESTART");
 		}
 	}
 
@@ -95,24 +96,24 @@ void FinishText::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);   //透過しない
 
 	//「GAME OVER!」表示
-	if (timer >= 0.3f) 
+	if (timer >= 0.5f) 
 	{
-		DrawGraph(0, 0, gameOverTextImage, TRUE);
+		DrawGraph(0, -175, gameOverTextImage, TRUE);
 	}
 	SetFontSize(80);
-	if (timer >= 0.5f)
+	if (timer >= 1.0f)
 	{
 		// 到達高さ表示
 		DrawGraph(326, 300, heightTextImage, TRUE);
 		DrawFormatString(615, 300, GetColor(255, 255, 255), "%3.0f", fabs(resultHeight));
 	}
-	if (timer >= 0.75f)
+	if (timer >= 1.5f)
 	{
 		// スコア表示
 		DrawGraph(340, 400, scoreTextImage, TRUE);
 		DrawFormatString(615, 400, GetColor(255, 255, 255), "%3.0d", resultScore);
 	}
-	if (timer >= 1.0f)
+	if (timer >= 2.0f)
 	{
 		// タイム表示
 		DrawGraph(421, 500, timeTextImage, TRUE);
@@ -123,8 +124,6 @@ void FinishText::Draw()
 	if (IsDraw)
 	{
 		//「スペースキーを押して終了」表示
-		DrawGraph(450, 600, titleBackKeyTextImage, TRUE);
-		SetFontSize(25);
-		DrawString(450, 650, "test[0]でリトライ", GetColor(255, 0, 0), TRUE);
+		DrawGraph(0, 0, titleBackKeyTextImage, TRUE);
 	}
 }

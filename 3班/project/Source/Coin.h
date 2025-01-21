@@ -25,4 +25,8 @@ public:
 	float destroyTimer;     //コイン表示タイマー
 	float destroyTimeLimit; //コイン表示時間
 	float v;//跳ねる動きの速度
+
+	float destroyCountDown;
+	void destroyCountDownTimer();
+	bool nowPlaySE = false;
 };

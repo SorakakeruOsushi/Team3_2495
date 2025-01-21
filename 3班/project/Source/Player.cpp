@@ -3,6 +3,7 @@
 #include "Screen.h"
 #include "GoalText.h"
 #include "Stage.h"
+#include "../Library/Utility.h"
 
 const float Gravity = 0.3f;							 //重力
 const float JumpHight = 30 * 2.5f;				     //ジャンプの高さ
@@ -33,6 +34,7 @@ Player::Player()
 
 	playerHeight = -10.0f; //床分の高さ(10)分引く
 	prePlayerY = 0;
+	playerBestHeight = 0.0f; //最高到達点
 
 	speed = 2.0f;
 
@@ -55,11 +57,14 @@ Player::Player()
 	gotCoin = 0; // コイン取得数
 	alpha = 0; //プレイヤー透明度
 	outOfScreen = 39; // プレイヤーがどの程度画面の外に出たらゲームオーバーになるか
+
+	Xscroll = 0;
 }
 
 Player::~Player()
 {
-	DeleteGraph(playerImage);
+	DeleteGraph(playerIdolImage);
+	DeleteGraph(playerAnimImage);
 	DeleteSoundMem(jumpSound);
 	DeleteSoundMem(fallSound);
 }
@@ -258,6 +263,10 @@ void Player::Update()
 			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
 			onGround = true;		//接地してる
 		}
+		if (abs(velocity - Gravity) < DBL_EPSILON)
+		{
+			onGround = true;
+		}
 	}
 	// 上に壁があるか調べる
 	else
@@ -287,9 +296,10 @@ void Player::Update()
 	}
 
 	//プレイヤーに合わせてスクロール(上方向)
-	if (position.y - s->scroll < CHIP_SIZE * 15) //プレイヤーのY座標が〇マス以上(仮)
+	if (position.y - s->scroll < (CHIP_SIZE * 15) ) //プレイヤーのY座標が〇マス以上(仮)
 	{
-		s->scroll = position.y - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
+		//s->scroll = position.y + collisionDown - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
+		s->scroll = position.y +9 - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
 	}
 
 	//画面外に出たら死亡
@@ -300,18 +310,29 @@ void Player::Update()
 	}
 
 	//ゴールした
-	if (!goaled && s->IsGoal(position + VECTOR2(15, 30 + collisionDown))) //ゴールは左上でなく中心で（右に15,下に30ずれる）
+	if (!goaled && s->IsGoal(position + VECTOR2(15, 25 + collisionDown))) //ゴールは左上でなく中心で（右に15,下に30ずれる）
 	{
 		Instantiate<GoalText>();
 		goaled = true;
 	}
-
+	
 	// プレイヤー現在高さ = ２点の差 
 	playerHeight += prePlayerY - position.y;
+
+	//最高到達点の更新
+	if (onGround)
+	{
+		if (playerHeight/30 >= playerBestHeight/30)
+		{
+			playerBestHeight = playerHeight/30;
+		}
+	}
 }
 
 void Player::Draw()
 {
+	DrawFormatString(0, 300, GetColor(255, 255, 255), "%.0f/50", fabs(playerBestHeight));
+
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 
 	if (playerImage == playerIdolImage) // 正面

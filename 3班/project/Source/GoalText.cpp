@@ -119,7 +119,7 @@ void GoalText::Draw()
 	//uGAME CLEAR!v•\Ž¦
 	if (timer >= 4.0f)
 	{
-		DrawGraph(0, 0, gameClearTextImage, TRUE);
+		DrawGraph(0, -175, gameClearTextImage, TRUE);
 	}
 	SetFontSize(80);
 	if (timer >= 5.0f)

@@ -48,13 +48,13 @@ PlayScene::PlayScene()
 		assert(gameBGImage > 0);
 	
 	// 音声読み込み
-	titleBackSound = LoadSoundMem("data/sound/GameSE/スタートボタン４.mp3");	 // 音 [T]タイトルに戻る
+	titleBackSound = LoadSoundMem("data/sound/GameSE/スタートボタン４.mp3"); // 音 [T]タイトルに戻る
 		assert(titleBackSound > 0);
-	//startSound = LoadSoundMem("data/sound/効果音ラボ/voice/「もうええわ」.mp3"); // 音 ゲーム開始
-	//	assert(startSound > 0);
-	resetSound = LoadSoundMem("data/sound/GameSE/リセット音.mp3");				 // 音 [0]リセット
+	startSound = LoadSoundMem("data/sound/GameSE/ホイッスル・単発02.mp3");   // 音 ゲーム開始
+		assert(startSound > 0);
+	resetSound = LoadSoundMem("data/sound/GameSE/リセット音.mp3");			 // 音 [0]リセット
 		assert(resetSound > 0);
-	modeChangeSound = LoadSoundMem("data/sound/GameSE/ボタン１.mp3");			 // 音 [C]モード変更
+	modeChangeSound = LoadSoundMem("data/sound/GameSE/ボタン１.mp3");		 // 音 [C]モード変更
 		assert(modeChangeSound > 0);
 
 	g = nullptr;
@@ -66,8 +66,6 @@ PlayScene::PlayScene()
 
 	height = 0.0f;			// 床分の高さ(10)を引く
 	bestHeight = 0.0f;		// 死亡時のリザルトで表示
-
-	//changeBGheight = 50 / 3;
 }
 
 PlayScene::~PlayScene()
@@ -184,22 +182,6 @@ void PlayScene::Update()
 		}
 	}
 
-	/*
-	//背景の表示切り替え
-	if ( (height >= changeBGheight * 0) && (height < changeBGheight * 1) )
-	{
-		gameBGImage = hBGImageI;
-	}
-	if ((height >= changeBGheight * 1) && (height < changeBGheight * 2))
-	{
-		gameBGImage = hBGImageII;
-	}
-	if ((height >= changeBGheight * 2) && (height < changeBGheight * 3))
-	{
-		gameBGImage = hBGImageIII;
-	}
-	*/
-
 	//GOALかFINISHでリザルトを確定
 	if (p->goaled && g == nullptr)
 	{
@@ -232,8 +214,6 @@ void PlayScene::Update()
 
 void PlayScene::Draw()
 {
-	// 変化背景
-	//DrawGraph(0, 0, gameBGImage, TRUE); // 洞窟の背景
 	// 固定背景
 	DrawGraph(0, -1440 - s->scroll, gameBGImage, TRUE);
 
