@@ -12,9 +12,9 @@ const float V0 = -sqrtf(2.0f * Gravity * JumpHight); //放物線(ジャンプ)の式
 
 Player::Player()
 {
-	playerIdolImage = LoadGraph("data/image/Player_2-1.PNG"); // 画像 IDOLプレイヤー
+	playerIdolImage = LoadGraph("data/image/810test/810idol.png"); // 画像 IDOLプレイヤー
 		assert(playerIdolImage > 0);
-	playerAnimImage = LoadGraph("data/image/niaa1.png");	  // 画像 ANIMプレイヤー
+	playerAnimImage = LoadGraph("data/image/810test/810anim.jpg");	  // 画像 ANIMプレイヤー
 		assert(playerAnimImage > 0);
 	playerImage = playerIdolImage; //デフォルトはIDOL
 
@@ -44,7 +44,6 @@ Player::Player()
 	timer = 0;
 	IsWalkLeft = false;
 	IsWalkRight = false;
-	collisionDown = 9;
 	//
 	prevJumpKey = false;
 	onGround = false;
@@ -57,8 +56,6 @@ Player::Player()
 	gotCoin = 0; // コイン取得数
 	alpha = 0; //プレイヤー透明度
 	outOfScreen = 39; // プレイヤーがどの程度画面の外に出たらゲームオーバーになるか
-
-	Xscroll = 0;
 }
 
 Player::~Player()
@@ -98,29 +95,14 @@ void Player::Update()
 	// パッド用関数(毎フレーム呼び出す)
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
-	int push = s->IsWallDown(position + VECTOR2(0, 29 + collisionDown));
+	int push = s->IsWallDown(position + VECTOR2(0, 29));
 		if (push > 0)	//地面に触れたので
 		{
 			velocity = 0;			//地面に触ったら速度を0に
 			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
 			onGround = true;		//接地してる
 		}
-		push = s->IsWallDown(position + VECTOR2(29, 29 + collisionDown));
-		if (push > 0)	//地面に触れたので
-		{
-			velocity = 0;			//地面に触ったら速度を0に
-			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
-			onGround = true;		//接地してる
-		}
-
-		push = s->IsWallDown(position + VECTOR2(0, 30 + collisionDown));
-		if (push > 0)	//地面に触れたので
-		{
-			velocity = 0;			//地面に触ったら速度を0に
-			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
-			onGround = true;		//接地してる
-		}
-		push = s->IsWallDown(position + VECTOR2(29, 30 + collisionDown));
+		push = s->IsWallDown(position + VECTOR2(29, 29));
 		if (push > 0)	//地面に触れたので
 		{
 			velocity = 0;			//地面に触ったら速度を0に
@@ -128,14 +110,29 @@ void Player::Update()
 			onGround = true;		//接地してる
 		}
 
-		push = s->IsWallDown(position + VECTOR2(0, 59 + collisionDown));
+		push = s->IsWallDown(position + VECTOR2(0, 30));
 		if (push > 0)	//地面に触れたので
 		{
 			velocity = 0;			//地面に触ったら速度を0に
 			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
 			onGround = true;		//接地してる
 		}
-		push = s->IsWallDown(position + VECTOR2(29, 59 + collisionDown));
+		push = s->IsWallDown(position + VECTOR2(29, 30));
+		if (push > 0)	//地面に触れたので
+		{
+			velocity = 0;			//地面に触ったら速度を0に
+			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
+			onGround = true;		//接地してる
+		}
+
+		push = s->IsWallDown(position + VECTOR2(0, 59));
+		if (push > 0)	//地面に触れたので
+		{
+			velocity = 0;			//地面に触ったら速度を0に
+			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
+			onGround = true;		//接地してる
+		}
+		push = s->IsWallDown(position + VECTOR2(29, 59));
 		if (push > 0)	//地面に触れたので
 		{
 			velocity = 0;			//地面に触ったら速度を0に
@@ -150,13 +147,13 @@ void Player::Update()
 		position.x -= speed;
 		
 		//左に壁があるか調べる
-		int push = s->IsWallLeft(position + VECTOR2(0, 0 + collisionDown));
+		int push = s->IsWallLeft(position + VECTOR2(0, 0));
 		position.x += push;
-		push = s->IsWallLeft(position + VECTOR2(0, 30 + collisionDown));
+		push = s->IsWallLeft(position + VECTOR2(0, 30));
 		position.x += push;
-		push = s->IsWallLeft(position + VECTOR2(0, 31 + collisionDown));
+		push = s->IsWallLeft(position + VECTOR2(0, 31));
 		position.x += push;
-		push = s->IsWallLeft(position + VECTOR2(0, 59 + collisionDown));
+		push = s->IsWallLeft(position + VECTOR2(0, 59));
 		position.x += push;
 	}
 	else if ((CheckHitKey(KEY_INPUT_D)) || (CheckHitKey(KEY_INPUT_RIGHT)) || (input.Buttons[XINPUT_BUTTON_DPAD_RIGHT]) ) //右(D・→・PAD→)
@@ -165,13 +162,13 @@ void Player::Update()
 		position.x += speed;
 		
 		//右に壁があるか調べる
-		int push = s->IsWallRight(position + VECTOR2(29, 0 + collisionDown));
+		int push = s->IsWallRight(position + VECTOR2(29, 0));
 		position.x -= push;
-		push = s->IsWallRight(position + VECTOR2(29, 30 + collisionDown));
+		push = s->IsWallRight(position + VECTOR2(29, 30));
 		position.x -= push;
-		push = s->IsWallRight(position + VECTOR2(29, 31 + collisionDown));
+		push = s->IsWallRight(position + VECTOR2(29, 31));
 		position.x -= push;
-		push = s->IsWallRight(position + VECTOR2(29, 59 + collisionDown));
+		push = s->IsWallRight(position + VECTOR2(29, 59));
 		position.x -= push;
 	}
 
@@ -186,7 +183,7 @@ void Player::Update()
 		{
 			patternX += 1;
 			timer = 0.0f;
-			if (patternX >= 3)
+			if (patternX >= 4)
 			{
 				patternX = 0;
 			}
@@ -202,7 +199,7 @@ void Player::Update()
 		{
 			patternX += 1;
 			timer = 0.0f;
-			if (patternX >= 3)
+			if (patternX >= 4)
 			{
 				patternX = 0;
 			}
@@ -249,14 +246,14 @@ void Player::Update()
 	// 下に壁があるか調べる
 	if (velocity >= 0)// velocity:速度
 	{
-		int push = s->IsWallDown(position + VECTOR2(0, 60 + collisionDown)); //一個下を見る一個下を見るので60
+		int push = s->IsWallDown(position + VECTOR2(0, 60)); //一個下を見る一個下を見るので60
 		if (push > 0)	//地面に触れたので
 		{
 			velocity = 0;			//地面に触ったら速度を0に
 			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
 			onGround = true;		//接地してる
 		}
-		push = s->IsWallDown(position + VECTOR2(29, 60 + collisionDown));	 //一個下を見る一個下を見るので60
+		push = s->IsWallDown(position + VECTOR2(29, 60));	 //一個下を見る一個下を見るので60
 		if (push > 0)	//地面に触れたので
 		{
 			velocity = 0;			//地面に触ったら速度を0に
@@ -271,13 +268,13 @@ void Player::Update()
 	// 上に壁があるか調べる
 	else
 	{
-		int push = s->IsWallUp(position + VECTOR2(0, 0 + collisionDown));
+		int push = s->IsWallUp(position + VECTOR2(0, 0));
 		if (push > 0)
 		{
 			velocity = 0.0f;
 			position.y += push;
 		}
-		push = s->IsWallUp(position + VECTOR2(29, 0 + collisionDown));
+		push = s->IsWallUp(position + VECTOR2(29, 0));
 		if (push > 0)
 		{
 			velocity = 0.0f;
@@ -296,10 +293,14 @@ void Player::Update()
 	}
 
 	//プレイヤーに合わせてスクロール(上方向)
-	if (position.y - s->scroll < (CHIP_SIZE * 15) ) //プレイヤーのY座標が〇マス以上(仮)
+	//if (position.y - s->scroll < (CHIP_SIZE * 15) ) //プレイヤーのY座標が〇マス以上(仮)
+	//{
+	//	s->scroll = position.y - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
+	//}
+
+	if ((position.y - s->scroll <= 240) && (onGround))
 	{
-		//s->scroll = position.y + collisionDown - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
-		s->scroll = position.y +9 - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
+		s->scroll -= 240;
 	}
 
 	//画面外に出たら死亡
@@ -310,7 +311,7 @@ void Player::Update()
 	}
 
 	//ゴールした
-	if (!goaled && s->IsGoal(position + VECTOR2(15, 25 + collisionDown))) //ゴールは左上でなく中心で（右に15,下に30ずれる）
+	if (!goaled && s->IsGoal(position + VECTOR2(15, 25))) //ゴールは左上でなく中心で（右に15,下に25ずれる）
 	{
 		Instantiate<GoalText>();
 		goaled = true;
@@ -331,17 +332,18 @@ void Player::Update()
 
 void Player::Draw()
 {
-	DrawFormatString(0, 300, GetColor(255, 255, 255), "%.0f/50", fabs(playerBestHeight));
+	SetFontSize(50);
+	DrawFormatString(600, 100, GetColor(255, 255, 255), "%.f", position.y);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 
 	if (playerImage == playerIdolImage) // 正面
 	{
-		DrawGraph(position.x-7.5, position.y - s->scroll, playerImage, TRUE);
+		DrawGraph(position.x-0, position.y - s->scroll, playerImage, TRUE);
 	}
 	if (playerImage == playerAnimImage) // 左右
 	{
-		DrawRectGraph(position.x, position.y - s->scroll, patternX * 30, patternY * 69, 30, 69, playerImage, TRUE);
+		DrawRectGraph(position.x, position.y - s->scroll, patternX * 30, patternY * 60, 30, 60, playerImage, TRUE);
 	}
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

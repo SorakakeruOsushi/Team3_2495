@@ -250,10 +250,6 @@ void PlayScene::Draw()
 	//プレイモード(TETRA/BLOCK)
 	DrawGraph(0, 0, playModeTextImage, TRUE);   // playModeTextImageに入れる画像を切り替える
 
-	/////////////////////////////////
-	SetFontSize(50);
-	DrawFormatString(600, 100, GetColor(255, 255, 255), "%0.0f", startCountDown);
-
 }
 
 // ベストスコアを更新
