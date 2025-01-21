@@ -43,9 +43,10 @@ PlayScene::PlayScene()
 		assert(blockModeBGImage > 0);
 	playModeBGImage = NULL;	// プレイモードのデフォルトは「TETRA」
 
-	// 画像 背景1,2,3
-	gameBGImage = LoadGraph("data/image/背景/LongBack.jpeg");
+	gameBGImage = LoadGraph("data/image/背景/LongBack.jpeg");    // 画像 背景
 		assert(gameBGImage > 0);
+	cellMaxImage = LoadGraph("data/image/背景/cell.png");		 // 画像 マス目大きい
+		assert(cellMaxImage > 0);
 	
 	// 音声読み込み
 	titleBackSound = LoadSoundMem("data/sound/GameSE/スタートボタン４.mp3"); // 音 [T]タイトルに戻る
@@ -71,12 +72,12 @@ PlayScene::PlayScene()
 PlayScene::~PlayScene()
 {
 	DeleteGraph(gameBGImage);		 // 画像 プレイシーン背景
+	DeleteGraph(cellMaxImage);       // 画像 セルマックス
 
 	DeleteGraph(stageTextImage);	 // 画像 [固定表示文字を１枚の画像にまとめた]
 
 	DeleteGraph(tetraModeTextImage); // 画像「TETRA」
 	DeleteGraph(blockModeTextImage); // 画像「BLOCK」
-	DeleteGraph(tetraModeBGImage);   // 画像 TETRAモード背景
 	DeleteGraph(blockModeBGImage);   // 画像 BLOCKモード背景
 	DeleteGraph(readyTextImage);	 // 画像「レディ」
 	DeleteGraph(goTextImage);		 // 画像「ゴー」
@@ -113,7 +114,7 @@ void PlayScene::Update()
 	{
 		readyGoTextImage = goTextImage;
 	}
-	if (startCountDown <= 0.0f)
+	if (startCountDown <= 0.0f && !pm->IsGameStart)
 	{
 		readyGoTextImage = NULL;
 		PlaySoundMem(startSound, DX_PLAYTYPE_BACK);
@@ -222,6 +223,13 @@ void PlayScene::Draw()
 	DrawGraph(30 * 8, 0, playModeBGImage, TRUE); // TETRA/BLOCK
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
+	if (pm->playMode == 1)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50); //	アルファブレンディング
+		DrawGraph(CHIP_SIZE * 8, -1440 - s->scroll, cellMaxImage, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); // 透過しない
+	}
+
 	//固定表示文字画像
 	DrawGraph(0, 0, stageTextImage, TRUE);    // 固定表示の文字
 	//固定表示文字画像
@@ -249,10 +257,6 @@ void PlayScene::Draw()
 
 	//プレイモード(TETRA/BLOCK)
 	DrawGraph(0, 0, playModeTextImage, TRUE);   // playModeTextImageに入れる画像を切り替える
-
-	/////////////////////////////////
-	SetFontSize(50);
-	DrawFormatString(600, 100, GetColor(255, 255, 255), "%0.0f", startCountDown);
 
 }
 

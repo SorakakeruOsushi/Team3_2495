@@ -17,76 +17,73 @@ const char* STAGE_DATA_PATH = "data/Stage/Stage%02d.csv";	// ƒuƒƒbƒN”z’uî•ñ‚Ìƒ
 
 Stage::Stage()
 {
-		//ƒ‰ƒ“ƒ_ƒ€‚ÈCSVƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚ÅƒXƒe[ƒW¶¬‚·‚éI(–x‰zæ¶‚ ‚è‚ª‚Æ‚¤I)
-		int stageNo = 0;
-		stageNo = GetRand(4) + 1; // —” [01`05]‚Ìƒ‰ƒ“ƒ_ƒ€
+	//ƒ‰ƒ“ƒ_ƒ€‚ÈCSVƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚ÅƒXƒe[ƒW¶¬‚·‚éI(–x‰zæ¶‚ ‚è‚ª‚Æ‚¤I)
+	int stageNo = 0;
+	stageNo = GetRand(8) + 1; // —” [01`05]‚Ìƒ‰ƒ“ƒ_ƒ€
 
-		char stageFile[100];
-		sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
+	char stageFile[100];
+	sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
 
 
-		//CsvReader* csv = new CsvReader(stageFile);			    //Stage(01`05).CSV‚ğƒ‰ƒ“ƒ_ƒ€•\¦
-		CsvReader* csv = new CsvReader("data/stage/Test.csv"); //Œˆ‚Ü‚Á‚½CSVƒtƒ@ƒCƒ‹‚ğ•\¦
+	CsvReader* csv = new CsvReader(stageFile);			    //Stage(01`05).CSV‚ğƒ‰ƒ“ƒ_ƒ€•\¦
+	//CsvReader* csv = new CsvReader("data/stage/Stage05.csv"); //Œˆ‚Ü‚Á‚½CSVƒtƒ@ƒCƒ‹‚ğ•\¦
 
-		for (int y = 0; y < HEIGHT; y++)
+	for (int y = 0; y < HEIGHT; y++)
+	{
+		for (int x = 0; x < WIDTH; x++)
 		{
-			for (int x = 0; x < WIDTH; x++)
+			map[y][x] = csv->GetInt(y, x);
+		}
+	}
+	delete csv;
+
+	// ‰æ‘œ ƒ~ƒm‰æ‘œ
+	MinoImage[2] = LoadGraph("data/image/Lmino_One.PNG");
+	MinoImage[3] = LoadGraph("data/image/Jmino_One.PNG");
+	MinoImage[4] = LoadGraph("data/image/Tmino_One.PNG");
+	MinoImage[5] = LoadGraph("data/image/Omino_One.PNG");
+	for (int i = 2; i < 6; i++)
+	{
+		assert(MinoImage[i] > 0);
+	}
+
+	groundImage = LoadGraph("data/image/Ground.JPG");	   // ‰æ‘œ ‘ƒuƒƒbƒN
+	assert(groundImage > 0);
+	blockImage = LoadGraph("data/image/BlockA2.png");	   // ‰æ‘œ Šù‘¶ƒuƒƒbƒN
+	assert(blockImage > 0);
+	goalImage = LoadGraph("data/image/GoalLineShort.png"); // ‰æ‘œ ƒS[ƒ‹ƒ‰ƒCƒ“
+	assert(goalImage > 0);
+	wallImage = LoadGraph("data/image/pole.JPG");    // ‰æ‘œ •Ç
+	assert(wallImage > 0);
+
+	//9‚ğ’T‚µ‚ÄAPlayer‚ğ’u‚­
+	for (int j = 0; j < HEIGHT; j++)    //ujvc
+	{
+		for (int i = 0; i < WIDTH; i++) //uiv‰¡
+		{
+			if (map[j][i] == 9) //ƒvƒŒƒCƒ„[¶¬
 			{
-				map[y][x] = csv->GetInt(y, x);
+				p = Instantiate<Player>();
+				p->position.x = CHIP_SIZE * i + SIDE_SPACE;
+				p->position.y = CHIP_SIZE * j + TOP_SPACE;
+			}
+			if (map[j][i] == 7) //ƒRƒCƒ“¶¬
+			{
+				c = Instantiate<Coin>();
+				c->position.x = CHIP_SIZE * i + SIDE_SPACE;
+				c->position.y = CHIP_SIZE * j + TOP_SPACE;
 			}
 		}
-		delete csv;
+	}
+	scroll = 0;
+	cellBG = true;
 
-		// ‰æ‘œ ƒ~ƒm‰æ‘œ
-		MinoImage[2] = LoadGraph("data/image/Lmino_One.PNG");
-		MinoImage[3] = LoadGraph("data/image/Jmino_One.PNG");
-		MinoImage[4] = LoadGraph("data/image/Tmino_One.PNG");
-		MinoImage[5] = LoadGraph("data/image/Omino_One.PNG");
-		for (int i = 2; i < 6; i++)
-		{
-			assert(MinoImage[i] > 0);
-		}
-
-		emptyImage = LoadGraph("data/image/EmptyA1.png");	   // ‰æ‘œ ‹ó‚Á‚Ûƒ}ƒX
-		assert(emptyImage > 0);
-		groundImage = LoadGraph("data/image/Ground.JPG");	   // ‰æ‘œ ‘ƒuƒƒbƒN
-		assert(groundImage > 0);
-		blockImage = LoadGraph("data/image/BlockA2.png");	   // ‰æ‘œ Šù‘¶ƒuƒƒbƒN
-		assert(blockImage > 0);
-		goalImage = LoadGraph("data/image/GoalLineShort.png"); // ‰æ‘œ ƒS[ƒ‹ƒ‰ƒCƒ“
-		assert(goalImage > 0);
-		wallImage = LoadGraph("data/image/pole.JPG");    // ‰æ‘œ •Ç
-		assert(wallImage > 0);
-
-		//9‚ğ’T‚µ‚ÄAPlayer‚ğ’u‚­
-		for (int j = 0; j < HEIGHT; j++)    //ujvc
-		{
-			for (int i = 0; i < WIDTH; i++) //uiv‰¡
-			{
-				if (map[j][i] == 9) //ƒvƒŒƒCƒ„[¶¬
-				{
-					p = Instantiate<Player>();
-					p->position.x = CHIP_SIZE * i + SIDE_SPACE;
-					p->position.y = CHIP_SIZE * j + TOP_SPACE;
-				}
-				if (map[j][i] == 7) //ƒRƒCƒ“¶¬
-				{
-					c = Instantiate<Coin>();
-					c->position.x = CHIP_SIZE * i + SIDE_SPACE;
-					c->position.y = CHIP_SIZE * j + TOP_SPACE;
-				}
-			}
-		}
-		scroll = 0;
-		cellBG = true;
-
-		b = FindGameObject<Block>();
-		pm = FindGameObject<PlayMode>();
+	b = FindGameObject<Block>();
+	pm = FindGameObject<PlayMode>();
 }
 
 Stage::~Stage()
 {
-	DeleteGraph(emptyImage);
 	DeleteGraph(groundImage);
 	DeleteGraph(blockImage);
 	DeleteGraph(goalImage);
@@ -111,16 +108,6 @@ void Stage::Draw()
 		for (int i = 0; i < WIDTH; i++) // •uiv
 		{
 			int x = i * CHIP_SIZE + SIDE_SPACE;
-
-			if (pm->playMode == 1)
-			{
-				if (map[j][i] == 0)	// ƒ}ƒX–Ú
-				{
-					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
-					DrawGraph(x, y - scroll, emptyImage, TRUE);
-					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-				}
-			}
 
 			int chip = map[j][i];
 			if (chip == 1)		     // ’n–ÊƒuƒƒbƒN

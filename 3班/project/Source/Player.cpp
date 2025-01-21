@@ -186,7 +186,7 @@ void Player::Update()
 		{
 			patternX += 1;
 			timer = 0.0f;
-			if (patternX >= 3)
+			if (patternX >= 4)
 			{
 				patternX = 0;
 			}
@@ -202,7 +202,7 @@ void Player::Update()
 		{
 			patternX += 1;
 			timer = 0.0f;
-			if (patternX >= 3)
+			if (patternX >= 4)
 			{
 				patternX = 0;
 			}
@@ -295,11 +295,15 @@ void Player::Update()
 		position.x = (CHIP_SIZE * 8) + (CHIP_SIZE * 24) - 30;
 	}
 
-	//プレイヤーに合わせてスクロール(上方向)
-	if (position.y - s->scroll < (CHIP_SIZE * 15) ) //プレイヤーのY座標が〇マス以上(仮)
+	////プレイヤーに合わせてスクロール(上方向)
+	//if (position.y - s->scroll < (CHIP_SIZE * 15) ) //プレイヤーのY座標が〇マス以上(仮)
+	//{
+	//	//s->scroll = position.y + collisionDown - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
+	//	s->scroll = position.y +9 - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
+	//}
+	if ((position.y - s->scroll <= 240) && (onGround))
 	{
-		//s->scroll = position.y + collisionDown - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
-		s->scroll = position.y +9 - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
+		s->scroll -= 240;
 	}
 
 	//画面外に出たら死亡
@@ -331,8 +335,6 @@ void Player::Update()
 
 void Player::Draw()
 {
-	DrawFormatString(0, 300, GetColor(255, 255, 255), "%.0f/50", fabs(playerBestHeight));
-
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 
 	if (playerImage == playerIdolImage) // 正面

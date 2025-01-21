@@ -18,7 +18,6 @@ public:
 	~Stage();
 	void Draw() override;
 
-	int emptyImage;  // 画像 マス目
 	int groundImage; // 画像 地面
 	int blockImage;  // 画像 既存ブロック
 	int goalImage;	 // 画像 ゴール(仮)

@@ -30,10 +30,10 @@ public:
 	int tetraModeTextImage; // 画像「TETRA」
 	int blockModeTextImage; // 画像「BLOCK」
 	int playModeBGImage;    // 画像 (現在のプレイモード)プレイエリア背景画像
-	int tetraModeBGImage;   // 画像 TETRAモードのプレイエリア背景画像
 	int blockModeBGImage;   // 画像 BLOCKモードのプレイエリア背景画像
 
 	int gameBGImage; // 画像 ゲーム背景
+	int cellMaxImage;// 画像 マス目とても大きい
 
 	int titleBackSound; // 音 [T]タイトルに戻るとき
 	int startSound;		// 音 ゲーム開始
