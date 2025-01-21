@@ -285,10 +285,18 @@ Block::Block()
 	for (int i = 2; i < 6; i++) {
 		hImage[i] = -1;
 	}
+	for (int i = 2; i < 6; i++) {
+		NextImage[i] = -1;
+	}
 	hImage[2] = LoadGraph("data/image/Lmino.PNG");
 	hImage[3] = LoadGraph("data/image/Jmino.PNG");
 	hImage[4] = LoadGraph("data/image/Tmino.PNG");
 	hImage[5] = LoadGraph("data/image/Omino.PNG");
+
+	NextImage[2] = LoadGraph("data/image/Lmino_One.PNG");
+	NextImage[3] = LoadGraph("data/image/Jmino_One.PNG");
+	NextImage[4] = LoadGraph("data/image/Tmino_One.PNG");
+	NextImage[5] = LoadGraph("data/image/Omino_One.PNG");
 
 	pm = FindGameObject<PlayMode>();
 	assert(pm != nullptr);
@@ -299,6 +307,9 @@ Block::~Block()
 	for (int i = 2; i < 6; i++) {
 		if (hImage[i] > 0) {
 			DeleteGraph(hImage[i]);
+		}
+		if (NextImage[i] > 0) {
+			DeleteGraph(NextImage[i]);
 		}
 	}
 }
@@ -359,6 +370,23 @@ void Block::Update()
 									nextBlock.rotation = 0;
 									return;
 								}
+								else if(position.y+y < 4){//上から四列に設置したミノを消去
+									nowBlock = nextBlock;
+									position.x = WIDTH - 5;
+									position.y = 0;
+									while (sameMino) {
+										nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+										if (nextBlock.shape == nowBlock.shape) {//nowBlockとnextBlockの形が同じとき
+											sameMino = true;//繰り返す
+										}
+										else {
+											sameMino = false;
+										}
+									}
+									sameMino = true;
+									nextBlock.rotation = 0;
+									return;
+								}
 								else{
 									if (id > 0) {
 										s->PutBlock(position.x + x, position.y + y, id);//ミノを配置する
@@ -403,6 +431,7 @@ void Block::Update()
 			nextBlock.rotation = 0;
 			return;
 		}
+		
 			position.y++;
 		counter = 0.0f;
 	}
@@ -584,11 +613,18 @@ void Block::Update()
 	else {
 		isTurn = false;
 	}
-	
+
 }
 
 void Block::Draw()
 {
+	if (pm->playMode == 1)	 // ブロック消去範囲の表示
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
+		DrawBox(240, 0, 960, 120, GetColor(255, 0, 0), TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
+	}
+
 	BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
 	for (int y = 0; y < 3; y++) {
 		for (int x = 0; x < 3; x++) {
@@ -596,7 +632,7 @@ void Block::Draw()
 			if (id > 0) {
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
 				DrawGraph((position.x + x) * blockSize, (position.y + y) * blockSize, hImage[id], TRUE);
-				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 256);
 			}
 		}
 	}
@@ -605,8 +641,14 @@ void Block::Draw()
 	for (int y = 0; y < 3; y++) {
 		for (int x = 0; x < 3; x++) {
 			int id = block.blockPos[y][x];
-			if (id > 0) {
-				DrawGraph(1065 + x * blockSize, 120 + y * blockSize, hImage[id], TRUE);
+			if (id == 2 || id == 5) {
+				DrawGraph(1115 + x * blockSize, 110 + y * blockSize, NextImage[id], TRUE);
+			}
+			else if (id == 4) {
+				DrawGraph(1105 + x * blockSize, 95 + y * blockSize, NextImage[id], TRUE);
+			}
+			else if (id == 3) {
+				DrawGraph(1090 + x * blockSize, 110 + y * blockSize, NextImage[id], TRUE);
 			}
 		}
 	}

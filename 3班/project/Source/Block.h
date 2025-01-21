@@ -17,6 +17,7 @@ public:
 
 
 	int hImage[6]; // ‰æ‘œ‚Í‘S‚Ä‚Á‚Ä‚¨‚­
+	int NextImage[6];
 	struct IVECTOR2 {
 		int x;
 		int y;
