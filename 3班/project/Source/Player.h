@@ -31,6 +31,7 @@ public:
 
 	float playerHeight;
 	float prePlayerY;
+	float playerBestHeight;
 
 	float speed;		// 速度
 
@@ -50,4 +51,6 @@ public:
 	float timer;
 	int collisionDown; // プレイヤーの当たり判定の位置を足元に合わせる
 	int outOfScreen;   // プレイヤーがどの程度画面の外に出たらゲームオーバーになるか
+
+	int Xscroll;
 };

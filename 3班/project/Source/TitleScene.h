@@ -17,13 +17,14 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	int titleImage;			// 画像 タイトル画面
-	int titleLogoImage;		// 画像 タイトルロゴ
-	int titleBGImage;		// 画像 タイトル背景
+	int titleImage;		// 画像 タイトル
 	int pushKeyTextImage;   // 画像「PUSH ANY KEY」
 
 	int startSound; // 音 [ANY]タイトル→プレイ
 
 	float DrawKeyTimer;		// タイマー 
 	bool IsDraw;			// 描画
+
+	float changeSceneCountDown;
+	bool IsPushAnyKey;
 };

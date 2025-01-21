@@ -5,12 +5,8 @@
 
 TitleScene::TitleScene()
 {
-	titleImage = LoadGraph("data/image/Title.JPG");			  // 画像 タイトル画面
+	titleImage = LoadGraph("data/image/背景/newTitle.jpeg");	  // 画像 タイトル画面
 		assert(titleImage > 0);
-	titleLogoImage = LoadGraph("data/image/ロゴ_透過.png");   // 画像 タイトルロゴ
-		assert(titleLogoImage > 0);
-	titleBGImage = LoadGraph("data/image/背景/Back1.png");	  // 画像 タイトル画面背景
-		assert(titleBGImage > 0);
 	pushKeyTextImage = LoadGraph("data/image/font/PushKey.png"); //「PUSH ANY KEY」
 		assert(pushKeyTextImage > 0);
 
@@ -19,13 +15,14 @@ TitleScene::TitleScene()
 	
 	DrawKeyTimer = 0.0f;  // タイマー 
 	IsDraw = true;
+
+	changeSceneCountDown = 1.0f;
+	IsPushAnyKey = false;
 }
 
 TitleScene::~TitleScene()
 {
 	DeleteGraph(titleImage);
-	DeleteGraph(titleLogoImage);
-	DeleteGraph(titleBGImage);
 	DeleteGraph(pushKeyTextImage);
 
 	DeleteSoundMem(startSound);
@@ -36,6 +33,11 @@ void TitleScene::Update()
 	//パッド用関数(毎フレーム呼び出す)
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
+	if (KeyUtility::CheckTrigger(KEY_INPUT_ESCAPE))
+	{
+		SceneManager::Exit();
+	}
+
 	// 表示切替
 	DrawKeyTimer += Time::DeltaTime();
 	if (DrawKeyTimer >= 0.7f)
@@ -44,18 +46,24 @@ void TitleScene::Update()
 		DrawKeyTimer = 0.0f;
 	}
 
-
+	
 	// キー入力なら何でもOK(１回だけ入力)
 	if ( (KeyUtility::CheckTriggerAll(DX_CHECKINPUT_KEY)) || (input.Buttons[XINPUT_BUTTON_B]))
 	{
 		IsDraw = true;
-		// サウンドが終了するまで待つ 
-		PlaySoundMem(startSound, DX_PLAYTYPE_NORMAL);
-		SceneManager::ChangeScene("PLAY");
+		IsPushAnyKey = true;
+		// サウンド再生
+		PlaySoundMem(startSound, DX_PLAYTYPE_BACK);
+		
 	}
-	if (KeyUtility::CheckTrigger(KEY_INPUT_ESCAPE))
+	if (IsPushAnyKey)
 	{
-		SceneManager::Exit();
+		changeSceneCountDown -= Time::DeltaTime();
+
+		if (changeSceneCountDown <= 0)
+		{
+			SceneManager::ChangeScene("PLAY");
+		}
 	}
 }
 
@@ -64,9 +72,7 @@ void TitleScene::Draw()
 {
 	// タイトル画像
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);  // 通常描画
-	//DrawGraph(0, 0, titleImage, TRUE);
-	DrawGraph(0, 0, titleBGImage, TRUE);
-	DrawGraph(0, 0, titleLogoImage, TRUE);
+	DrawGraph(0, 0, titleImage, TRUE);
 
 	// [PUSH ANY KEY]表示 
 	SetFontSize(50);

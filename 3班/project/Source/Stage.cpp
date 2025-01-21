@@ -17,7 +17,6 @@ const char* STAGE_DATA_PATH = "data/Stage/Stage%02d.csv";	// ƒuƒƒbƒN”z’uî•ñ‚Ìƒ
 
 Stage::Stage()
 {
-	
 		//ƒ‰ƒ“ƒ_ƒ€‚ÈCSVƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚ÅƒXƒe[ƒW¶¬‚·‚éI(–x‰zæ¶‚ ‚è‚ª‚Æ‚¤I)
 		int stageNo = 0;
 		stageNo = GetRand(4) + 1; // —” [01`05]‚Ìƒ‰ƒ“ƒ_ƒ€
@@ -27,7 +26,7 @@ Stage::Stage()
 
 
 		//CsvReader* csv = new CsvReader(stageFile);			    //Stage(01`05).CSV‚ğƒ‰ƒ“ƒ_ƒ€•\¦
-		CsvReader* csv = new CsvReader("data/stage/Stage03.csv"); //Œˆ‚Ü‚Á‚½CSVƒtƒ@ƒCƒ‹‚ğ•\¦
+		CsvReader* csv = new CsvReader("data/stage/Test.csv"); //Œˆ‚Ü‚Á‚½CSVƒtƒ@ƒCƒ‹‚ğ•\¦
 
 		for (int y = 0; y < HEIGHT; y++)
 		{
@@ -56,7 +55,7 @@ Stage::Stage()
 		assert(blockImage > 0);
 		goalImage = LoadGraph("data/image/GoalLineShort.png"); // ‰æ‘œ ƒS[ƒ‹ƒ‰ƒCƒ“
 		assert(goalImage > 0);
-		wallImage = LoadGraph("data/image/WallA1Long.png");    // ‰æ‘œ •Ç
+		wallImage = LoadGraph("data/image/pole.JPG");    // ‰æ‘œ •Ç
 		assert(wallImage > 0);
 
 		//9‚ğ’T‚µ‚ÄAPlayer‚ğ’u‚­
@@ -102,8 +101,8 @@ Stage::~Stage()
 void Stage::Draw()
 {
 	//•Ç•\¦(‰¼)
-	DrawGraph(30 * 7, 0, wallImage, TRUE);
-	DrawGraph(30 * 7 + 30 * 25, 0, wallImage, TRUE);
+	DrawGraph(30 * 7          , -1440 - scroll, wallImage, TRUE);
+	DrawGraph(30 * 7 + 30 * 25, -1440 - scroll, wallImage, TRUE);
 
 	//ƒ}ƒbƒvƒ^ƒCƒ‹•\¦
 	for (int j = 0; j < HEIGHT; j++)	// cujv

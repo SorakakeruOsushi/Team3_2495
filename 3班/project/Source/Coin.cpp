@@ -20,6 +20,8 @@ Coin::Coin()
 	destroyTimer = 0.0f;     //コイン表示タイマー
 	destroyTimeLimit = 0.1f; //コイン表示時間
 
+	destroyCountDown = 1.0f;
+
 	s = FindGameObject<Stage>();
 }
 
@@ -42,10 +44,14 @@ void Coin::Update()
 		destroyTimer += Time::DeltaTime();
 		if (destroyTimer >= destroyTimeLimit)
 		{
-			PlaySoundMem(coinSound, DX_PLAYTYPE_BACK); // 取得SE   再生終了前にデストローイ？
+			if (!nowPlaySE)
+			{
+				PlaySoundMem(coinSound, DX_PLAYTYPE_BACK);
+				nowPlaySE = true;
+			}
 			// 取得
-			p->gotCoin += 1;
-			DestroyMe(); //死ぬしかないじゃない！
+			CoinDraw = false;
+			destroyCountDownTimer();
 		}
 		return;			 //終わり！閉廷！以上！皆解散！
 	}
@@ -55,7 +61,7 @@ void Coin::Update()
    	VECTOR2 playerPos = p->position;	  //playerPosにplayerのpositionを入れる
 
 	//当たり判定："playerPos"と"position"が当たったら
-	if (CircleHit(position, playerPos + VECTOR2(7.5f, 0), 30) || CircleHit(position, playerPos + VECTOR2(7.5f, 35), 30))
+	if (CircleHit(position, playerPos + VECTOR2(0, 0+9), 29) || CircleHit(position, playerPos + VECTOR2(0, 30+9), 29))
 	{
 		got = true;	      //取られた
 		v = -2.5;//跳ねる力(上方向なので「-」符号)
@@ -67,5 +73,16 @@ void Coin::Draw()
 	if (CoinDraw)
 	{
 		DrawGraph(position.x, position.y - s->scroll, coinImage, TRUE);
+	}
+}
+
+void Coin::destroyCountDownTimer()
+{
+	destroyCountDown -= Time::DeltaTime();
+
+	if (destroyCountDown <= 0)
+	{
+		p->gotCoin += 1;
+		DestroyMe(); //コインの消失
 	}
 }

@@ -34,10 +34,6 @@ public:
 	int blockModeBGImage;   // 画像 BLOCKモードのプレイエリア背景画像
 
 	int gameBGImage; // 画像 ゲーム背景
-	//int changeBGheight;
-	//	int hBGImageI;    // 画像 背景1
-	//	int hBGImageII;   // 画像 背景2
-	//	int hBGImageIII;  // 画像 背景3
 
 	int titleBackSound; // 音 [T]タイトルに戻るとき
 	int startSound;		// 音 ゲーム開始
