@@ -40,9 +40,10 @@ public:
 	int resetSound;		// 音 [0]リセット音
 	int modeChangeSound;// 音 [C]モード変更時
 
-	float playTime;	  //プレイ時間
+	float playTime;	  // プレイタイム
 	float height;	  // 高さ
-	float bestHeight; // 最高の高さ
+	float bestHeight; // 最高の高さ GameOverで使用
+	float score;	  // スコア
 
 	float startCountDown;
 

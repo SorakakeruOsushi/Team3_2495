@@ -35,6 +35,6 @@ public:
 	bool IsNewBestScore; // 最高スコア更新
 	bool IsNewBestTime;  // 最速タイム更新
 
-	int resultScore;  // スコア結果
+	float resultScore;  // スコア結果
 	float resultTime; // タイム結果
 };

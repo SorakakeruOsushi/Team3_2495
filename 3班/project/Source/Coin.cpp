@@ -52,6 +52,7 @@ void Coin::Update()
 			{
 				PlaySoundMem(coinSound, DX_PLAYTYPE_BACK);
 				nowPlaySE = true;
+				p->gotCoin += 1;
 			}
 			// æ“¾
 			CoinDraw = false;
@@ -87,7 +88,6 @@ void Coin::destroyCountDownTimer()
 
 	if (destroyCountDown <= 0)
 	{
-		p->gotCoin += 1;
 		DestroyMe(); //ƒRƒCƒ“‚ÌÁ¸
 	}
 }

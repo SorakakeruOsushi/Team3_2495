@@ -30,7 +30,7 @@ public:
 	bool IsDraw;			// 描画
 
 	float resultHeight; // 到達高さ
-	int resultScore;	// スコア結果 
+	float resultScore;	// スコア結果 
 	float resultTime;	// タイム結果
 
 };

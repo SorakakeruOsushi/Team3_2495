@@ -105,19 +105,19 @@ void FinishText::Draw()
 	{
 		// 到達高さ表示
 		DrawGraph(326, 300, heightTextImage, TRUE);
-		DrawFormatString(615, 300, GetColor(255, 255, 255), "%3.0f", fabs(resultHeight));
+		DrawFormatString(615, 300, GetColor(255, 255, 255), " %.0f", fabs(resultHeight));
 	}
 	if (timer >= 1.5f)
 	{
 		// スコア表示
 		DrawGraph(340, 400, scoreTextImage, TRUE);
-		DrawFormatString(615, 400, GetColor(255, 255, 255), "%3.0d", resultScore);
+		DrawFormatString(615, 400, GetColor(255, 255, 255), " %.0f", resultScore);
 	}
 	if (timer >= 2.0f)
 	{
 		// タイム表示
 		DrawGraph(421, 500, timeTextImage, TRUE);
-		DrawFormatString(615, 500, GetColor(255, 255, 255), "%6.2f", resultTime);
+		DrawFormatString(615, 500, GetColor(255, 255, 255), " %.2f", resultTime);
 	}
 
 	// "スペースキーで終了"

@@ -132,7 +132,7 @@ void GoalText::Draw()
 	{
 		// スコア表示
 		DrawGraph(340, 400, scoreTextImage, TRUE);
-		DrawFormatString(615, 400, GetColor(255, 255, 255), "%3.0d", resultScore);
+		DrawFormatString(615, 400, GetColor(255, 255, 255)," %.0f", resultScore);
 		if (IsNewBestScore)
 		{
 			DrawGraph(900, 400, newRecordTextImage, TRUE);
@@ -143,7 +143,7 @@ void GoalText::Draw()
 	{
 		// タイム表示
 		DrawGraph(421, 500, timeTextImage, TRUE);
-		DrawFormatString(615, 500, GetColor(255, 255, 255), "%6.2f", resultTime);
+		DrawFormatString(615, 500, GetColor(255, 255, 255), " %.2f", resultTime);
 		if (IsNewBestTime)
 		{
 			DrawGraph(900, 500, newRecordTextImage, TRUE);
