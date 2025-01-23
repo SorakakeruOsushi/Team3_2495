@@ -12,13 +12,17 @@ Coin::Coin()
 	coinSound = LoadSoundMem("data/sound/GameSE/コイン.mp3"); // 音 コイン取得
 		assert(coinSound > 0);
 	
-	SetDrawOrder(6);
+	position.x = 0.0f;
+	position.y = 0.0f;
+
+	SetDrawOrder(6); //描画順
 
 	got = false;
 	CoinDraw = true;
 
 	destroyTimer = 0.0f;     //コイン表示タイマー
 	destroyTimeLimit = 0.1f; //コイン表示時間
+	v = 0.0f;
 
 	destroyCountDown = 1.0f;
 
@@ -57,6 +61,7 @@ void Coin::Update()
 	}
 
 	//取られる前
+
 	//当たり判定
    	VECTOR2 playerPos = p->position;	  //playerPosにplayerのpositionを入れる
 

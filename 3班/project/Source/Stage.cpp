@@ -133,8 +133,8 @@ void Stage::Draw()
 //ブロックの当たり判定
 int Stage::IsWallRight(VECTOR2 pos) // posにはPlayer座標が入る
 {
-	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = (pos.y - TOP_SPACE) / CHIP_SIZE;
+	int i = ((int)pos.x - SIDE_SPACE) / CHIP_SIZE;
+	int j = ((int)pos.y - TOP_SPACE) / CHIP_SIZE;
 	for (int x = 1; x < 7; x++) // [1～6]
 	{
 		if (map[j][i] == x)
@@ -149,8 +149,8 @@ int Stage::IsWallRight(VECTOR2 pos) // posにはPlayer座標が入る
 }
 int Stage::IsWallLeft(VECTOR2 pos)
 {
-	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = (pos.y - TOP_SPACE) / CHIP_SIZE;
+	int i = ((int)pos.x - SIDE_SPACE) / CHIP_SIZE;
+	int j = ((int)pos.y - TOP_SPACE) / CHIP_SIZE;
 	for (int x = 1; x < 7; x++) // [1～6]
 	{
 		if (map[j][i] == x)
@@ -165,8 +165,8 @@ int Stage::IsWallLeft(VECTOR2 pos)
 }
 int Stage::IsWallDown(VECTOR2 pos)
 {
-	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = (pos.y - TOP_SPACE) / CHIP_SIZE;
+	int i = ((int)pos.x - SIDE_SPACE) / CHIP_SIZE;
+	int j = ((int)pos.y - TOP_SPACE) / CHIP_SIZE;
 	for (int x = 1; x < 7; x++) // [1～6]
 	{
 		if (map[j][i] == x)
@@ -181,8 +181,8 @@ int Stage::IsWallDown(VECTOR2 pos)
 }
 int Stage::IsWallUp(VECTOR2 pos)
 {
-	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = (pos.y - TOP_SPACE) / CHIP_SIZE;
+	int i = ((int)pos.x - SIDE_SPACE) / CHIP_SIZE;
+	int j = ((int)pos.y - TOP_SPACE) / CHIP_SIZE;
 	for (int x = 1; x < 7; x++) // [1～6]
 	{
 		if (map[j][i] == x)
@@ -199,8 +199,8 @@ int Stage::IsWallUp(VECTOR2 pos)
 bool Stage::IsGoal(VECTOR2 pos)
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
-	int i = (pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = (pos.y - TOP_SPACE) / CHIP_SIZE;
+	int i = ((int)pos.x - SIDE_SPACE) / CHIP_SIZE;
+	int j = ((int)pos.y - TOP_SPACE) / CHIP_SIZE;
 	if (map[j][i] == 8)
 	{
 		return true;
@@ -213,7 +213,6 @@ void Stage::PutBlock(int x, int y, int id)
 	y = y - (TOP_SPACE - scroll) / CHIP_SIZE;
 	x = x - (SIDE_SPACE / CHIP_SIZE);
 	map[y][x] = id;
-
 }
 
 bool Stage::CheckBlock(int x, int y)//そこにマップチップがあるか

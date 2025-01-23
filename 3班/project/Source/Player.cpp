@@ -5,6 +5,7 @@
 #include "Stage.h"
 #include "../Library/Utility.h"
 
+
 const float Gravity = 0.3f;							 //重力
 const float JumpHight = 30 * 2.5f;				     //ジャンプの高さ
 //			v0 = -  √   2   *   g     *    S
@@ -54,8 +55,8 @@ Player::Player()
 
 	velocity = 0.0f;
 	
-	gotCoin = 0; // コイン取得数
-	alpha = 0; //プレイヤー透明度
+	gotCoin = 0;	  // コイン取得数
+	alpha = 0;		  //プレイヤー透明度
 	outOfScreen = 39; // プレイヤーがどの程度画面の外に出たらゲームオーバーになるか
 
 	Xscroll = 0;
@@ -71,20 +72,20 @@ Player::~Player()
 
 void Player::Update()
 {
-	if(!pm->IsGameStart)		 // ゲーム開始前
+	if(!pm->IsGameStart)		 // ゲームを開始する
 	{
 		return;
 	}
-	else if (finished || goaled) // ゲーム終了
+	else if (finished || goaled) // ゲームが終了する
 	{
 		return;
 	}
-	else if (pm->playMode == 1)	 // ブロックモード
+	else if (pm->playMode == 1)	 // ブロックモードになる
 	{
 		alpha = 100;
 		return;
 	}
-	else if (pm->playMode == 0)	 // テトラモード
+	else if (pm->playMode == 0)	 // テトラモードになる
 	{
 		alpha = 255;
 	}
