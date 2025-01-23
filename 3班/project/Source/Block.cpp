@@ -387,6 +387,23 @@ void Block::Update()
 									nextBlock.rotation = 0;
 									return;
 								}
+								/*else if (position.x + x == p->position.x / blockSize && position.y + y && p->position.y / blockSize) {
+									nowBlock = nextBlock;
+									position.x = WIDTH - 5;
+									position.y = 0;
+									while (sameMino) {
+										nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
+										if (nextBlock.shape == nowBlock.shape) {//nowBlockとnextBlockの形が同じとき
+											sameMino = true;//繰り返す
+										}
+										else {
+											sameMino = false;
+										}
+									}
+									sameMino = true;
+									nextBlock.rotation = 0;
+									return;
+								}*/
 								else{
 									if (id > 0) {
 										s->PutBlock(position.x + x, position.y + y, id);//ミノを配置する
@@ -618,6 +635,9 @@ void Block::Update()
 
 void Block::Draw()
 {
+	int Xmax = -9999999;
+	int Xmin = 9999999;
+
 	if (pm->playMode == 1)	 // ブロック消去範囲の表示
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
@@ -630,12 +650,37 @@ void Block::Draw()
 		for (int x = 0; x < 3; x++) {
 			int id = block.blockPos[y][x];
 			if (id > 0) {
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
-				DrawGraph((position.x + x) * blockSize, (position.y + y) * blockSize, hImage[id], TRUE);
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 256);
+				if (position.x + x > Xmax) {//ミノの右側の座標を得る
+					Xmax = position.x + x;
+				}
+				if (position.x + x < Xmin) {//左側の座標を得る
+					Xmin = position.x + x;
+				}
 			}
 		}
 	}
+	if (pm->playMode == 1) {
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
+		DrawBox(Xmin * blockSize, 0, (Xmax + 1) * blockSize, 690, GetColor(255, 255, 255), TRUE);//ブロックを囲む枠組みを作る
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 256);
+	}
+	for (int y = 0; y < 3; y++) {
+		for (int x = 0; x < 3; x++) {
+			int id = block.blockPos[y][x];
+			if (id > 0) {
+				if (pm->playMode == 1) {
+					DrawGraph((position.x + x) * blockSize, (position.y + y) * blockSize, hImage[id], TRUE);
+				}
+				else {
+					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
+					DrawGraph((position.x + x) * blockSize, (position.y + y) * blockSize, hImage[id], TRUE);
+					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 256);
+				}
+			}
+		}
+	}
+
+
 
 	block = GetBlockPos(nextBlock.shape, nextBlock.rotation);
 	for (int y = 0; y < 3; y++) {
