@@ -26,7 +26,11 @@ Stage::Stage()
 
 
 	CsvReader* csv = new CsvReader(stageFile);			    //Stage(01～05).CSVをランダム表示
+<<<<<<< HEAD
 	//CsvReader* csv = new CsvReader("data/stage/Test.csv"); //決まったCSVファイルを表示
+=======
+	//CsvReader* csv = new CsvReader("data/stage/Stage06.csv"); //決まったCSVファイルを表示
+>>>>>>> SueKazumaA1
 
 	for (int y = 0; y < HEIGHT; y++)
 	{

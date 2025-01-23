@@ -63,10 +63,12 @@ PlayScene::PlayScene()
 
 	playTime = 0.0f;		// プレイ時間
 
-	startCountDown = 5.0f;
+
+	startCountDown = 3.0f;
 
 	height = 0.0f;			// 床分の高さ(10)を引く
 	bestHeight = 0.0f;		// 死亡時のリザルトで表示
+	score = 0.0f;
 }
 
 PlayScene::~PlayScene()
@@ -189,7 +191,7 @@ void PlayScene::Update()
 		g = FindGameObject<GoalText>();
 		//高さは50固定
 		// スコア
-		g->resultScore = p->gotCoin;
+		g->resultScore = score;
 		// プレイ時間（クリア時間）
 		g->resultTime = playTime;
 
@@ -205,12 +207,14 @@ void PlayScene::Update()
 		// 最高到達点
 		f->resultHeight = bestHeight;
 		// スコア
-		f->resultScore = p->gotCoin;
+		f->resultScore = score;
 		// プレイ時間
 		f->resultTime = playTime;
 		return;
 	}
 
+	//スコア計算
+	score = ((int)p->gotCoin * 100.0f) - (playTime * 1.0f);
 }
 
 void PlayScene::Draw()
@@ -243,15 +247,18 @@ void PlayScene::Draw()
 	//高さ(playerHeight)
 	DrawFormatString(1170, 420, GetColor(255, 255, 255), "%.0f/50", fabs(height));
 	
-	//スコア(Coin?)
-	DrawFormatString(1160, 470, GetColor(255, 255, 255), "%d", p->gotCoin);
+	//スコア//コイン(Coin?)
+	DrawFormatString(1160, 470, GetColor(255, 255, 255), "C%2.0d/20", p->gotCoin);
 
 	//タイム(playTime)
 	DrawFormatString(1135, 525, GetColor(255, 255, 255), "%4.2f", playTime);
 	
+	//スコア
+	DrawFormatString(1160, 570, GetColor(255, 255, 255), "S%3.0f", score);
+
 	SetFontSize(20);
 	//ベストスコア(bestScore)
-	DrawFormatString(1155, 605, GetColor(255, 255, 255), "%0d", bestTime->GetBestScore() );
+	DrawFormatString(1155, 605, GetColor(255, 255, 255), "%.0f", bestTime->GetBestScore() );
 	//ベストタイム(bestTime)
 	DrawFormatString(1135, 635, GetColor(255, 255, 255), "%4.2f", bestTime->GetBestTime() );
 
@@ -263,9 +270,9 @@ void PlayScene::Draw()
 // ベストスコアを更新
 void PlayScene::CheckBestScore()
 {
-	if (p->gotCoin > bestTime->GetBestScore())
+	if (score > bestTime->GetBestScore())
 	{
-		bestTime->SetBestScore(p->gotCoin);
+		bestTime->SetBestScore(score);
 		g->IsNewBestScore = true;
 	}
 }

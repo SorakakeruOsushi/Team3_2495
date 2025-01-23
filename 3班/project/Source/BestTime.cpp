@@ -4,7 +4,7 @@
 BestTime::BestTime()
 {
 	bestTime = 9999.0f;
-	bestScore = 0;
+	bestScore = 0.0f;
 
 	DontDestroyOnLoad(); // ƒV[ƒ“•ÏX‚Åíœ‚³‚ê‚È‚¢‚æ‚¤‚É‚·‚é 
 }
