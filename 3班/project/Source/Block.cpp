@@ -387,7 +387,7 @@ void Block::Update()
 									nextBlock.rotation = 0;
 									return;
 								}
-								/*else if (position.x + x == p->position.x / blockSize && position.y + y && p->position.y / blockSize) {
+								/*else if (position.x + x == (int)p->position.x / blockSize && position.y + y == (int)p->position.y / blockSize + 1) {
 									nowBlock = nextBlock;
 									position.x = WIDTH - 5;
 									position.y = 0;
