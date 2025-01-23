@@ -622,7 +622,7 @@ void Block::Draw()
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
 		DrawBox(240, 0, 960, 120, GetColor(255, 0, 0), TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 256);
 	}
 
 	BlockPos block = GetBlockPos(nowBlock.shape, nowBlock.rotation);
