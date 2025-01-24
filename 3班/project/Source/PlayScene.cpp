@@ -26,6 +26,8 @@ PlayScene::PlayScene()
 		assert(stageTextImage > 0);
 	resetTextImage = LoadGraph("data/image/font/Reset.png");	 // 画像「RESET[0]KEY」
 		assert(resetTextImage > 0);
+	coinSPoneImage = LoadGraph("data/image/coinSPone.png");	     // 画像SPコイン正面
+		assert(coinSPoneImage > 0);
 
 	readyTextImage = LoadGraph("data/image/font/READY.png");	   //画像「レディ…」
 		assert(readyTextImage > 0);
@@ -63,12 +65,13 @@ PlayScene::PlayScene()
 
 	playTime = 0.0f;		// プレイ時間
 
-
 	startCountDown = 3.0f;
 
 	height = 0.0f;			// 床分の高さ(10)を引く
 	bestHeight = 0.0f;		// 死亡時のリザルトで表示
 	score = 0.0f;
+
+	coinSPoneDraw = false;
 }
 
 PlayScene::~PlayScene()
@@ -77,6 +80,7 @@ PlayScene::~PlayScene()
 	DeleteGraph(cellMaxImage);       // 画像 セルマックス
 
 	DeleteGraph(stageTextImage);	 // 画像 [固定表示文字を１枚の画像にまとめた]
+	DeleteGraph(coinSPoneImage);	 // 画像 SPコイン正面
 
 	DeleteGraph(tetraModeTextImage); // 画像「TETRA」
 	DeleteGraph(blockModeTextImage); // 画像「BLOCK」
@@ -214,7 +218,8 @@ void PlayScene::Update()
 	}
 
 	//スコア計算
-	score = ((int)p->gotCoin * 100.0f) - (playTime * 1.0f);
+	score = ((int)p->gotCoin * 100.0f) + ((int)p->gotCoinSP * 500.0f) - (playTime * 1.0f);
+
 }
 
 void PlayScene::Draw()
@@ -229,9 +234,9 @@ void PlayScene::Draw()
 
 	if (pm->playMode == 1)
 	{
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50); //	アルファブレンディング
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
 		DrawGraph(CHIP_SIZE * 8, -1440 - s->scroll, cellMaxImage, TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); // 透過しない
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
 	//固定表示文字画像
@@ -242,13 +247,17 @@ void PlayScene::Draw()
 	//「レディ…」→「ゴー！」
 	DrawGraph(0, 0, readyGoTextImage, TRUE); //「レディ…」「ゴー！」
 	
-
 	SetFontSize(25);
 	//高さ(playerHeight)
 	DrawFormatString(1170, 420, GetColor(255, 255, 255), "%.0f/50", fabs(height));
 	
-	//スコア//コイン(Coin?)
+	//コイン(gotCoin)
 	DrawFormatString(1160, 470, GetColor(255, 255, 255), "C%2.0d/20", p->gotCoin);
+	//コイン(gotCoinSPone)
+	for (int i = 0; i < p->gotCoinSP; i++)
+	{
+		DrawGraph(1000 + 30*i, 300, coinSPoneImage, TRUE);
+	}
 
 	//タイム(playTime)
 	DrawFormatString(1135, 525, GetColor(255, 255, 255), "%4.2f", playTime);

@@ -25,12 +25,8 @@ Stage::Stage()
 	sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
 
 
-	CsvReader* csv = new CsvReader(stageFile);			    //Stage(01～05).CSVをランダム表示
-<<<<<<< HEAD
-	//CsvReader* csv = new CsvReader("data/stage/Test.csv"); //決まったCSVファイルを表示
-=======
-	//CsvReader* csv = new CsvReader("data/stage/Stage06.csv"); //決まったCSVファイルを表示
->>>>>>> SueKazumaA1
+	//CsvReader* csv = new CsvReader(stageFile);			    //Stage(01～05).CSVをランダム表示
+	CsvReader* csv = new CsvReader("data/stage/Test.csv"); //決まったCSVファイルを表示
 
 	for (int y = 0; y < HEIGHT; y++)
 	{
@@ -76,6 +72,13 @@ Stage::Stage()
 				c = Instantiate<Coin>();
 				c->position.x = CHIP_SIZE * i + SIDE_SPACE;
 				c->position.y = CHIP_SIZE * j + TOP_SPACE;
+			}
+
+			if (map[j][i] == 99) //SPコイン生成/////////////////
+			{
+				cSP= Instantiate<CoinSP>();
+				cSP->position.x = CHIP_SIZE * i + SIDE_SPACE;
+				cSP->position.y = CHIP_SIZE * j + TOP_SPACE;
 			}
 		}
 	}

@@ -156,6 +156,7 @@
     <ClInclude Include="Source\Block.h" />
     <ClInclude Include="Source\BootScene.h" />
     <ClInclude Include="Source\Coin.h" />
+    <ClInclude Include="Source\CoinSP.h" />
     <ClInclude Include="Source\csvReader.h" />
     <ClInclude Include="Source\FinishText.h" />
     <ClInclude Include="Source\GoalText.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Source\Block.cpp" />
     <ClCompile Include="Source\BootScene.cpp" />
     <ClCompile Include="Source\Coin.cpp" />
+    <ClCompile Include="Source\CoinSP.cpp" />
     <ClCompile Include="Source\csvReader.cpp" />
     <ClCompile Include="Source\FinishText.cpp" />
     <ClCompile Include="Source\GoalText.cpp" />

@@ -56,10 +56,9 @@ Player::Player()
 	velocity = 0.0f;
 	
 	gotCoin = 0;	  // コイン取得数
+	gotCoinSP = 0;	  // SPコイン取得数
 	alpha = 0;		  //プレイヤー透明度
 	outOfScreen = 39; // プレイヤーがどの程度画面の外に出たらゲームオーバーになるか
-
-	Xscroll = 0;
 }
 
 Player::~Player()

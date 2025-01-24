@@ -4,6 +4,7 @@
 #include "Vector2.h"
 #include "Screen.h"
 #include "Coin.h"
+#include "CoinSP.h"
 #include "PlayMode.h"
 //include "Block.h"
 
@@ -36,6 +37,7 @@ public:
 
 	Player* p;
 	Coin* c;
+	CoinSP* cSP;
 	Block* b;
 	PlayMode* pm;
 

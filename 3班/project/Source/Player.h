@@ -40,6 +40,7 @@ public:
 	bool onGround;		// 接地判定
 
 	int gotCoin;		// コイン取得数
+	int gotCoinSP;		// コインSP取得数
 
 	bool finished;		// 死んだ！
 	bool goaled;		// ゴール
@@ -51,6 +52,4 @@ public:
 	float timer;
 	int collisionDown; // プレイヤーの当たり判定の位置を足元に合わせる
 	int outOfScreen;   // プレイヤーがどの程度画面の外に出たらゲームオーバーになるか
-
-	int Xscroll;
 };

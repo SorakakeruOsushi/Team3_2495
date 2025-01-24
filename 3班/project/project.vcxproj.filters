@@ -66,6 +66,7 @@
     <ClCompile Include="Source\csvReader.cpp">
       <Filter>TitleScene\PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CoinSP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="Source\csvReader.h">
       <Filter>TitleScene\PlayScene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CoinSP.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">
