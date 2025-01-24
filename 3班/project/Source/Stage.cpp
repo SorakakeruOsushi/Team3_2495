@@ -74,7 +74,7 @@ Stage::Stage()
 				c->position.y = CHIP_SIZE * j + TOP_SPACE;
 			}
 
-			if (map[j][i] == 99) //SPコイン生成/////////////////
+			if (map[j][i] == 99) //SPコイン生成
 			{
 				cSP= Instantiate<CoinSP>();
 				cSP->position.x = CHIP_SIZE * i + SIDE_SPACE;
