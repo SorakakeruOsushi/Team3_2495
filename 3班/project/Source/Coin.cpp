@@ -7,7 +7,8 @@
 Coin::Coin()
 {
 	//コンストラクタで絵をロード
-	coinImage = LoadGraph("data/image/Coin.PNG");			  // 画像 コイン
+	//coinImage = LoadGraph("data/image/Coin.PNG");			  // 画像 コイン
+	coinImage = LoadGraph("data/image/Xcoin.png");			  // 画像 コイン
 		assert(coinImage > 0);
 	coinSound = LoadSoundMem("data/sound/GameSE/コイン.mp3"); // 音 コイン取得
 		assert(coinSound > 0);
@@ -38,6 +39,18 @@ Coin::~Coin()
 void Coin::Update()
 {
 	p = FindGameObject<Player>();
+
+	// 回るアニメーション
+	animTimer += Time::DeltaTime();
+	if (animTimer >= 0.1f)
+	{
+		patternX += 1;
+		animTimer = 0.0f;
+		if (patternX >= 3)
+		{
+			patternX = 0;
+		}
+	}
 
 	//取られたら
 	if (got)
@@ -78,7 +91,8 @@ void Coin::Draw()
 {
 	if (CoinDraw)
 	{
-		DrawGraph(position.x, position.y - s->scroll, coinImage, TRUE);
+		//DrawGraph(position.x, position.y - s->scroll, coinImage, TRUE);
+		DrawRectGraph(position.x, position.y - s->scroll, patternX * 30, 0, 30, 30, coinImage, TRUE);
 	}
 }
 

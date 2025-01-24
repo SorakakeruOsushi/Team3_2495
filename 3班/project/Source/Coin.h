@@ -17,6 +17,9 @@ public:
 	int coinImage; // 画像 コイン
 	int coinSound; // 音 コイン取得
 
+	int patternX;
+	float animTimer;
+
 	VECTOR2 position;
 
 	bool got;	   // コインが取られた
