@@ -29,7 +29,7 @@ PlayScene::PlayScene()
 	coinSPoneImage = LoadGraph("data/image/coinSPone.png");	     // 画像SPコイン正面
 		assert(coinSPoneImage > 0);
 
-	readyTextImage = LoadGraph("data/image/font/READY.png");	   //画像「レディ…」
+	readyTextImage = LoadGraph("data/image/font/READY.png");   //画像「レディ…」
 		assert(readyTextImage > 0);
 	goTextImage = LoadGraph("data/image/font/GO.png");		   //画像「ゴー！」
 		assert(goTextImage > 0);
@@ -41,7 +41,7 @@ PlayScene::PlayScene()
 		assert(blockModeTextImage > 0);
 	playModeTextImage = tetraModeTextImage;	// プレイモードのデフォルトは「TETRA」
 
-	blockModeBGImage = LoadGraph("data/image/XA1/xプレイモードぶろっく.jpg"); // 画像 BLOCKモードのプレイエリア背景画像
+	blockModeBGImage = LoadGraph("data/image/BBBG.png"); // 画像 BLOCKモードのプレイエリア背景画像
 		assert(blockModeBGImage > 0);
 	playModeBGImage = NULL;	// プレイモードのデフォルトは「TETRA」
 
@@ -219,7 +219,6 @@ void PlayScene::Update()
 
 	//スコア計算
 	score = ((int)p->gotCoin * 100.0f) + ((int)p->gotCoinSP * 500.0f) - (playTime * 1.0f);
-
 }
 
 void PlayScene::Draw()
@@ -228,19 +227,26 @@ void PlayScene::Draw()
 	DrawGraph(0, -1440 - s->scroll, gameBGImage, TRUE);
 
 	// プレイモード背景
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
 	DrawGraph(30 * 8, 0, playModeBGImage, TRUE); // TETRA/BLOCK
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
+	//マス目
 	if (pm->playMode == 1)
 	{
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 20);
 		DrawGraph(CHIP_SIZE * 8, -1440 - s->scroll, cellMaxImage, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
 	//固定表示文字画像
 	DrawGraph(0, 0, stageTextImage, TRUE);    // 固定表示の文字
+
+	//NEXTの下
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50); // 透過する
+	DrawBox(1115-30, 90, 1175+30+5, 220, GetColor(0, 0, 0), TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);   // 透過しない
+
 	//固定表示文字画像
 	DrawGraph(0, 0, resetTextImage, TRUE);    //「RESET[0]KEY」
 

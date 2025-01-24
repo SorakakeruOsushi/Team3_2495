@@ -42,11 +42,11 @@ void Coin::Update()
 
 	// 回るアニメーション
 	animTimer += Time::DeltaTime();
-	if (animTimer >= 0.1f)
+	if (animTimer >= 0.2f)
 	{
 		patternX += 1;
 		animTimer = 0.0f;
-		if (patternX >= 3)
+		if (patternX >= 4)
 		{
 			patternX = 0;
 		}

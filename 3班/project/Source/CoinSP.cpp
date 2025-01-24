@@ -48,7 +48,7 @@ void CoinSP::Update()
 	{
 		patternX += 1;
 		animTimer = 0.0f;
-		if (patternX >= 3)
+		if (patternX >= 4)
 		{
 			patternX = 0;
 		}
