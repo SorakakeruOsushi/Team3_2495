@@ -22,7 +22,7 @@ PlayScene::PlayScene()
 
 	Instantiate<Block>();
 	// 画像読み込み
-	stageTextImage = LoadGraph("data/image/font/StageFont.png"); // 画像 [固定表示文字を１枚の画像にまとめた]
+	stageTextImage = LoadGraph("data/image/font/PlayFont.png"); // 画像 [固定表示文字を１枚の画像にまとめた]
 		assert(stageTextImage > 0);
 	resetTextImage = LoadGraph("data/image/font/Reset.png");	 // 画像「RESET[0]KEY」
 		assert(resetTextImage > 0);
@@ -218,7 +218,7 @@ void PlayScene::Update()
 	}
 
 	//スコア計算
-	score = ((int)p->gotCoin * 100.0f) + ((int)p->gotCoinSP * 500.0f) - (playTime * 1.0f);
+	score = ((int)p->gotCoin * 1000.0f) + ((int)p->gotCoinSP * 5000.0f) - (playTime * 5.0f);
 }
 
 void PlayScene::Draw()
@@ -254,28 +254,28 @@ void PlayScene::Draw()
 	DrawGraph(0, 0, readyGoTextImage, TRUE); //「レディ…」「ゴー！」
 	
 	SetFontSize(25);
-	//高さ(playerHeight)
-	DrawFormatString(1170, 420, GetColor(255, 255, 255), "%.0f/50", fabs(height));
+	//高さ(playerHeight)//
+	DrawFormatString(1145, 375, GetColor(255, 255, 255), "%4.0f/50", fabs(height));
 	
-	//コイン(gotCoin)
-	DrawFormatString(1160, 470, GetColor(255, 255, 255), "C%2.0d/20", p->gotCoin);
+	//タイム(playTime)
+	DrawFormatString(1145, 423, GetColor(255, 255, 255), "%7.2f", playTime);
+
+	//コイン(gotCoin)//
+	DrawFormatString(1145, 472, GetColor(255, 255, 255), "%4.0d/20", p->gotCoin);
 	//コイン(gotCoinSPone)
 	for (int i = 0; i < p->gotCoinSP; i++)
 	{
 		DrawGraph(1000 + 30*i, 300, coinSPoneImage, TRUE);
 	}
-
-	//タイム(playTime)
-	DrawFormatString(1135, 525, GetColor(255, 255, 255), "%4.2f", playTime);
 	
-	//スコア
-	DrawFormatString(1160, 570, GetColor(255, 255, 255), "S%3.0f", score);
+	//スコア//
+	DrawFormatString(1145, 534, GetColor(255, 255, 255), "%7.0f", score);
 
 	SetFontSize(20);
-	//ベストスコア(bestScore)
-	DrawFormatString(1155, 605, GetColor(255, 255, 255), "%.0f", bestTime->GetBestScore() );
+	//ベストスコア(bestScore)//
+	DrawFormatString(1170, 595, GetColor(255, 255, 255), "%4.0f", bestTime->GetBestScore() );
 	//ベストタイム(bestTime)
-	DrawFormatString(1135, 635, GetColor(255, 255, 255), "%4.2f", bestTime->GetBestTime() );
+	DrawFormatString(1170, 625, GetColor(255, 255, 255), "%4.2f", bestTime->GetBestTime() );
 
 	//プレイモード(TETRA/BLOCK)
 	DrawGraph(0, 0, playModeTextImage, TRUE);   // playModeTextImageに入れる画像を切り替える

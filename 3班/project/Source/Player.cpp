@@ -43,8 +43,6 @@ Player::Player()
 	patternX = 0;
 	patternY = 0;
 	timer = 0;
-	IsWalkLeft = false;
-	IsWalkRight = false;
 	collisionDown = 9;
 	//
 	prevJumpKey = false;
@@ -89,11 +87,11 @@ void Player::Update()
 		alpha = 255;
 	}
 
-	IsWalkLeft = false;
-	IsWalkRight = false;
-
 	// プレイヤーY軸を入れる
 	prePlayerY = position.y;
+
+	IsWalkLeft = false;
+	IsWalkRight = false;
 	
 	// パッド用関数(毎フレーム呼び出す)
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
@@ -233,22 +231,48 @@ void Player::Update()
 		position.x -= push;
 	}
 
+
+
 	// 歩行アニメーション
-	if (IsWalkLeft)
+	if ((!onGround) && (IsWalkLeft)) //3
+	{
+		if (patternX <= 1)
+		{
+			patternX = 1;
+		}
+		else
+		{
+			patternX = 3;
+		}
+		patternY = 0;
+	}
+	else if (IsWalkLeft)
 	{
 		playerImage = playerAnimImage; // Anim画像
 		patternY = 0;
 
 		timer += Time::DeltaTime();
-		if (timer >= 0.1f)
+		if (timer >= 0.25f)
 		{
 			patternX += 1;
 			timer = 0.0f;
-			if (patternX >= 4)
+			if (patternX > 3)
 			{
 				patternX = 0;
 			}
 		}
+	}
+	else if ((!onGround) && (IsWalkRight)) // 1
+	{
+		if (patternX <= 1)
+		{
+			patternX = 1;
+		}
+		else
+		{
+			patternX = 3;
+		}
+		patternY = 1;
 	}
 	else if (IsWalkRight)
 	{
@@ -256,11 +280,11 @@ void Player::Update()
 		patternY = 1;
 
 		timer += Time::DeltaTime();
-		if (timer >= 0.1f)
+		if (timer >= 0.15f)
 		{
 			patternX += 1;
 			timer = 0.0f;
-			if (patternX >= 4)
+			if (patternX > 3)
 			{
 				patternX = 0;
 			}
@@ -272,7 +296,7 @@ void Player::Update()
 		patternX = 0;
 		// 正面を向く
 		timer += Time::DeltaTime();
-		if (timer >= 1.5f)
+		if (timer >= 1.0f)
 		{
 			playerImage = playerIdolImage;
 		}

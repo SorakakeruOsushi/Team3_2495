@@ -45,8 +45,8 @@ public:
 	bool finished;		// €‚ñ‚¾I
 	bool goaled;		// ƒS[ƒ‹
 
-	bool IsWalkLeft;
-	bool IsWalkRight;
+	bool IsWalkLeft = false;
+	bool IsWalkRight = false;
 	int patternX;
 	int patternY;
 	float timer;
