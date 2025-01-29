@@ -218,7 +218,7 @@ void PlayScene::Update()
 	}
 
 	//スコア計算
-	score = ((int)p->gotCoin * 1000.0f) + ((int)p->gotCoinSP * 5000.0f) - (playTime * 5.0f);
+	score = ((int)p->gotCoin * 1000.0f) + ((int)p->gotCoinSP * 5000.0f) - (playTime * 75.0f);
 }
 
 void PlayScene::Draw()
@@ -265,7 +265,7 @@ void PlayScene::Draw()
 	//コイン(gotCoinSPone)
 	for (int i = 0; i < p->gotCoinSP; i++)
 	{
-		DrawGraph(1000 + 30*i, 300, coinSPoneImage, TRUE);
+		DrawGraph(1220 - 25*i, 472+25, coinSPoneImage, TRUE);
 	}
 	
 	//スコア//

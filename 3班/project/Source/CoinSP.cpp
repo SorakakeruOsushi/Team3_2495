@@ -9,7 +9,7 @@ CoinSP::CoinSP()
 	//コンストラクタで絵をロード
 	coinSPImage = LoadGraph("data/image/CoinSP.png");			  // 画像 コイン
 	assert(coinSPImage > 0);
-	coinSPSound = LoadSoundMem("data/sound/GameSE/コイン.mp3"); // 音 コイン取得
+	coinSPSound = LoadSoundMem("data/sound/GameSE/ビックコイン(5).mp3"); // 音 コイン取得
 	assert(coinSPSound > 0);
 
 	patternX = 0;

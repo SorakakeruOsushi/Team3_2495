@@ -25,7 +25,9 @@ GoalText::GoalText()
 
 	titleBackSound = LoadSoundMem("data/sound/GameSE/ボタン１.mp3");
 		assert(titleBackSound > 0);
-	goalSound = LoadSoundMem("data/sound/効果音ラボ/voice/「ぱんぱかぱーん！」.mp3");
+	//goalSound = LoadSoundMem("data/sound/効果音ラボ/voice/「ぱんぱかぱーん！」.mp3");
+	goalSound = LoadSoundMem("data/sound/GameSE/魔王魂ゴールSE.mp3");
+	//goalSound = LoadSoundMem("data/sound/GameSE/ゴール.mp3");
 		assert(goalSound > 0);
 	PlaySoundMem(goalSound, DX_PLAYTYPE_BACK); // ゴールボイス再生
 

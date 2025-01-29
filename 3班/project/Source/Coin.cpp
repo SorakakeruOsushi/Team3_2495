@@ -7,8 +7,7 @@
 Coin::Coin()
 {
 	//コンストラクタで絵をロード
-	//coinImage = LoadGraph("data/image/Coin.PNG");			  // 画像 コイン
-	coinImage = LoadGraph("data/image/Xcoin.png");			  // 画像 コイン
+	coinImage = LoadGraph("data/image/coin.png");			  // 画像 コイン
 		assert(coinImage > 0);
 	coinSound = LoadSoundMem("data/sound/GameSE/コイン.mp3"); // 音 コイン取得
 		assert(coinSound > 0);
