@@ -12,8 +12,8 @@ Coin::Coin()
 	coinSound = LoadSoundMem("data/sound/GameSE/コイン.mp3"); // 音 コイン取得
 		assert(coinSound > 0);
 	
-	position.x = 0.0f;
-	position.y = 0.0f;
+	position.x = 0;
+	position.y = 0;
 
 	SetDrawOrder(6); //描画順
 
@@ -73,8 +73,13 @@ void Coin::Update()
 		return;			 //終わり！閉廷！以上！皆解散！
 	}
 
-	//取られる前
+	//ブロックが重なると消える
+	if (s->CheckOnCoin(position.x, position.y))
+	{
+		DestroyMe();
+	}
 
+	//取られる前
 	//当たり判定
    	VECTOR2 playerPos = p->position;	  //playerPosにplayerのpositionを入れる
 

@@ -252,6 +252,18 @@ bool Stage::CheckOnGoal(int x, int y)
 	else { return false; }
 }
 
+bool Stage::CheckOnCoin(int x, int y)
+{
+	y = y - (TOP_SPACE - scroll) / CHIP_SIZE;
+	x = x - (SIDE_SPACE / CHIP_SIZE);
+	int id = map[y][x];
+	if (map[y][x] >= 1 && map[y][x] < 7) // [1ˆÈã ‚©‚Â 7–¢–]
+	{
+		return true;
+	}
+	else { return false; }
+}
+
 // ‹æØ‚è•¶š‚ğw’è‚µ‚Ä•¶š—ñ‚ğ•ªŠ„‚·‚é
 std::vector<std::string> Stage::split(const std::string& text, char delim)
 {

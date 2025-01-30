@@ -96,8 +96,11 @@ void Player::Update()
 	// パッド用関数(毎フレーム呼び出す)
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
+
+	//上へ行こう、ランララン
+	/*
 	int push = s->IsWallDown(position + VECTOR2(0, 29 + collisionDown));
-		if (push > 0)	//地面に触れたので
+	if (push > 0)	//地面に触れたので
 		{
 			velocity = 0;			//地面に触ったら速度を0に
 			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
@@ -139,65 +142,7 @@ void Player::Update()
 			velocity = 0;			//地面に触ったら速度を0に
 			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
 			onGround = true;		//接地してる
-		}
-
-	/*int push = s->IsWallLeft(position + VECTOR2(0, 0 + collisionDown));
-	if (push > 0)	//地面に触れたので
-	{
-		velocity = 0;			//地面に触ったら速度を0に
-		position.x += push;
-		//onGround = true;		//接地してる
-	}
-	push = s->IsWallLeft(position + VECTOR2(0, 29 + collisionDown));
-	if (push > 0)	//地面に触れたので
-	{
-		velocity = 0;			//地面に触ったら速度を0に
-		position.x += push; //地面の上に押し返す	1個下を見るのでpush-1
-		//onGround = true;		//接地してる
-	}
-	push = s->IsWallLeft(position + VECTOR2(0, 30 + collisionDown));
-	if (push > 0)	//地面に触れたので
-	{
-		velocity = 0;			//地面に触ったら速度を0に
-		position.x += push; //地面の上に押し返す	1個下を見るのでpush-1
-		//onGround = true;		//接地してる
-	}
-	push = s->IsWallLeft(position + VECTOR2(0, 59 + collisionDown));
-	if (push > 0)	//地面に触れたので
-	{
-		velocity = 0;			//地面に触ったら速度を0に
-		position.x += push; //地面の上に押し返す	1個下を見るのでpush-1
-		//onGround = true;		//接地してる
-	}
-
-	push = s->IsWallRight(position + VECTOR2(29, 0 + collisionDown));
-	if (push > 0)	//地面に触れたので
-	{
-		velocity = 0;			//地面に触ったら速度を0に
-		position.x -= push;
-		//onGround = true;		//接地してる
-	}
-	push = s->IsWallRight(position + VECTOR2(29, 29 + collisionDown));
-	if (push > 0)	//地面に触れたので
-	{
-		velocity = 0;			//地面に触ったら速度を0に
-		position.x -= push; //地面の上に押し返す	1個下を見るのでpush-1
-		//onGround = true;		//接地してる
-	}
-	push = s->IsWallRight(position + VECTOR2(29, 30 + collisionDown));
-	if (push > 0)	//地面に触れたので
-	{
-		velocity = 0;			//地面に触ったら速度を0に
-		position.x -= push; //地面の上に押し返す	1個下を見るのでpush-1
-		//onGround = true;		//接地してる
-	}
-	push = s->IsWallRight(position + VECTOR2(29, 59 + collisionDown));
-	if (push > 0)	//地面に触れたので
-	{
-		velocity = 0;			//地面に触ったら速度を0に
-		position.x -= push; //地面の上に押し返す	1個下を見るのでpush-1
-		//onGround = true;		//接地してる
-	}*/
+		}*/
 
 	// 左右移動
 	if ( (CheckHitKey(KEY_INPUT_A)) || (CheckHitKey(KEY_INPUT_LEFT)) || (input.Buttons[XINPUT_BUTTON_DPAD_LEFT]) ) //左(A・←・PAD←)
