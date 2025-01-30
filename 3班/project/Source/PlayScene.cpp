@@ -281,9 +281,9 @@ void PlayScene::Draw()
 
 	SetFontSize(20);
 	//ベストスコア(bestScore)//
-	DrawFormatString(1170, 595, GetColor(255, 255, 255), "%4.0f", bestTime->GetBestScore() );
+	DrawFormatString(1180, 595, GetColor(255, 255, 255), "%4.0f", bestTime->GetBestScore() );
 	//ベストタイム(bestTime)
-	DrawFormatString(1170, 625, GetColor(255, 255, 255), "%4.2f", bestTime->GetBestTime() );
+	DrawFormatString(1180, 625, GetColor(255, 255, 255), "%4.2f", bestTime->GetBestTime() );
 
 	//プレイモード(TETRA/BLOCK)
 	DrawGraph(0, 0, playModeTextImage, TRUE);   // playModeTextImageに入れる画像を切り替える
