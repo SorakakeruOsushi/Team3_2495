@@ -252,6 +252,19 @@ bool Stage::CheckOnGoal(int x, int y)
 	else { return false; }
 }
 
+void Stage::Erase(VECTOR2 lt, VECTOR2 rb)
+{
+	int cx1 = ((int)lt.x - SIDE_SPACE) / CHIP_SIZE;
+	int cy1 = ((int)lt.y - TOP_SPACE) / CHIP_SIZE;
+	int cx2 = ((int)rb.x - SIDE_SPACE) / CHIP_SIZE;
+	int cy2 = ((int)rb.y - TOP_SPACE) / CHIP_SIZE;
+	for (int y = cy1; y <= cy2; y++) {
+		for (int x = cx1; x <= cx2; x++) {
+			map[y][x] = 0;
+		}
+	}
+}
+
 // ‹æØ‚è•¶Žš‚ðŽw’è‚µ‚Ä•¶Žš—ñ‚ð•ªŠ„‚·‚é
 std::vector<std::string> Stage::split(const std::string& text, char delim)
 {

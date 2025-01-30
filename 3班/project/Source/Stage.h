@@ -35,6 +35,7 @@ public:
 	bool CheckBlock(int x, int y);
 	bool CheckOnGoal(int x, int y);
 
+	void Erase(VECTOR2 lt, VECTOR2 rb);
 	Player* p;
 	Coin* c;
 	CoinSP* cSP;
