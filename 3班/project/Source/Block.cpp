@@ -387,23 +387,6 @@ void Block::Update()
 									nextBlock.rotation = 0;
 									return;
 								}
-								/*else if (position.x + x == (int)p->position.x / blockSize && position.y + y == (int)p->position.y / blockSize + 1) {
-									nowBlock = nextBlock;
-									position.x = WIDTH - 5;
-									position.y = 0;
-									while (sameMino) {
-										nextBlock.shape = (ShapeType)(rand() % ShapeType::SHAPE_MAX);
-										if (nextBlock.shape == nowBlock.shape) {//nowBlock‚ÆnextBlock‚ÌŒ`‚ª“¯‚¶‚Æ‚«
-											sameMino = true;//ŒJ‚è•Ô‚·
-										}
-										else {
-											sameMino = false;
-										}
-									}
-									sameMino = true;
-									nextBlock.rotation = 0;
-									return;
-								}*/
 								else{
 									if (id > 0) {
 										s->PutBlock(position.x + x, position.y + y, id);//ƒ~ƒm‚ð”z’u‚·‚é
