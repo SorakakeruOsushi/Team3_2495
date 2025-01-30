@@ -141,7 +141,7 @@ void PlayScene::Update()
 	}
 
 	//[C]プレイモード切り替え
-	if ((KeyUtility::CheckTrigger(KEY_INPUT_C)) || (input.Buttons[XINPUT_BUTTON_Y]))
+	if ((KeyUtility::CheckTrigger(KEY_INPUT_C)) || (KeyUtility::CheckTrigger(KEY_INPUT_RETURN)) || (input.Buttons[XINPUT_BUTTON_Y]))
 	{
 		// ボタンを押し込んだ時だけ入力を取る
 		if (!isButtonDown)
@@ -218,7 +218,7 @@ void PlayScene::Update()
 	}
 
 	//スコア計算
-	score = ((int)p->gotCoin * 1000.0f) + ((int)p->gotCoinSP * 5000.0f) - (playTime * 5.0f);
+	score = ((int)p->gotCoin * 1000.0f) + ((int)p->gotCoinSP * 5000.0f) - (playTime * 10.0f);
 }
 
 void PlayScene::Draw()
@@ -261,7 +261,7 @@ void PlayScene::Draw()
 	DrawFormatString(1145, 423, GetColor(255, 255, 255), "%7.2f", playTime);
 
 	//コイン(gotCoin)//
-	DrawFormatString(1145, 472, GetColor(255, 255, 255), "%4.0d/20", p->gotCoin);
+	DrawFormatString(1145, 472, GetColor(255, 255, 255), "%4.0d/12", p->gotCoin);
 
 	//透明なコイン
 	for (int i = 0; i < 3; i++)

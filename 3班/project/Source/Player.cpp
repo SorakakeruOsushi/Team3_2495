@@ -58,7 +58,7 @@ Player::Player()
 	
 	gotCoin = 0;	  // コイン取得数
 	gotCoinSP = 0;	  // SPコイン取得数
-	alpha = 255;		  //プレイヤー透明度
+	alpha = 0;		  //プレイヤー透明度
 	outOfScreen = 39; // プレイヤーがどの程度画面の外に出たらゲームオーバーになるか
 }
 
@@ -244,10 +244,10 @@ void Player::Update()
 		patternX = 0;
 		// 正面を向く
 		timer += Time::DeltaTime();
-		if (timer >= 1.0f)
-		{
-			playerImage = playerIdolImage;
-		}
+		//if (timer >= 1.0f)
+		//{
+		//	playerImage = playerIdolImage;
+		//}
 	}
 
 	
