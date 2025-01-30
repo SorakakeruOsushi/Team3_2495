@@ -128,7 +128,7 @@ void GoalText::Draw()
 	{
 		// 高さ(固定表示)
 		DrawGraph(326, 300, heightTextImage, TRUE);
-		DrawString(615, 300, " 50/50", GetColor(255, 255, 255)); // ハリボテ
+		DrawString(615, 300, " 30", GetColor(255, 255, 255)); // ハリボテ
 	}
 	if (timer >= 5.5f)
 	{

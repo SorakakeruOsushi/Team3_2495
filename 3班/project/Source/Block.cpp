@@ -263,9 +263,9 @@ Block::Block()
 
 	blockSize = 30;
 
-	timer = 1.3f;
+	timer = 0.9f;
 	counter = 0.0f;
-	quickCount = 17.0f;
+	quickCount = 40.0f;
 
 	srand(time(NULL)); // ‚±‚¤‚·‚é‚ÆA‹N“®‚·‚é‚½‚Ñ‚É—”‚ª•Ï‚í‚é‚æ‚¤‚É‚È‚é
 

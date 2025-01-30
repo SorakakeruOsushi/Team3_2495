@@ -7,7 +7,7 @@
 #include "csvReader.h"
 
 const int WIDTH = 24;		//ステージ 幅
-const int HEIGHT = 51;		//ステージ 高
+const int HEIGHT = 31;		//ステージ 高
 
 int map[HEIGHT][WIDTH];
 
@@ -65,24 +65,24 @@ Stage::Stage()
 			{
 				p = Instantiate<Player>();
 				p->position.x = CHIP_SIZE * i + SIDE_SPACE;
-				p->position.y = CHIP_SIZE * j + TOP_SPACE;
+				p->position.y = CHIP_SIZE * j/* + TOP_SPACE*/;
 			}
 			if (map[j][i] == 7) //コイン生成
 			{
 				c = Instantiate<Coin>();
 				c->position.x = CHIP_SIZE * i + SIDE_SPACE;
-				c->position.y = CHIP_SIZE * j + TOP_SPACE;
+				c->position.y = CHIP_SIZE * j/* + TOP_SPACE*/;
 			}
 
 			if (map[j][i] == 99) //SPコイン生成
 			{
 				cSP= Instantiate<CoinSP>();
 				cSP->position.x = CHIP_SIZE * i + SIDE_SPACE;
-				cSP->position.y = CHIP_SIZE * j + TOP_SPACE;
+				cSP->position.y = CHIP_SIZE * j/* + TOP_SPACE*/;
 			}
 		}
 	}
-	scroll = 0;
+	scroll = -TOP_SPACE;
 	cellBG = true;
 
 	b = FindGameObject<Block>();
@@ -105,13 +105,13 @@ Stage::~Stage()
 void Stage::Draw()
 {
 	//壁表示(仮)
-	DrawGraph(30 * 7          , -1440 - scroll, wallImage, TRUE);
-	DrawGraph(30 * 7 + 30 * 25, -1440 - scroll, wallImage, TRUE);
+	DrawGraph(30 * 7          , /*-1440*/ - scroll, wallImage, TRUE);
+	DrawGraph(30 * 7 + 30 * 25, /*-1440*/ - scroll, wallImage, TRUE);
 
 	//マップタイル表示
 	for (int j = 0; j < HEIGHT; j++)	// 縦「j」
 	{
-		int y = j * CHIP_SIZE + TOP_SPACE;
+		int y = j * CHIP_SIZE;
 		for (int i = 0; i < WIDTH; i++) // 幅「i」
 		{
 			int x = i * CHIP_SIZE + SIDE_SPACE;
@@ -141,7 +141,7 @@ void Stage::Draw()
 int Stage::IsWallRight(VECTOR2 pos) // posにはPlayer座標が入る
 {
 	int i = ((int)pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = ((int)pos.y - TOP_SPACE) / CHIP_SIZE;
+	int j = ((int)pos.y/* - TOP_SPACE*/) / CHIP_SIZE;
 	for (int x = 1; x < 7; x++) // [1～6]
 	{
 		if (map[j][i] == x)
@@ -157,7 +157,7 @@ int Stage::IsWallRight(VECTOR2 pos) // posにはPlayer座標が入る
 int Stage::IsWallLeft(VECTOR2 pos)
 {
 	int i = ((int)pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = ((int)pos.y - TOP_SPACE) / CHIP_SIZE;
+	int j = ((int)pos.y/* - TOP_SPACE*/) / CHIP_SIZE;
 	for (int x = 1; x < 7; x++) // [1～6]
 	{
 		if (map[j][i] == x)
@@ -173,14 +173,14 @@ int Stage::IsWallLeft(VECTOR2 pos)
 int Stage::IsWallDown(VECTOR2 pos)
 {
 	int i = ((int)pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = ((int)pos.y - TOP_SPACE) / CHIP_SIZE;
+	int j = ((int)pos.y/* - TOP_SPACE*/) / CHIP_SIZE;
 	for (int x = 1; x < 7; x++) // [1～6]
 	{
 		if (map[j][i] == x)
 		{
 			//めり込んだ分押し返す
 			//★(int)少数だけどintとして扱う
-			int push = ((int)pos.y - TOP_SPACE) % CHIP_SIZE + 1;
+			int push = ((int)pos.y/* - TOP_SPACE*/) % CHIP_SIZE + 1;
 			return push;
 		}
 	}
@@ -189,14 +189,14 @@ int Stage::IsWallDown(VECTOR2 pos)
 int Stage::IsWallUp(VECTOR2 pos)
 {
 	int i = ((int)pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = ((int)pos.y - TOP_SPACE) / CHIP_SIZE;
+	int j = ((int)pos.y/* - TOP_SPACE*/) / CHIP_SIZE;
 	for (int x = 1; x < 7; x++) // [1～6]
 	{
 		if (map[j][i] == x)
 		{
 			//めり込んだ分押し返す
 			//★(int)少数だけどintとして扱う
-			int push = CHIP_SIZE - ((int)pos.y - TOP_SPACE) % CHIP_SIZE;//29なら1 28なら2
+			int push = CHIP_SIZE - ((int)pos.y/* - TOP_SPACE*/) % CHIP_SIZE;//29なら1 28なら2
 			return push;
 		}
 	}
@@ -207,7 +207,7 @@ bool Stage::IsGoal(VECTOR2 pos)
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
 	int i = ((int)pos.x - SIDE_SPACE) / CHIP_SIZE;
-	int j = ((int)pos.y - TOP_SPACE) / CHIP_SIZE;
+	int j = ((int)pos.y/* - TOP_SPACE*/) / CHIP_SIZE;
 	if (map[j][i] == 8)
 	{
 		return true;
@@ -217,7 +217,7 @@ bool Stage::IsGoal(VECTOR2 pos)
 
 void Stage::PutBlock(int x, int y, int id)
 {
-	y = y - (TOP_SPACE - scroll) / CHIP_SIZE;
+	y = y - (/*TOP_SPACE*/ - scroll) / CHIP_SIZE;
 	x = x - (SIDE_SPACE / CHIP_SIZE);
 	map[y][x] = id;
 }
@@ -225,7 +225,7 @@ void Stage::PutBlock(int x, int y, int id)
 bool Stage::CheckBlock(int x, int y)//そこにマップチップがあるか
 {
 	//「マップチップ→座標」の逆、「座標→マップチップ」
-	y = y - (TOP_SPACE - scroll) / CHIP_SIZE;
+	y = y - (/*TOP_SPACE*/ - scroll) / CHIP_SIZE;
 	if (y < 0) {
 		return false;
 	}
@@ -241,7 +241,7 @@ bool Stage::CheckBlock(int x, int y)//そこにマップチップがあるか
 
 bool Stage::CheckOnGoal(int x, int y)
 {
-	y = y - (TOP_SPACE - scroll) / CHIP_SIZE;
+	y = y - (/*TOP_SPACE*/ - scroll) / CHIP_SIZE;
 	x = x - (SIDE_SPACE / CHIP_SIZE);
 	int id = map[y][x];
 	if (map[y][x] ==8) // [8=ゴールの時]
@@ -255,9 +255,9 @@ bool Stage::CheckOnGoal(int x, int y)
 void Stage::Erase(VECTOR2 lt, VECTOR2 rb)
 {
 	int cx1 = ((int)lt.x - SIDE_SPACE) / CHIP_SIZE;
-	int cy1 = ((int)lt.y - TOP_SPACE) / CHIP_SIZE;
+	int cy1 = ((int)lt.y/* - TOP_SPACE*/) / CHIP_SIZE;
 	int cx2 = ((int)rb.x - SIDE_SPACE) / CHIP_SIZE;
-	int cy2 = ((int)rb.y - TOP_SPACE) / CHIP_SIZE;
+	int cy2 = ((int)rb.y/* - TOP_SPACE*/) / CHIP_SIZE;
 	for (int y = cy1; y <= cy2; y++) {
 		for (int x = cx1; x <= cx2; x++) {
 			map[y][x] = 0;

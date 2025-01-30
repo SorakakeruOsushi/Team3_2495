@@ -218,13 +218,13 @@ void PlayScene::Update()
 	}
 
 	//スコア計算
-	score = ((int)p->gotCoin * 1000.0f) + ((int)p->gotCoinSP * 5000.0f) - (playTime * 75.0f);
+	score = ((int)p->gotCoin * 1000.0f) + ((int)p->gotCoinSP * 5000.0f) - (playTime * 5.0f);
 }
 
 void PlayScene::Draw()
 {
 	// 固定背景
-	DrawGraph(0, -1440 - s->scroll, gameBGImage, TRUE);
+	DrawGraph(0, -810 - s->scroll, gameBGImage, TRUE);
 
 	// プレイモード背景
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
@@ -235,7 +235,7 @@ void PlayScene::Draw()
 	if (pm->playMode == 1)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 20);
-		DrawGraph(CHIP_SIZE * 8, -1440 - s->scroll, cellMaxImage, TRUE);
+		DrawGraph(CHIP_SIZE * 8, /*-1440*/ - s->scroll, cellMaxImage, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
@@ -255,7 +255,7 @@ void PlayScene::Draw()
 	
 	SetFontSize(25);
 	//高さ(playerHeight)//
-	DrawFormatString(1145, 375, GetColor(255, 255, 255), "%4.0f/50", fabs(height));
+	DrawFormatString(1145, 375, GetColor(255, 255, 255), "%4.0f/30", fabs(height));
 	
 	//タイム(playTime)
 	DrawFormatString(1145, 423, GetColor(255, 255, 255), "%7.2f", playTime);
