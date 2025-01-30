@@ -260,7 +260,11 @@ void Stage::Erase(VECTOR2 lt, VECTOR2 rb)
 	int cy2 = ((int)rb.y - TOP_SPACE) / CHIP_SIZE;
 	for (int y = cy1; y <= cy2; y++) {
 		for (int x = cx1; x <= cx2; x++) {
-			map[y][x] = 0;
+			if (map[y][x] == 8) {
+			}
+			else {
+				map[y][x] = 0;
+			}
 		}
 	}
 }
