@@ -245,7 +245,7 @@ void PlayScene::Draw()
 	//NEXTの下
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50); // 透過する
 	DrawBox(1115-30, 90, 1175+30+5, 220, GetColor(0, 0, 0), TRUE);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);   // 透過しない
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);// 透過しない
 
 	//固定表示文字画像
 	DrawGraph(0, 0, resetTextImage, TRUE);    //「RESET[0]KEY」
@@ -262,10 +262,18 @@ void PlayScene::Draw()
 
 	//コイン(gotCoin)//
 	DrawFormatString(1145, 472, GetColor(255, 255, 255), "%4.0d/20", p->gotCoin);
+
+	//透明なコイン
+	for (int i = 0; i < 3; i++)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 80);
+		DrawGraph(1170 + 25 * i, 472 + 25, coinSPoneImage, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 	//コイン(gotCoinSPone)
 	for (int i = 0; i < p->gotCoinSP; i++)
 	{
-		DrawGraph(1220 - 25*i, 472+25, coinSPoneImage, TRUE);
+		DrawGraph(1170 + 25*i, 472+25, coinSPoneImage, TRUE);
 	}
 	
 	//スコア//
