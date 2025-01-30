@@ -7,7 +7,7 @@
 
 
 const float Gravity = 0.3f;							 //重力
-const float JumpHight = 30 * 2.5f;				     //ジャンプの高さ
+const float JumpHight = 30 * 2.0f;				     //ジャンプの高さ
 //			v0 = -  √   2   *   g     *    S
 const float V0 = -sqrtf(2.0f * Gravity * JumpHight); //放物線(ジャンプ)の式
 
@@ -48,6 +48,9 @@ Player::Player()
 	prevJumpKey = false;
 	onGround = false;
 
+	jumpCount = 0;
+	maxJump = 2;
+
 	finished = false;
 	goaled = false;
 
@@ -55,7 +58,7 @@ Player::Player()
 	
 	gotCoin = 0;	  // コイン取得数
 	gotCoinSP = 0;	  // SPコイン取得数
-	alpha = 0;		  //プレイヤー透明度
+	alpha = 255;		  //プレイヤー透明度
 	outOfScreen = 39; // プレイヤーがどの程度画面の外に出たらゲームオーバーになるか
 }
 
@@ -253,8 +256,9 @@ void Player::Update()
 	{
 		if (prevJumpKey == false)
 		{
-			if (onGround == true)
+			if ( (onGround==true) || (jumpCount<maxJump) ) 
 			{
+				jumpCount++;
 				//2マス分飛ぶ velocity:速度
 				velocity = V0; //"初速"
 				PlaySoundMem(jumpSound, DX_PLAYTYPE_BACK); // ジャンプ音の再生
@@ -272,7 +276,6 @@ void Player::Update()
 	velocity += Gravity;	//下向きの力　速度には重力を足す
 	onGround = false;
 
-
 	// 下に壁があるか調べる
 	if (velocity >= 0)// velocity:速度
 	{
@@ -282,6 +285,7 @@ void Player::Update()
 			velocity = 0;			//地面に触ったら速度を0に
 			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
 			onGround = true;		//接地してる
+			jumpCount = 0;
 		}
 		push = s->IsWallDown(position + VECTOR2(29, 60 + collisionDown));	 //一個下を見る一個下を見るので60
 		if (push > 0)	//地面に触れたので
@@ -293,6 +297,7 @@ void Player::Update()
 		if (abs(velocity - Gravity) < DBL_EPSILON)
 		{
 			onGround = true;
+			jumpCount = 0;
 		}
 	}
 	// 上に壁があるか調べる
@@ -328,16 +333,21 @@ void Player::Update()
 	//	//s->scroll = position.y + collisionDown - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
 	//	s->scroll = position.y +9 - CHIP_SIZE * 15; //スクロール速度をプレイヤーに合わせる
 	//}
+
+	//スクロール
 	if ((position.y - s->scroll <= 240) && (onGround))
 	{
 		s->scroll -= 240;
 	}
+
+
 
 	//画面外に出たら死亡
 	if (position.y - outOfScreen >= Screen::HEIGHT + s->scroll)
 	{
 		PlaySoundMem(fallSound, DX_PLAYTYPE_NORMAL); // 落下SE再生
 		finished = true;
+		alpha = 0;
 	}
 
 	//ゴールした

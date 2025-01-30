@@ -39,6 +39,9 @@ public:
 	bool prevJumpKey;	// 前のジャンプキー
 	bool onGround;		// 接地判定
 
+	int jumpCount;
+	int maxJump;
+
 	int gotCoin;		// コイン取得数
 	int gotCoinSP;		// コインSP取得数
 
