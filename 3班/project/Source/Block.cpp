@@ -335,7 +335,7 @@ void Block::Update()
 
 	//ブロックを落とす
 	if (CheckHitKey(KEY_INPUT_S)||CheckHitKey(KEY_INPUT_DOWN)
-		|| (input.Buttons[XINPUT_BUTTON_DPAD_LEFT])) {
+		|| (input.Buttons[XINPUT_BUTTON_DPAD_DOWN])) {
 		counter += Time::DeltaTime() * quickCount;
 		//Sが押されていたらquickCount倍早くcountが進む＝早く落ちる
 	}
