@@ -73,12 +73,6 @@ void Coin::Update()
 		return;			 //終わり！閉廷！以上！皆解散！
 	}
 
-	//ブロックが重なると消える
-	if (s->CheckOnCoin(position.x, position.y))
-	{
-		DestroyMe();
-	}
-
 	//取られる前
 	//当たり判定
    	VECTOR2 playerPos = p->position;	  //playerPosにplayerのpositionを入れる
