@@ -293,6 +293,7 @@ void Player::Update()
 			velocity = 0;			//地面に触ったら速度を0に
 			position.y -= push - 1; //地面の上に押し返す	1個下を見るのでpush-1
 			onGround = true;		//接地してる
+			jumpCount = 0;
 		}
 		if (abs(velocity - Gravity) < DBL_EPSILON)
 		{
@@ -339,8 +340,6 @@ void Player::Update()
 	{
 		s->scroll -= 240;
 	}
-
-
 
 	//画面外に出たら死亡
 	if (position.y - outOfScreen >= Screen::HEIGHT + s->scroll)
