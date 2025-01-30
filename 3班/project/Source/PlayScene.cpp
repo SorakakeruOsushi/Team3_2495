@@ -224,7 +224,7 @@ void PlayScene::Update()
 void PlayScene::Draw()
 {
 	// ŒÅ’è”wŒi
-	DrawGraph(0, -810 - s->scroll, gameBGImage, TRUE);
+	DrawGraph(0, (30*31-720) -2160 + (30*24) - s->scroll, gameBGImage, TRUE);
 
 	// ƒvƒŒƒCƒ‚[ƒh”wŒi
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
@@ -235,7 +235,7 @@ void PlayScene::Draw()
 	if (pm->playMode == 1)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 20);
-		DrawGraph(CHIP_SIZE * 8, /*-1440*/ - s->scroll, cellMaxImage, TRUE);
+		DrawGraph(CHIP_SIZE * 8, (30 * 31 - 720) - 2160 + (30 * 24) - s->scroll, cellMaxImage, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 

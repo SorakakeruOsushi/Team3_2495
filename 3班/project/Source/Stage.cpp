@@ -19,14 +19,14 @@ Stage::Stage()
 {
 	//ランダムなCSVファイルを読み込んでステージ生成する！(堀越先生ありがとう！)
 	int stageNo = 0;
-	stageNo = GetRand(8) + 1; // 乱数 [01～05]のランダム
+	stageNo = GetRand(8) + 1; // 乱数 [01～09]のランダム
 
 	char stageFile[100];
 	sprintf_s(stageFile, STAGE_DATA_PATH, stageNo);
 
 
 	//CsvReader* csv = new CsvReader(stageFile);			    //Stage(01～05).CSVをランダム表示
-	CsvReader* csv = new CsvReader("data/stage/Stage06.csv"); //決まったCSVファイルを表示
+	CsvReader* csv = new CsvReader("data/stage/Test.csv"); //決まったCSVファイルを表示
 
 	for (int y = 0; y < HEIGHT; y++)
 	{
@@ -105,8 +105,8 @@ Stage::~Stage()
 void Stage::Draw()
 {
 	//壁表示(仮)
-	DrawGraph(30 * 7          , /*-1440*/ - scroll, wallImage, TRUE);
-	DrawGraph(30 * 7 + 30 * 25, /*-1440*/ - scroll, wallImage, TRUE);
+	DrawGraph(30 * 7          , (30 * 31 - 720) - 2160 + (30 * 24) - scroll, wallImage, TRUE);
+	DrawGraph(30 * 7 + 30 * 25, (30 * 31 - 720) - 2160 + (30 * 24) - scroll, wallImage, TRUE);
 
 	//マップタイル表示
 	for (int j = 0; j < HEIGHT; j++)	// 縦「j」
